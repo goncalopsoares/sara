@@ -18,4 +18,5 @@ class Equipamento extends Model
         'disponibilidade_equipamento', 
         'observacoes_equipamento', 
     ];
+
 }

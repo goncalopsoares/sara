@@ -63,3 +63,4 @@ public function equipamento()
     );
 }
 }
+
