@@ -14,3 +14,5 @@ class MarcaEquipamento extends Model
         'nome_marca_equipamento', 
     ];
 }
+
+
