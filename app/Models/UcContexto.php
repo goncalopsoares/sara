@@ -37,4 +37,14 @@ class UcContexto extends Model
         )->withPivot('kits_equipamento_id_kits_equipamento');
     }
 
+    public function utilizador()
+    {
+        return $this-> belongsToMany(
+        Utilizador::class,
+        'uc_has_utilizador',
+        'uc_id_uc_contexto',
+        'utilizador_id_utilizador',
+        );
+    }
+
 }
