@@ -11,5 +11,7 @@ class RequisicaoHasUtilizador extends Pivot
 
    protected $fillable = [
        'role_utilizador',
+       'pin_recolha',
+       'pin_devolucao',
    ];
 }

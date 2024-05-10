@@ -16,6 +16,8 @@ class Requisicao extends Model
         'tipo_requsicao',
         'comentario_professor_requisicao',
         'comentario_sara_requisicao',
+        'comentario_aluno_requisicao',
+        'avaliacao_requisicao',
     ];
 
     public function espaco() 
