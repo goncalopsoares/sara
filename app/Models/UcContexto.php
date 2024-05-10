@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UcContexto extends Model
 {
@@ -18,9 +20,9 @@ class UcContexto extends Model
         'semestre_uc_contexto',
     ];
 
-    public function requisicao() 
+    public function requisicao(): HasMany 
     {
-        return $this-> belongsTo(
+        return $this-> hasMany(
             Requisicao::class,
             'uc_contexto_id_uc_contexto',
             'id_uc_contexto',

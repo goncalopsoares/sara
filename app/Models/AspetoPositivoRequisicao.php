@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AspetoNegativoRequisicao extends Model
+class AspetoPositivoRequisicao extends Model
 {
     protected $table = 'aspeto_positivo_requisicao';
     protected $primaryKey = 'id_aspeto_positivo_requisicao';

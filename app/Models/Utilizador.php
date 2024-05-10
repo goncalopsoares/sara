@@ -42,15 +42,16 @@ public function requisicao()
         'requisicao_has_utilizador', 
         'requisicao_id_requisicao',
         'utilizador_id_utilizador'
-    ) -> withPivot('role_utilizador');
+    ) -> withPivot('role_utilizador', 'pin_recolha', 'pin_devolucao');
 }
 
 public function ucContexto()
 {
-    return $this->hasMany(
+    return $this->belongsToMany(
         UcContexto::class, 
-        'uc_contexto_id_uc_contexto', 
-        'id_uc_contexto',
+        'uc_has_utilizador',
+        'uc_id_uc_contexto', 
+        'utilizador_id_utilizador',
     );
 }
 

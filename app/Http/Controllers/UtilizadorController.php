@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Utilizador;
 use App\Models\Categoria;
+use App\Models\UcContexto;
 use Illuminate\Http\Request;
 
 class UtilizadorController extends Controller
@@ -13,7 +14,9 @@ class UtilizadorController extends Controller
      */
     public function index()
     {
-        return Utilizador::all();
+        $UcHasUtilizador = UcContexto::with('Utilizador')->get();
+        
+        return response()->json($UcHasUtilizador);
     }
 
     /**
