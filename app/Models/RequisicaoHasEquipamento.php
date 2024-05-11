@@ -10,6 +10,8 @@ class RequisicaoHasEquipamento extends Pivot
     public $timestamps = false;
 
     protected $fillable = [
+        'requisicao_id_requisicao',
+        'equipamento_id_equipamento',
         'reportar_anomalias',
         'comentarios',
         'data_inicio_requisicao',

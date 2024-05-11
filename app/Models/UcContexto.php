@@ -20,9 +20,9 @@ class UcContexto extends Model
         'semestre_uc_contexto',
     ];
 
-    public function requisicao(): HasMany 
+    public function requisicao(): BelongsTo 
     {
-        return $this-> hasMany(
+        return $this-> belongsTo(
             Requisicao::class,
             'uc_contexto_id_uc_contexto',
             'id_uc_contexto',

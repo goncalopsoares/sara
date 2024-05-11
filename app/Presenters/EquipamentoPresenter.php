@@ -6,7 +6,7 @@ use App\Models\Equipamento;
 
 class EquipamentoPresenter
 {
-    public function getEquipamentos($marcaId = null, $categoriaId = null, $subCategoriaId = null)
+    public function getEquipamentos()
     {
         $query = Equipamento::leftJoin('equipamento_has_sub_categoria', 'equipamento.id_equipamento', '=', 'equipamento_has_sub_categoria.equipamento_id_equipamento')
             ->leftJoin('sub_categoria', 'equipamento_has_sub_categoria.sub_categoria_id_sub_categoria', '=', 'sub_categoria.id_sub_categoria')
@@ -25,24 +25,7 @@ class EquipamentoPresenter
                 'sub_categoria.nome_sub_categoria',
                 'categoria.nome_categoria'
             );
-
-        if ($marcaId) {
-            $query->whereHas('modeloEquipamento', function ($query) use ($marcaId) {
-                $query->where('marca_equipamento_id_marca_equipamento', $marcaId);
-            });
-        }
-
-        if ($categoriaId) {
-            $query->whereHas('categorias', function ($query) use ($categoriaId) {
-                $query->where('categoria_id_categoria', $categoriaId);
-            });
-        }
-
-        if ($subCategoriaId) {
-            $query->whereHas('subCategorias', function ($query) use ($subCategoriaId) {
-                $query->where('sub_categoria_id_sub_categoria', $subCategoriaId);
-            });
-        }
+        
 
         return $query->get();
 

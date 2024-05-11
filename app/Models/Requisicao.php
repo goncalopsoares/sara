@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\AspetoPositivoRequisicao;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Requisicao extends Model
 {
@@ -21,9 +22,10 @@ class Requisicao extends Model
         'comentario_sara_requisicao',
         'comentario_aluno_requisicao',
         'avaliacao_requisicao',
+        'uc_contexto_id_uc_contexto',
     ];
 
-    public function espaco()
+    public function espaco(): HasMany
     {
         return $this->hasMany(
             Espaco::class,
@@ -32,7 +34,7 @@ class Requisicao extends Model
         )->withDefault();
     }
 
-    public function estado()
+    public function estado(): BelongsToMany
     {
         return $this->belongsToMany(
             Estado::class,
@@ -42,7 +44,7 @@ class Requisicao extends Model
         )->withPivot('data_estado');
     }
 
-    public function utilizador()
+    public function utilizador(): BelongsToMany
     {
         return $this->belongsToMany(
             Utilizador::class,
@@ -52,16 +54,16 @@ class Requisicao extends Model
         )->withPivot('role_utilizador', 'pin_recolha', 'pin_devolucao');
     }
 
-    public function ucContexto(): BelongsTo
+    public function ucContexto(): hasMany
     {
-        return $this->belongsTo(
+        return $this->hasMany(
             UcContexto::class,
             'uc_contexto_id_uc_contexto',
             'id_uc_contexto',
         );
     }
 
-    public function equipamento()
+    public function equipamento(): BelongsToMany
     {
         return $this->belongsToMany(
             Equipamento::class,
@@ -71,7 +73,7 @@ class Requisicao extends Model
         )->withPivot('reportar_anomalias', 'comentarios', 'data_inicio_requisicao', 'data_fim_requisicao');
     }
 
-    public function aspetoNegativoRequisicao()
+    public function aspetoNegativoRequisicao():BelongsToMany    
     {
         return $this->belongsToMany(
             AspetoNegativoRequisicao::class,
@@ -81,7 +83,7 @@ class Requisicao extends Model
         )->withDefault();
     }
 
-    public function aspetoPositivoRequisicao()
+    public function aspetoPositivoRequisicao(): BelongsToMany
     {
         return $this->belongsToMany(
             AspetoPositivoRequisicao::class,

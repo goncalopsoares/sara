@@ -10,6 +10,8 @@ class RequisicaoHasUtilizador extends Pivot
    public $timestamps = false;
 
    protected $fillable = [
+       'requisicao_id_requisicao',
+       'utilizador_id_utilizador',
        'role_utilizador',
        'pin_recolha',
        'pin_devolucao',
