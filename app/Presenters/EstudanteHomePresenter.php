@@ -55,9 +55,13 @@ class EstudanteHomePresenter
                 'imagem_modelo_equipamento' => $result->imagem_modelo_equipamento,
                 'nome_marca_equipamento' => $result->nome_marca_equipamento,
             ];
+    
+            // Remove the equipment information from the base requisition array
+            unset($groupedResults[$id_requisicao]['nome_modelo_equipamento']);
+            unset($groupedResults[$id_requisicao]['imagem_modelo_equipamento']);
+            unset($groupedResults[$id_requisicao]['nome_marca_equipamento']);
         }
     
         return array_values($groupedResults);
     }
-
-    }
+}
