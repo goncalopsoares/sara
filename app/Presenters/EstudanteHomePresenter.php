@@ -19,6 +19,7 @@ class EstudanteHomePresenter
         ->join('marca_equipamento', 'marca_equipamento.id_marca_equipamento', '=', 'modelo_equipamento.marca_equipamento_id_marca_equipamento')
         ->where('utilizador.id_utilizador', $id)
         ->select(
+            'requisicao.id_requisicao',
             'requisicao.nome_requisicao',
             'requisicao.contexto_requisicao',
             'requisicao.comentario_professor_requisicao',
@@ -32,7 +33,27 @@ class EstudanteHomePresenter
             'marca_equipamento.nome_marca_equipamento'
         );
 
-        return $query->get();
+        $results = $query->get();
+
+        $groupedResults = [];
+        foreach ($results as $result) {
+            $id_requisicao = $result->id_requisicao;
+            if (!isset($groupedResults[$id_requisicao])) {
+                // Copy the result as the base for this requisition
+                $groupedResults[$id_requisicao] = $result->getAttributes();
+                // Initialize an empty array for the equipment
+                $groupedResults[$id_requisicao]['equipamento'] = [];
+            }
+    
+            // Add this equipment to the requisition's equipment array
+            $groupedResults[$id_requisicao]['equipamento'][] = [
+                'nome_modelo_equipamento' => $result->nome_modelo_equipamento,
+                'imagem_modelo_equipamento' => $result->imagem_modelo_equipamento,
+                'nome_marca_equipamento' => $result->nome_marca_equipamento,
+            ];
+        }
+    
+        return array_values($groupedResults);
+    }
 
     }
-}
