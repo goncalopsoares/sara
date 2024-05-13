@@ -16,6 +16,7 @@ Route::post('/requisicao', [RequisicaoController::class, 'storeInicial']); //req
 Route::get('/requisicao/uc/{id_uc}', [RequisicaoController::class, 'getEquipamentos']); //requisicao -> terceiro passo -> equipamentos para requisicao segundo UC
 Route::get('requisicao/resumo/{id_requisicao}', [RequisicaoController::class, 'getResumoRequisicao']); //requisicao -> quarto passo -> resumo da requisicao (nome, contexto, uc, utilizadores) conjugar com o array de informação anterior no frontend
 Route::post('/requisicao/{id_requisicao}', [RequisicaoController::class, 'storeFinal']); //requisicao -> quinto passo -> guardar a requisicao na base de dados com equipamentos e datas de inicio e fim, e alteracao de estado
+Route::post('requisicao/avaliar/{id}', [RequisicaoController::class, 'avaliarRequisicao']); //avaliar requisicao e comentario
 
 
 // Rotas para professores
@@ -29,6 +30,7 @@ Route::post('/requisicao', [RequisicaoController::class, 'storeInicial']); //req
 Route::get('/requisicao/uc/{id_uc}', [RequisicaoController::class, 'getEquipamentos']); //requisicao -> terceiro passo -> equipamentos para requisicao segundo UC
 Route::get('requisicao/resumo/{id_requisicao}', [RequisicaoController::class, 'getResumoRequisicao']); //requisicao -> quarto passo -> resumo da requisicao (nome, contexto, uc, utilizadores) conjugar com o array de informação anterior no frontend
 Route::post('/requisicao/{id_requisicao}', [RequisicaoController::class, 'storeFinal']); //requisicao -> quinto passo -> guardar a requisicao na base de dados com equipamentos e datas de inicio e fim, e alteracao de estado
+Route::post('requisicao/avaliar/{id}', [RequisicaoController::class, 'avaliarRequisicao']); //avaliar requisicao e comentario
 
 
 //Rotas para os SARA

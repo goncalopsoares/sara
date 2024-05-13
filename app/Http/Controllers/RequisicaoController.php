@@ -151,6 +151,24 @@ class RequisicaoController extends Controller
     }
 
 
+    public function avaliarRequisicao(Request $request, $id) {
+        try {
+            $validate = $request->validate([
+                'comentario_aluno_requisicao' => 'string|max:1000',
+                'avaliacao_requisicao' => 'required|integer|in:1,2,3,4,5',
+            ]);
+
+            Requisicao::where('id_requisicao', $id)->update([
+                'comentario_aluno_requisicao' => $validate['comentario_aluno_requisicao'],
+                'avaliacao_requisicao' => $validate['avaliacao_requisicao'],
+            ]);
+
+            return response()->json(['message' => 'Requisição avaliada com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao avaliar requisição' . $e->getMessage()], 500);
+        }
+    }
+
 
 
     /**
