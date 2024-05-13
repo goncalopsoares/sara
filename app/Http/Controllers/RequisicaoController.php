@@ -67,6 +67,7 @@ class RequisicaoController extends Controller
 
         try {
             $validate = $request->validate([
+    
                 'nome_requisicao' => 'required|string|max:45',
                 'contexto_requisicao' => 'required|string|max:255',
                 'tipo_requisicao' => 'required|in:Equipamento,Espaço',
@@ -107,6 +108,9 @@ class RequisicaoController extends Controller
     }
 
 
+
+
+    
     /**
      * inserir na base de dados informção das datas de inicio e fim e equipamentos
      */
