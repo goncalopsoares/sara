@@ -19,17 +19,22 @@ class EstudanteHomePresenter
         ->join('marca_equipamento', 'marca_equipamento.id_marca_equipamento', '=', 'modelo_equipamento.marca_equipamento_id_marca_equipamento')
         ->where('utilizador.id_utilizador', $id)
         ->select(
+            'requisicao.id_requisicao',
             'requisicao.nome_requisicao',
             'requisicao.contexto_requisicao',
             'requisicao.comentario_professor_requisicao',
             'requisicao.comentario_sara_requisicao',
             'estado.nome_estado',
+            'requisicao_has_estado.data_estado',
             'requisicao_has_equipamento.data_inicio_requisicao',
             'requisicao_has_equipamento.data_fim_requisicao',
             'uc_contexto.nome_uc_contexto',
             'modelo_equipamento.nome_modelo_equipamento',
             'modelo_equipamento.imagem_modelo_equipamento',
-            'marca_equipamento.nome_marca_equipamento'
+            'marca_equipamento.nome_marca_equipamento',
+            'equipamento.id_equipamento',
+            'requisicao_has_utilizador.pin_recolha',
+            'requisicao_has_utilizador.pin_devolucao'
         );
 
         return $query->get();
