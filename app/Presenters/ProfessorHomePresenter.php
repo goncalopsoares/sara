@@ -51,13 +51,22 @@ class ProfessorHomePresenter
             }
 
             // Add this equipment to the requisition's equipment array
-            $groupedResults[$id_requisicao]['equipamento'][] = [
+            $equipamento = [
+                'id_equipamento' => $result->id_equipamento,
                 'nome_modelo_equipamento' => $result->nome_modelo_equipamento,
                 'imagem_modelo_equipamento' => $result->imagem_modelo_equipamento,
                 'nome_marca_equipamento' => $result->nome_marca_equipamento,
+
             ];
 
+            // Check if this equipment is already in the 'equipamento' array
+            if (!in_array($equipamento, $groupedResults[$id_requisicao]['equipamento'])) {
+                // If not, add it to the 'equipamento' array
+                $groupedResults[$id_requisicao]['equipamento'][] = $equipamento;
+            }
+
             // Remove the equipment information from the base requisition array
+            unset($groupedResults[$id_requisicao]['id_equipamento']);
             unset($groupedResults[$id_requisicao]['nome_modelo_equipamento']);
             unset($groupedResults[$id_requisicao]['imagem_modelo_equipamento']);
             unset($groupedResults[$id_requisicao]['nome_marca_equipamento']);
