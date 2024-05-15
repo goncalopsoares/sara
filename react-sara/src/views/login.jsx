@@ -1,11 +1,22 @@
 
+import { Link } from 'react-router-dom';
 import logo from '../images_logo/logo.svg';
 
 
 
 
-export default function Login(props) {
-    return (
+export default function login() {
+    
+  const Submit = (e) => { 
+    e.preventDefault();
+    
+    }
+  
+  
+  
+  
+  
+  return (
       <>
      
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -21,7 +32,8 @@ export default function Login(props) {
           </div>
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST">
+            <form onSubmit={Submit} className="space-y-6" action="#" method="POST">
+            
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                   Email
@@ -72,10 +84,12 @@ export default function Login(props) {
             </form>
   
             <p className="mt-10 text-center text-sm text-gray-500">
-              Not a member?{' '}
-              <a onClick={props.onChangeMode} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                Regista-te!!
-              </a>
+              Não es membro?{' '}
+          
+            
+                
+                <Link className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500' to='/register'> Regista-te</Link>
+              
             </p>
           </div>
         </div>
