@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SaraHomeController;
 use App\Http\Controllers\RequisicaoController;
 use App\Http\Controllers\UtilizadorController;
@@ -46,3 +47,15 @@ Route::post('/sara/atualizarestado/{id}', [SaraHomeController::class, 'atualizar
 //
 Route::get('/equipamentos', [EquipamentoController::class, 'index']); 
 
+
+
+
+
+
+
+
+//registo
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('logout', [AuthController::class, 'logout']);
