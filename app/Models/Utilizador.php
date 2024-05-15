@@ -16,6 +16,7 @@ class Utilizador extends Model
         'numero_mecanografico_utilizador',
         'tipo_utilizador',
         'avatar_utilizador',
+        'password_utilizador',
     ];
 
 public function anomaliaPlataforma()

@@ -45,3 +45,4 @@ Route::post('/sara/atualizarestado/{id}', [SaraHomeController::class, 'atualizar
 
 //
 Route::get('/equipamentos', [EquipamentoController::class, 'index']); 
+

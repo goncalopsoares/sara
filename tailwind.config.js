@@ -8,6 +8,8 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
+        "./**/*.{js,jsx,ts,tsx}",
+        
     ],
 
     theme: {
@@ -18,5 +20,7 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        require('@tailwindcss/forms')
+    ],
 };
