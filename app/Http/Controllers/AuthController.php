@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Utilizador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
 
 class AuthController extends Controller
@@ -38,19 +39,28 @@ class AuthController extends Controller
     {
         $data=$request->validated();
 
-        $user=Utilizador::create(([
+        array_walk_recursive($data, function (&$item, $key) {
+            if (is_string($item)) {
+                $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+            }
+        });
+
+        $user = Utilizador::create(([
             'nome_utilizador'=>$data['nome_utilizador'],
             'email_utilizador'=>$data['email_utilizador'],
             'numero_mecanografico_utilizador'=>$data['numero_mecanografico_utilizador'],
-            'password_utilizador'=>bcrypt($data['password_utilizador']),
+            'password_utilizador'=>Hash::make($data['password_utilizador']),
+            'tipo_utilizador'=>$data['tipo_utilizador'],
         ]));
 
-        $token=$user->createToken('main')->plainTextToken;
-        return response()->json(
-            [
-                'user'=>$user,
-                'token'=>$token
-            ]);
+        // Create a token with a specific name
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json([
+            'data'          => $user,
+            'access_token'  => $token,
+            'token_type'    => 'Bearer'
+        ]);
+
     }
 
     public function logout (Request $request)
