@@ -20,7 +20,7 @@ const axiosClient = axios.create({
         console.log('No cookies found');
     }
     });
-
+ b
 axiosClient.interceptors.response.use((response) => {
     return response;
 },

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->integer('requisicao_id_requisicao')->index('fk_requisicao_has_utilizador_requisicao1_idx');
             $table->integer('utilizador_id_utilizador')->index('fk_requisicao_has_utilizador_utilizador1_idx');
             $table->boolean('role_utilizador');
+            $table->string('pin_recolha', 4);
+            $table->string('pin_devolucao', 4);
 
             $table->primary(['requisicao_id_requisicao', 'utilizador_id_utilizador']);
         });

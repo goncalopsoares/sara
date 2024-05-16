@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('numero_mecanografico_utilizador')->unique('numero_mecanografico_utilizador_unique');
             $table->boolean('tipo_utilizador');
             $table->string('avatar_utilizador', 45)->nullable();
+            $table->string('password_utilizador', 100);
 
             $table->primary(['id_utilizador']);
         });

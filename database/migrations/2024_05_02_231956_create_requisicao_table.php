@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('espaco_id_espaco')->nullable()->index('fk_requisicao_espaco1_idx');
             $table->mediumText('comentario_professor_requisicao')->nullable();
             $table->mediumText('comentario_sara_requisicao')->nullable();
+            $table->text('comentario_avaliacao_requisicao')->nullable();
+            $table->tinyInteger('avaliacao_requisicao')->nullable();
             $table->integer('uc_contexto_id_uc_contexto')->index('fk_requisicao_uc1_idx');
 
             $table->primary(['id_requisicao']);
