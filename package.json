@@ -20,12 +20,9 @@
         "vite": "^5.0"
     },
     "dependencies": {
-<<<<<<< HEAD
+
         "bootstrap": "^5.3.3",
         "js-cookie": "^3.0.5"
-=======
-        "js-cookie": "^3.0.5",
-        "bootstrap": "^5.3.3"
->>>>>>> b7faad661616609bbd7facb5b2078348c3eb414d
+
     }
 }

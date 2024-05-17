@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'react-feather';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import logo from '../images_logo/logo.svg';
+import { useStateContext } from '../contexts/contextprovider';
 import '../App.css';
 import background from '../images_logo/backgroundImageLogIn.png';
+import axiosClient from '../axiosClient';
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -72,6 +74,7 @@ export default function Login() {
                                 </label>
                                 <div className="mt-2">
                                     <input
+                                        ref={emailRef}
                                         id="email"
                                         name="email"
                                         type="email"
@@ -92,6 +95,7 @@ export default function Login() {
                                 </label>
                                 <div className="mt-2 position-relative">
                                     <input
+                                        ref={passwordRef}
                                         id="password"
                                         name="password"
                                         type={showPassword ? 'text' : 'password'}
@@ -169,6 +173,7 @@ export default function Login() {
                                 </label>
                                 <div className="mt-2">
                                     <input
+                                        ref={emailRef}
                                         id="email"
                                         name="email"
                                         type="email"
@@ -188,6 +193,7 @@ export default function Login() {
                                 </label>
                                 <div className="mt-2 position-relative">
                                     <input
+                                        ref={passwordRef}
                                         id="password"
                                         name="password"
                                         type={showPassword ? 'text' : 'password'}
