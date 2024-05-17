@@ -1,7 +1,8 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useStateContext } from "../contexts/contextprovider";
-import UltimasRequisicoes from '../views/ultimasrequisicoes';
+import UltimasRequisicoes from '../views/home';
 import BottomNavBar from "./bottomnavbar";
+import Header from "./header";
 import { useEffect } from "react";
 import axiosClient from "../axiosClient";
 
@@ -15,7 +16,6 @@ export default function DefaultLayout() {
             .catch(error => console.error('Error fetching user data:', error));
     }, []);
 
-
     if (!token) {
         return <Navigate to="/login" />;
     }
@@ -26,13 +26,9 @@ export default function DefaultLayout() {
         <div>
             <div id="defaultLayout">
                 <div>
-                    <header className="bg-green-400 p-4 text-white flex justify-between">
-                        <div>Header</div>
-                        <div>
-                            <a href="" className='button-red'>Logout</a>
-                        </div>
-                    </header>
+                    <Header />
                     <main className="p-4">
+                        
                         <Outlet />
             
                     </main>
