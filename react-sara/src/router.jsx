@@ -4,7 +4,7 @@ import Register from './views/register.jsx';
 import DefaultLayout from './components/DefaultLayout.jsx';
 import GuestLayout from './components/GuestLayout.jsx';
 import Users from './views/users.jsx';
-import UltimasRequisicoes from './views/ultimasrequisicoes.jsx';
+import Home from './views/home.jsx';
 import Requisitar from './views/requisitar.jsx';
 import Equipamentos from './views/equipamentos.jsx';
 
@@ -21,8 +21,8 @@ const router = createBrowserRouter(
                 element: <Users/>,
                 },
                 {
-                    path: '/ultimasrequisicoes',
-                    element: <UltimasRequisicoes/>,
+                    path: '/home',
+                    element: <Home/>,
                     },
                     {
                         path: '/requisitar',

@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#defaultLayout main {
+    margin-top: 60px; /* Altura suficiente para a barra de navegação */
+    padding-bottom: 60px; /* Altura suficiente para a barra de navegação */
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 3rem;
+
+}
+

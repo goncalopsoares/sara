@@ -23,7 +23,7 @@ function Modal({ show, onClose, equipamentos, contexto, comentario }) {
     );
 }
 
-const UltimasRequisicoes = () => {
+const Home = () => {
     const [requisicao, setRequisicao] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -85,4 +85,4 @@ const UltimasRequisicoes = () => {
     );
 };
 
-export default UltimasRequisicoes;
+export default Home;
