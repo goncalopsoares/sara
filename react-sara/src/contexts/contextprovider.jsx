@@ -6,11 +6,11 @@ const stateContext = createContext({
     user: null,
     token: null,
     setUser: () => {},
-    setToken: () => {}
+    setToken: () => {},
 })
 
 export const ContextProvider = ({children}) => {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [token, _setToken] = useState(Cookies.get('XSRF-TOKEN'));
 
     const setToken = (token) => {
@@ -34,7 +34,7 @@ export const ContextProvider = ({children}) => {
             user,
             token,
             setUser,
-            setToken
+            setToken,
         }}>
             {children}
         </stateContext.Provider>

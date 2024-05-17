@@ -20,6 +20,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "bootstrap": "^5.3.3",
         "js-cookie": "^3.0.5"
     }
 }
