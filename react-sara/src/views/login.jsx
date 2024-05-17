@@ -1,99 +1,84 @@
 
 import { Link } from 'react-router-dom';
 import logo from '../images_logo/logo.svg';
-
-
+import "../App.css";
 
 
 export default function login() {
-    
-  const Submit = (e) => { 
+
+  const Submit = (e) => {
     e.preventDefault();
-    
+
     }
-  
-  
-  
-  
-  
-  return (
-      <>
-     
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              className="mx-auto h-10 w-auto"
-              src={logo}
-              alt="Your Company"
-            />
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Entra com a tua conta
-            </h2>
+
+
+    return (
+        <>
+            {/* Mobile Screen */}
+            <div className="d-sm-block d-md-none d-flex flex-column justify-content-center align-items-center" style={{ marginLeft: "2rem", marginRight: "2rem", height: "100vh" }}>
+                <div className="row w-100">
+                    <div className="col-12 d-flex justify-content-center mb-4">
+                        <img
+                            src={logo}
+                            className="img-fluid"
+                            alt="Logo da sara, tipografia a dizer sara"
+                            style={{ width: "6rem" }}
+                        />
+                    </div>
+                </div>
+                <div className="row w-100">
+                    <div className="col-12">
+                        <form onSubmit={Submit} className="w-100 text-start" action="#" method="POST">
+                            <div>
+                                <label htmlFor="email" className="txt-grey-900 font-bold" style={{ marginTop: "2rem" }}>
+                                    Email
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        placeholder="Insere o teu email aqui"
+                                        required
+                                        className="form-control background-grey-100 rounded w-100"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="password" className="txt-grey-900 font-bold" style={{ marginTop: "2rem" }}>
+                                    Password
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        placeholder="Insere a tua password aqui"
+                                        required
+                                        className="form-control background-grey-100 rounded w-100"
+                                    />
+                                </div>
+                                <p className="font-size-body-2 my-2">Esqueceste da password? <span className="font-link">Clica aqui</span></p>
+                            </div>
+                            <button
+                                type="submit"
+                                className="btn btn-primary btn-sara-primary w-100"
+                                style={{ marginTop: "2rem" }}
+                            >
+                                Entrar
+                            </button>
+                            <p className="font-size-body-2 my-2 text-center">Esqueceste da password? <Link className="font-link" to='/register'>Clica aqui</Link></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+          <div className="d-none d-md-block">
+
           </div>
-  
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form onSubmit={Submit} className="space-y-6" action="#" method="POST">
-            
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                  Email
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-  
-              <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                    Password
-                  </label>
-                  <div className="text-sm">
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                      Esqueceste-te da password?
-                    </a>
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-  
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-green-200 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Entrar
-                </button>
-              </div>
-            </form>
-  
-            <p className="mt-10 text-center text-sm text-gray-500">
-              Não es membro?{' '}
-          
-            
-                
-                <Link className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500' to='/register'> Regista-te</Link>
-              
-            </p>
-          </div>
-        </div>
       </>
     )
   }
-  

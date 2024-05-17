@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 body {
     margin: 0;
@@ -20,5 +21,90 @@ header {
     width: 100%;
     margin-bottom: 3rem;
 
+}
+
+body{
+    font-family: Poppins;
+}
+
+input::placeholder {
+    color: #6c757d; /* Light grey (Bootstrap's text-muted color) */
+    font-weight: 300; /* Light font weight */
+    font-size: 0.8rem;
+
+}
+
+input {
+    color: #000; /* Black color */
+    font-weight: 400; /* Regular font weight */
+
+}
+
+.font-size-body-2 {
+    font-size: 12px;
+}
+
+.font-link {
+    color: #1C7A00;
+    text-decoration: underline;
+}
+
+.font-link:hover {
+    color: #92D400;
+    text-decoration: underline;
+}
+
+.txt-black {
+    color: black;
+}
+
+.txt-grey-100 {
+    color: #fafafa;
+}
+
+.txt-grey-300 {
+    color: #f0f0f0;
+}
+
+.txt-grey-500 {
+    color: #c2c2c2;
+}
+
+.txt-grey-700 {
+    color: #818181;
+}
+
+.txt-grey-900 {
+    color: #3c3c3c;
+}
+
+.background-grey-100 {
+    background-color: #fafafa;
+}
+
+.background-grey-300 {
+    background-color: #f0f0f0;
+}
+
+.background-grey-500 {
+    background-color: #c2c2c2;
+}
+
+.background-grey-700 {
+    background-color: #818181;
+}
+
+.background-grey-900 {
+    background-color: #3c3c3c;
+}
+
+.btn-sara-primary {
+    color: white;
+    background-color: #1C7A00;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
 }
 

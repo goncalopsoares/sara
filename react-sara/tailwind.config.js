@@ -1,6 +1,3 @@
-
-
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -8,10 +5,10 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    
+
     extend: {
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
+          sans: ['Poppins', 'sans-serif'],
       },
       fontSize: {
         'h3': '1.25rem',
@@ -33,6 +30,9 @@ module.exports = {
           400: '#737575',
           500: '#3A3A3A',
         },
+          black: {
+            100: '#000'
+          },
       },
     },
   },
