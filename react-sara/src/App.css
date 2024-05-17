@@ -105,4 +105,6 @@ input {
     padding-bottom: 0.6rem;
 }
 
-
+.btn-sara-primary:hover {
+    background-color: #92D400;
+}
