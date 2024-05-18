@@ -1,6 +1,5 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useStateContext } from "../contexts/contextprovider";
-import UltimasRequisicoes from '../views/home';
 import BottomNavBar from "./bottomnavbar";
 import Header from "./header";
 import { useEffect } from "react";
@@ -29,6 +28,8 @@ export default function DefaultLayout() {
                     <Header />
                     <main className="p-4">
                         
+                    
+
                         <Outlet />
             
                     </main>

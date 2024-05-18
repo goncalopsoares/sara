@@ -108,3 +108,82 @@ input {
 .btn-sara-primary:hover {
     background-color: #92D400;
 }
+
+.btn-sara-primary:hover {
+    color: white !important;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+.login-image-container {
+    display: none;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    width: 6rem;
+}
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 100%;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-group {
+    margin-top: 2rem;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.forgot-password, .register-link {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.password-toggle-icon {
+    right: 1rem;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+    .login-container {
+        flex-direction: row;
+    }
+
+    .login-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+
+    .login-background-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .login-form-container {
+        width: 50%;
+        padding: 4rem;
+    }
+}
