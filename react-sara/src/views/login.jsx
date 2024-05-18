@@ -18,188 +18,73 @@ export default function Login() {
     };
 
     return (
-        <>
-            {/* Mobile Screen */}
-            <div
-                className="d-sm-block d-md-none d-flex flex-column justify-content-center align-items-center"
-                style={{ marginLeft: '2rem', marginRight: '2rem', height: '100vh' }}
-            >
-                <div className="row w-100">
-                    <div className="col-12 d-flex justify-content-center mb-4">
-                        <img
-                            src={logo}
-                            className="img-fluid"
-                            alt="Logo da sara, tipografia a dizer sara"
-                            style={{ width: '6rem' }}
-                        />
-                    </div>
-                </div>
-                <div className="row w-100">
-                    <div className="col-12">
-                        <form onSubmit={handleSubmit} className="w-100 text-start" action="#" method="POST">
-                            <div>
-                                <label htmlFor="email" className="txt-grey-900 font-bold" style={{ marginTop: '2rem' }}>
-                                    Email
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        placeholder="Insere o teu email aqui"
-                                        required
-                                        className="form-control background-grey-100 rounded w-100"
-                                    />
-                                </div>
-                            </div>
-                            <div className="position-relative">
-                                <label
-                                    htmlFor="password"
-                                    className="txt-grey-900 font-bold"
-                                    style={{ marginTop: '2rem' }}
-                                >
-                                    Password
-                                </label>
-                                <div className="mt-2 position-relative">
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        autoComplete="current-password"
-                                        placeholder="Insere a tua password aqui"
-                                        required
-                                        className="form-control background-grey-100 rounded w-100 pr-10"
-                                    />
-                                    <div
-                                        className="position-absolute top-50 end-3 translate-middle-y"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={togglePasswordVisibility}
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff className="feather-eye" />
-                                        ) : (
-                                            <Eye className="feather-eye" />
-                                        )}
-                                    </div>
-                                </div>
-                                <p className="font-size-body-2 my-2">
-                                    Esqueceste da password?{' '}
-                                    <span className="font-link">Clica aqui</span>
-                                </p>
-                            </div>
-                            <button
-                                type="submit"
-                                className="btn btn-primary btn-sara-primary w-100"
-                                style={{ marginTop: '2rem' }}
-                            >
-                                Entrar
-                            </button>
-                            <p className="font-size-body-2 my-2 text-center">
-                                Esqueceste da password?{' '}
-                                <Link className="font-link" to="/register">
-                                    Clica aqui
-                                </Link>
-                            </p>
-                        </form>
-                    </div>
-                </div>
+        <div className="login-container">
+            <div className="login-image-container">
+                <img
+                    src={background}
+                    className="login-background-image"
+                    alt="Background"
+                />
             </div>
-
-            {/* Desktop view */}
-            <div className="d-none d-md-block">
-                <div className="row h-screen">
-                    <div className="col-6 flex justify-center items-center">
-                        <img
-                            src={background}
-                            className="w-full h-full object-cover"
-                            alt="Background"
+            <div className="login-form-container">
+                <div className="logo-container">
+                    <img
+                        src={logo}
+                        className="logo"
+                        alt="Logo da sara, tipografia a dizer sara"
+                    />
+                </div>
+                <form onSubmit={handleSubmit} className="login-form">
+                    <div className="form-group">
+                        <label htmlFor="email" className="form-label">
+                            Email
+                        </label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            placeholder="Insere o teu email aqui"
+                            required
+                            className="form-control"
                         />
                     </div>
-                    <div className="col-6 flex flex-col justify-center items-center">
-                        <div className="mb-4">
-                            <img
-                                src={logo}
-                                className="img-fluid"
-                                alt="Logo da sara, tipografia a dizer sara"
-                                style={{ width: '6rem' }}
-                            />
-                        </div>
-                        <form
-                            onSubmit={handleSubmit}
-                            className="w-full max-w-md text-start"
-                            action="#"
-                            method="POST"
+                    <div className="form-group position-relative">
+                        <label htmlFor="password" className="form-label">
+                            Password
+                        </label>
+                        <input
+                            id="password"
+                            name="password"
+                            type={showPassword ? 'text' : 'password'}
+                            autoComplete="current-password"
+                            placeholder="Insere a tua password aqui"
+                            required
+                            className="form-control pr-10"
+                        />
+                        <div
+                            className="password-toggle-icon position-absolute top-50 end-3 translate-middle-y"
+                            style={{ cursor: 'pointer' }}
+                            onClick={togglePasswordVisibility}
                         >
-                            <div className="mb-4">
-                                <label
-                                    htmlFor="email"
-                                    className="txt-grey-900 font-bold"
-                                >
-                                    Email
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        placeholder="Insere o teu email aqui"
-                                        required
-                                        className="form-control background-grey-100 rounded w-full"
-                                    />
-                                </div>
-                            </div>
-                            <div className="position-relative mb-4">
-                                <label
-                                    htmlFor="password"
-                                    className="txt-grey-900 font-bold"
-                                >
-                                    Password
-                                </label>
-                                <div className="mt-2 position-relative">
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        autoComplete="current-password"
-                                        placeholder="Insere a tua password aqui"
-                                        required
-                                        className="form-control background-grey-100 rounded w-100 pr-10"
-                                    />
-                                    <div
-                                        className="position-absolute top-50 end-3 translate-middle-y"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={togglePasswordVisibility}
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff className="feather-eye" />
-                                        ) : (
-                                            <Eye className="feather-eye" />
-                                        )}
-                                    </div>
-                                </div>
-                                <p className="font-size-body-2 my-2">
-                                    Esqueceste da password?{' '}
-                                    <span className="font-link">Clica aqui</span>
-                                </p>
-                            </div>
-                            <button
-                                type="submit"
-                                className="btn btn-primary btn-sara-primary w-full"
-                            >
-                                Entrar
-                            </button>
-                            <p className="font-size-body-2 my-2 text-center">
-                                Esqueceste da password?{' '}
-                                <Link className="font-link" to="/register">
-                                    Clica aqui
-                                </Link>
-                            </p>
-                        </form>
+                            {showPassword ? (
+                                <EyeOff className="feather-eye" />
+                            ) : (
+                                <Eye className="feather-eye" />
+                            )}
+                        </div>
+                        <p className="forgot-password">
+                            Esqueceste da password? <span className="font-link">Clica aqui</span>
+                        </p>
                     </div>
-                </div>
+                    <button type="submit" className="btn btn-sara-primary w-100 mt-5">
+                        Entrar
+                    </button>
+                    <p className="register-link text-center">
+                        Esqueceste da password? <Link className="font-link" to="/register">Clica aqui</Link>
+                    </p>
+                </form>
             </div>
-        </>
+        </div>
     );
 }
