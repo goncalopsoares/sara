@@ -77,7 +77,7 @@ export default function Login() {
                             Esqueceste da password? <span className="font-link">Clica aqui</span>
                         </p>
                     </div>
-                    <button type="submit" className="btn btn-sara-primary w-100 mt-5">
+                    <button type="submit" className="btn btn-primary w-100">
                         Entrar
                     </button>
                     <p className="register-link text-center">

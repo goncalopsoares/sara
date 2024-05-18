@@ -11,33 +11,51 @@ use App\Http\Requests\Auth\LoginRequest;
 
 class AuthController extends Controller
 {
-    
 
-    public function login (LoginRequest $request)
+    public function login(LoginRequest $request)
     {
-        $data=$request->validated();
+        // Retrieve validated credentials from the request
+        $credentials = $request->validated();
 
-        if (!Auth::attempt($data)) {
-            return response([
-                'message'=>'email or password are wrong'
-            ]);
+        // Retrieve the user by email
+        $user = Utilizador::where('email_utilizador', $credentials['email_utilizador'])->first();
+
+        // Check if a user with the provided email exists
+        if (!$user) {
+            return response()->json([
+                'message' => 'Email or password is incorrect'
+            ], 422);
         }
 
-        $user=Auth::user();
+        // Check if the provided password matches the hashed password stored in the database
+        if (!Hash::check($credentials['password_utilizador'], $user->password_utilizador)) {
+            return response()->json([
+                'message' => 'Email or password is incorrect'
+            ], 422);
+        }
 
-        $token=$user->createToken('main')->plainTextToken;
-        return response()->json(
-            [
-                'user'=>$user,
-                'token'=>$token
-            ]);
+        // Authentication successful
+        // Generate token for the authenticated user
+        $token = $user->createToken('MyAuthApp')->plainTextToken;
 
+        // Construct success response with token and user data
+        $response = [
+            'token' => $token,
+            'tipo' => $user->tipo_utilizador,
+            'user' => $user->nome_utilizador, 
+            'id' => $user->id_utilizador,
+            'mec' => $user->numero_mecanografico_utilizador,
+            'avatar' => $user->avatar_utilizador
+        
+        ];
 
+        // Return success response
+        return response()->json($response);
     }
 
-    public function register (RegisterRequest $request)
+    public function register(RegisterRequest $request)
     {
-        $data=$request->validated();
+        $data = $request->validated();
 
         array_walk_recursive($data, function (&$item, $key) {
             if (is_string($item)) {
@@ -46,11 +64,11 @@ class AuthController extends Controller
         });
 
         $user = Utilizador::create(([
-            'nome_utilizador'=>$data['nome_utilizador'],
-            'email_utilizador'=>$data['email_utilizador'],
-            'numero_mecanografico_utilizador'=>$data['numero_mecanografico_utilizador'],
-            'password_utilizador'=>Hash::make($data['password_utilizador']),
-            'tipo_utilizador'=>$data['tipo_utilizador'],
+            'nome_utilizador' => $data['nome_utilizador'],
+            'email_utilizador' => $data['email_utilizador'],
+            'numero_mecanografico_utilizador' => $data['numero_mecanografico_utilizador'],
+            'password_utilizador' => Hash::make($data['password_utilizador']),
+            'tipo_utilizador' => $data['tipo_utilizador'],
         ]));
 
         // Create a token with a specific name
@@ -60,19 +78,15 @@ class AuthController extends Controller
             'access_token'  => $token,
             'token_type'    => 'Bearer'
         ]);
-
     }
 
-    public function logout (Request $request)
+    public function logout(Request $request)
     {
 
-        $user=$request->user();
+        $user = $request->user();
 
         $user->currentAccessToken()->delete();
 
-        return response ('',204);
+        return response('', 204);
     }
-
-
-
 }

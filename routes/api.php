@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SaraHomeController;
@@ -43,19 +44,17 @@ Route::get('/sara/detalherequisicao/{id}', [SaraHomeController::class, 'saraEqui
 Route::post('/sara/atualizarestado/{id}', [SaraHomeController::class, 'atualizarEstado']); //atualizar estado da requisicao -> comentario so deve ser elaborado se a requisicao mudar para o estado 4 ou 5 (confirmar ou rejeitar)
 
 
-
 //
 Route::get('/equipamentos', [EquipamentoController::class, 'index']); 
 
 
-
-
-
-
+//dados utilizador
+Route::middleware('auth:sanctum')->get('/user', function(Request $request){
+    return $request->user();
+});
 
 
 //registo
-
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
