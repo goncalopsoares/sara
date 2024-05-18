@@ -41,11 +41,7 @@ class AuthController extends Controller
         // Construct success response with token and user data
         $response = [
             'token' => $token,
-            'tipo' => $user->tipo_utilizador,
             'user' => $user->nome_utilizador, 
-            'id' => $user->id_utilizador,
-            'mec' => $user->numero_mecanografico_utilizador,
-            'avatar' => $user->avatar_utilizador
         
         ];
 

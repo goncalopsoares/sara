@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'react-feather';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import logo from '../images_logo/logo.svg';
+import { useStateContext } from '../contexts/contextprovider';
 import '../App.css';
 import background from '../images_logo/backgroundImageLogIn.png';
+import axiosClient from '../axiosClient';
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -12,10 +14,38 @@ export default function Login() {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic
-    };
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { setUser, setToken } = useStateContext();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("handleSubmit is being called");
+    console.log(emailRef.current);
+    console.log(passwordRef.current);
+    try {
+
+      const payload = {
+        email_utilizador: emailRef.current.value,
+        password_utilizador: passwordRef.current.value,
+      };
+
+      console.log(payload);
+
+      const response = await axiosClient.post("/login", payload);
+      setUser(response.data.user);
+      setToken(response.data.token);
+    
+
+    } catch (error) {
+      const response = error.response;
+      if (response && response.status === 422) {
+        console.log(response.status);
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
     return (
         <div className="login-container">
@@ -40,6 +70,7 @@ export default function Login() {
                             Email
                         </label>
                         <input
+                            ref={emailRef}
                             id="email"
                             name="email"
                             type="email"
@@ -54,6 +85,7 @@ export default function Login() {
                             Password
                         </label>
                         <input
+                            ref={passwordRef}
                             id="password"
                             name="password"
                             type={showPassword ? 'text' : 'password'}
