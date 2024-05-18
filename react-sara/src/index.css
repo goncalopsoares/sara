@@ -108,6 +108,9 @@ input {
     padding-bottom: 0.6rem;
 }
 
+.btn-sara-primary:hover {
+    color: white !important;
+}
 
 .login-container {
     display: flex;
