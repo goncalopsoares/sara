@@ -16,7 +16,7 @@ export default function Login() {
 
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { setUser, setToken } = useStateContext();
+  const { setUser, setToken, setId_utilizador } = useStateContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +35,7 @@ export default function Login() {
       const response = await axiosClient.post("/login", payload);
       setUser(response.data.user);
       setToken(response.data.token);
+      setId_utilizador(response.data.id_utilizador);
     
 
     } catch (error) {

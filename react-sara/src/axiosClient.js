@@ -5,7 +5,7 @@ const axiosClient = axios.create({
     withCredentials: true,
 });
 
-/** axiosClient.interceptors.request.use((config) => {
+/**axiosClient.interceptors.request.use((config) => {
     const cookies = document.cookie;
     if (cookies) {
         const xsrfTokenCookie = cookies.split('; ').find(row => row.startsWith('XSRF-TOKEN='));
@@ -20,7 +20,7 @@ const axiosClient = axios.create({
         console.log('No cookies found');
     }
     });
-
+ 
 axiosClient.interceptors.response.use((response) => {
     return response;
 },
@@ -48,4 +48,5 @@ axiosClient.interceptors.response.use((response) => {
     }
 );
 **/ 
+
 export default axiosClient;

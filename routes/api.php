@@ -49,12 +49,28 @@ Route::get('/equipamentos', [EquipamentoController::class, 'index']);
 
 
 //dados utilizador
-Route::middleware('auth:sanctum')->get('/user', function(Request $request){
+/* Route::middleware('auth:sanctum')->get('/user', function(Request $request){
     return $request->user();
-});
+}); */
+
+
 
 
 //registo
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout']);
+
+//logout
+//Route::get('/logout', [AuthController::class, 'logout']);
+
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    //ir buscar os dados do utilizador
+    Route::get('/utilizador/{id}', [UtilizadorController::class, 'show']);
+
+    //logout
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
