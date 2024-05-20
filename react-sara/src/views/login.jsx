@@ -36,7 +36,7 @@ export default function Login() {
       setUser(response.data.user);
       setToken(response.data.token);
       setId_utilizador(response.data.id_utilizador);
-    
+
 
     } catch (error) {
       const response = error.response;
@@ -115,7 +115,7 @@ export default function Login() {
                         Entrar
                     </button>
                     <p className="register-link text-center">
-                        Esqueceste da password? <Link className="font-link" to="/register">Clica aqui</Link>
+                        Ainda não tens conta? <Link className="font-link" to="/register">Regista-te aqui</Link>
                     </p>
                 </form>
             </div>
