@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Utilizador;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Auth\RegisterRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -41,11 +42,8 @@ class AuthController extends Controller
         // Construct success response with token and user data
         $response = [
             'token' => $token,
-            'tipo' => $user->tipo_utilizador,
             'user' => $user->nome_utilizador, 
-            'id' => $user->id_utilizador,
-            'mec' => $user->numero_mecanografico_utilizador,
-            'avatar' => $user->avatar_utilizador
+            'id_utilizador'=>$user->id_utilizador,
         
         ];
 
@@ -83,10 +81,13 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
 
+        Auth::logout();
+
+        // Delete all tokens associated with the user
         $user = $request->user();
-
-        $user->currentAccessToken()->delete();
-
-        return response('', 204);
+        if ($user) {
+            $user->tokens()->delete();
+        }
+    
     }
 }

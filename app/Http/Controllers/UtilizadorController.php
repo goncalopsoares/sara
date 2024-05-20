@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Utilizador;
+use Log;
 use App\Models\Categoria;
 use App\Models\UcContexto;
+use App\Models\Utilizador;
 use Illuminate\Http\Request;
 
 class UtilizadorController extends Controller
@@ -81,9 +82,16 @@ class UtilizadorController extends Controller
      */
     public function show($id)
     {
-        return Utilizador::find($id);
-    }
 
+
+        $utilizador = Utilizador::find($id);
+    
+        if (!$utilizador) {
+            return response()->json(['message' => 'Utilizador não encontrado'], 404);
+        }
+    
+        return response()->json($utilizador);
+    }
     /**
      * Show the form for editing the specified resource.
      */

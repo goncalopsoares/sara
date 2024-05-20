@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { LuClipboard } from "react-icons/lu";
+import axiosClient from '../axiosClient';
+import { useStateContext } from '../contexts/contextprovider';
 
 function Modal({ show, onClose, equipamentos, contexto, comentario }) {
     if (!show) return null;
@@ -29,6 +30,8 @@ const Home = () => {
     const [error, setError] = useState(null);
     const [modalData, setModalData] = useState({ show: false, equipamentos: [], contexto: '', comentario: '' });
 
+    const {user} = useStateContext();
+
     const handleShowMore = (equipamentos, contexto, comentario) => {
         setModalData({ show: true, equipamentos, contexto, comentario });
     };
@@ -38,7 +41,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/estudantehome/6')
+        axiosClient.get(`/estudantehome/${user.id_utilizador}`)
             .then(response => {
                 console.log('Requisicao:', response.data);
                 const result = response.data.EstudanteHome;
