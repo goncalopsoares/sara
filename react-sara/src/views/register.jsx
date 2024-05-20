@@ -45,7 +45,7 @@ export default function Register() {
                         setId_utilizador(null);
     
                         // Redirecionar para a página de login
-                        navigate('/login');
+                        navigate('/login', { state: { successMessage: 'Registo criado com sucesso!' } })
                     })
                     .catch((error) => {
                         console.error("Erro ao fazer logout:", error);

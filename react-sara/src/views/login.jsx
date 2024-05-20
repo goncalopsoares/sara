@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Eye, EyeOff } from 'react-feather';
 import { useState, useRef } from 'react';
 import logo from '../images_logo/logo.svg';
@@ -9,6 +9,10 @@ import axiosClient from '../axiosClient';
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
+
+    const location = useLocation();
+    const successMessage = location.state?.successMessage;
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -49,6 +53,18 @@ export default function Login() {
   };
 
     return (
+        <div>
+     {successMessage && (
+    <div style={{
+        color: 'white',
+        fontSize: '2rem',
+        textAlign: 'center',
+        margin: '1.5rem',
+        backgroundColor: '#198754'
+    }}>
+        {successMessage}
+    </div>
+)}
       <div className="login-container">
       <div className="login-image-container">
           <img
@@ -119,6 +135,7 @@ export default function Login() {
                     </p>
                 </form>
             </div>
+        </div>
         </div>
     );
 
