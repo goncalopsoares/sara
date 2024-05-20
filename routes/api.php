@@ -64,11 +64,6 @@ Route::post('/register', [AuthController::class, 'register']);
 //Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/utilizador/{id}', [UtilizadorController::class, 'show']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 
-Route::middleware('auth:sanctum')->group(function () {
-
-
-    //logout
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
