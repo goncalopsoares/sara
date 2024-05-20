@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react';
 import logo from '../images_logo/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../contexts/contextprovider';
 import background from "../images_logo/backgroundImageLogIn.png";
 import PasswordInput from '../components/PasswordInput.jsx';
+
 
 export default function Register() {
     const nameRef = useRef();
@@ -13,8 +14,10 @@ export default function Register() {
     const passwordRef = useRef();
     const confirmpasswordRef = useRef();
 
-    const { setUser, setToken } = useStateContext();
+    const { setUser, setToken, setId_utilizador } = useStateContext();
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     const Submit = (e) => {
         e.preventDefault();
@@ -29,17 +32,32 @@ export default function Register() {
                 tipo_utilizador: 3,
             }
 
-            axiosClient.post("/register", payload).then(({ data }) => {
-                setUser(data.user);
-                setToken(data.token);
-                console.log(data);
-            }).catch(err => {
+            axiosClient.post("/register", payload)
+            .then(({ data }) => {
+                console.log("Registro bem-sucedido:", data);
+    
+                // Realizar logout após o registro bem-sucedido
+                axiosClient.post('/logout')
+                    .then(({}) => {
+                        // Limpar o estado do user, token e ID
+                        setUser(null);
+                        setToken(null);
+                        setId_utilizador(null);
+    
+                        // Redirecionar para a página de login
+                        navigate('/login');
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao fazer logout:", error);
+                        // Opcional: lidar com erros de logout
+                    });
+            })
+            .catch(err => {
                 const response = err.response;
-
                 if (response && response.status === 422) {
                     console.log(response.data.errors);
                 }
-            })
+            });
         } else {
             setError('As passwords não são iguais');
         }
