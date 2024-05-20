@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaPlusCircle, FaCogs, FaUsers } from "react-icons/fa";
+import { Home, PlusCircle, Camera, User } from 'react-feather';
 
 const BottomNavBar = () => {
     const location = useLocation();
@@ -49,40 +49,40 @@ const BottomNavBar = () => {
             <div className="col-3 text-center">
                 <Link
                     to="/home"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
                     style={linkStyle("/home")}
                 >
-                    <FaHome style={iconStyle("/home")} />
+                    <Home style={iconStyle("/home")} />
                     <span style={textStyle("/home")}>Home</span>
                 </Link>
             </div>
             <div className="col-3 text-center">
                 <Link
                     to="/requisitar"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
                     style={linkStyle("/requisitar")}
                 >
-                    <FaPlusCircle style={iconStyle("/requisitar")} />
+                    <PlusCircle style={iconStyle("/requisitar")} />
                     <span style={textStyle("/requisitar")}>Requisitar</span>
                 </Link>
             </div>
             <div className="col-3 text-center">
             <Link
                     to="/equipamentos"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
                     style={linkStyle("/equipamentos")}
                 >
-                    <FaCogs style={iconStyle("/equipamentos")} />
+                    <Camera style={iconStyle("/equipamentos")} />
                     <span style={textStyle("/equipamentos")}>Equipamentos</span>
                 </Link>
             </div>
             <div className="col-3 text-center ml-auto">
             <Link
                     to="/users"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
                     style={linkStyle("/users")}
                 >
-                    <FaUsers style={iconStyle("/users")} />
+                    <User style={iconStyle("/users")} />
                     <span style={textStyle("/users")}>Perfil</span>
                 </Link>
             </div>
