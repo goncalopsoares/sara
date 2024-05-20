@@ -20,9 +20,8 @@
         "vite": "^5.0"
     },
     "dependencies": {
-
         "bootstrap": "^5.3.3",
-        "js-cookie": "^3.0.5"
-
+        "js-cookie": "^3.0.5",
+        "react-feather": "^2.0.10"
     }
 }
