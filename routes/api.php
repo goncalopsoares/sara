@@ -63,13 +63,11 @@ Route::post('/register', [AuthController::class, 'register']);
 //logout
 //Route::get('/logout', [AuthController::class, 'logout']);
 
-
+Route::get('/utilizador/{id}', [UtilizadorController::class, 'show']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    //ir buscar os dados do utilizador
-    Route::get('/utilizador/{id}', [UtilizadorController::class, 'show']);
 
     //logout
     Route::post('/logout', [AuthController::class, 'logout']);
