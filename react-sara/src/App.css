@@ -187,3 +187,7 @@ input {
         padding: 4rem;
     }
 }
+
+.navbar-button:hover, .navbar-button:active {
+    background-color: #F0F0F0; /* g-300 */
+}
