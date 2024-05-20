@@ -1,26 +1,91 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaHome, FaPlusCircle, FaCogs, FaUsers } from 'react-icons/fa';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FaHome, FaPlusCircle, FaCogs, FaUsers } from "react-icons/fa";
 
 const BottomNavBar = () => {
+    const location = useLocation();
+
+    const linkStyle = (path) => {
+        return location.pathname === path
+            ? { width: 72, height: 72, background: "black", gap: 4 }
+            : { width: 72, height: 72, gap: 4 };
+    };
+
+    const iconStyle = (path) => {
+        return location.pathname === path
+            ? { width: 24, height: 24, position: "relative", color: "white" }
+            : { width: 24, height: 24, position: "relative", color: "#C2C2C2" };
+    };
+
+    const textStyle = (path) => {
+        return location.pathname === path
+            ? {
+                  fontSize: 9,
+                  fontFamily: "Poppins",
+                  lineHeight: "10.80px",
+                  wordWrap: "break-word",
+                  color: "white",
+                  fontWeight: "bold",
+              }
+            : {
+                  fontSize: 9,
+                  fontFamily: "Poppins",
+                  fontWeight: "400",
+                  lineHeight: "10.80px",
+                  wordWrap: "break-word",
+                  color: "#C2C2C2",
+              };
+    };
+
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-green-400 text-white flex justify-around p-4">
-            <Link to="/home" className="flex flex-col items-center">
-                <FaHome className="text-2xl" />
-                <span>Home</span>
-            </Link>
-            <Link to="/requisitar" className="flex flex-col items-center">
-                <FaPlusCircle className="text-2xl" />
-                <span>Requisitar</span>
-            </Link>
-            <Link to="/equipamentos" className="flex flex-col items-center">
-                <FaCogs className="text-2xl" />
-                <span>Equipamentos</span>
-            </Link>
-            <Link to="/users" className="flex flex-col items-center">
-                <FaUsers className="text-2xl" />
-                <span>User</span>
-            </Link>
+        <div
+            className="d-flex justify-content-start align-items-center gap-3 position-fixed bottom-0 start-0 end-0 p-3"
+            style={{
+                background:
+                    "linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.90) 100%)",
+                backdropFilter: "blur(4px)",
+            }}
+        >
+            <div className="col-3 text-center">
+                <Link
+                    to="/home"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={linkStyle("/home")}
+                >
+                    <FaHome style={iconStyle("/home")} />
+                    <span style={textStyle("/home")}>Home</span>
+                </Link>
+            </div>
+            <div className="col-3 text-center">
+                <Link
+                    to="/requisitar"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={linkStyle("/requisitar")}
+                >
+                    <FaPlusCircle style={iconStyle("/requisitar")} />
+                    <span style={textStyle("/requisitar")}>Requisitar</span>
+                </Link>
+            </div>
+            <div className="col-3 text-center">
+            <Link
+                    to="/equipamentos"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={linkStyle("/equipamentos")}
+                >
+                    <FaCogs style={iconStyle("/equipamentos")} />
+                    <span style={textStyle("/equipamentos")}>Equipamentos</span>
+                </Link>
+            </div>
+            <div className="col-3 text-center ml-auto">
+            <Link
+                    to="/users"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={linkStyle("/users")}
+                >
+                    <FaUsers style={iconStyle("/users")} />
+                    <span style={textStyle("/users")}>Perfil</span>
+                </Link>
+            </div>
         </div>
     );
 };
