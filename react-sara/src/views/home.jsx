@@ -27,8 +27,11 @@ function Modal({ show, onClose, equipamentos, contexto, comentario }) {
 const Home = () => {
     const [requisicao, setRequisicao] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loading2, setLoading2]=useState (true);
     const [error, setError] = useState(null);
+    const [error2, setError2]=useState(null);
     const [modalData, setModalData] = useState({ show: false, equipamentos: [], contexto: '', comentario: '' });
+    const [ucs_aluno, setUcs_aluno]=useState([]);
 
     const {user} = useStateContext();
 
@@ -55,6 +58,21 @@ const Home = () => {
             });
     }, []);
 
+    useEffect(()=>{
+        axiosClient.get(`/estudantehome/uc/${user.id_utilizador}`)
+        .then(response =>{
+            console.log('ucs', response.data);
+            const result_uc=response.data;
+            setUcs_aluno (result_uc);
+            setLoading2(false)
+        })
+        .catch(error=>{
+            console.error('Erro ao obter UCs:', error);
+            setError2(error);
+            setLoading2(false)
+        })
+    })
+
     return (
         <div>
             <div className="text-4xl mt-4 mb-4">Requisições Ativas</div>
@@ -74,6 +92,20 @@ const Home = () => {
                         >
                             <LuClipboard className='inline-block align-middle me-3 ' />Ver requisição
                         </button>
+                    </div>
+                ))}
+            </div>
+            <div className="text-4xl mt-4 mb-4">Uc's ativas</div>
+            {loading2 && <p>Loading...</p>}
+            {error2 && <p>Error: {error2.message}</p>}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {ucs_aluno.map(uc => (
+                    <div key={uc.id_uc_contexto} className="bg-white p-4 rounded-lg shadow-lg border-2">
+                        <p className='text-2xl font-bold'>{uc.nome_uc_contexto}</p>
+                        <h3 className="text-2xl font-bold">{uc.nome_requisicao}</h3>
+                        <p className='text-gray-500 text-end mt-2 mb-2'>{uc.sigla_uc_contexto}</p>
+                        <p className='text-gray-500'><strong>Codigo UC:</strong> {uc.codigo_uc_contexto}</p>
+                        <p className='text-gray-500'><strong>Semestre UC:</strong> {uc.semestre_uc_contexto}</p>
                     </div>
                 ))}
             </div>
