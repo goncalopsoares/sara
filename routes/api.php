@@ -65,5 +65,3 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('/utilizador/{id}', [UtilizadorController::class, 'show']);
 Route::post('/logout', [AuthController::class, 'logout']);
-
-
