@@ -96,7 +96,7 @@ const Home = () => {
 
     return (
         <div>
-            <div className="text-4xl mt-4 mb-4">Requisições Ativas</div>
+            <div className="text-4xl mt-6 mb-4">Requisições Ativas</div>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

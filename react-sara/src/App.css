@@ -191,3 +191,8 @@ input {
 .navbar-button:hover, .navbar-button:active {
     background-color: #F0F0F0; /* g-300 */
 }
+
+.mt-6
+{
+    margin-top: 5rem;
+}
