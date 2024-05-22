@@ -17,15 +17,15 @@ export default function DefaultLayout() {
             axiosClient.get(`/utilizador/${id_utilizador}`)
             .then(({ data }) => {
                 setUser(data);
-                setId_utilizador(data.id_utilizador); 
+                setId_utilizador(data.id_utilizador);
             })
                 .catch(error => console.error('Error fetching user data:', error));
         } else {
             console.error('id_utilizador is not defined');
         }
-    }, []); 
+    }, []);
 
-    
+
     useEffect(() => {
         console.log({ id_utilizador });
         console.log({ user });
@@ -42,7 +42,7 @@ export default function DefaultLayout() {
             <div id="defaultLayout">
                 <div>
                     <Header />
-                    <main className="p-4 ">
+                    <main className="p-4">
                     {location.pathname === '/' && (
                             <>
                                 <h1 className="mt-4 text-green-600 fw-bolder">
@@ -56,7 +56,7 @@ export default function DefaultLayout() {
                         )}
 
                         <Outlet />
-            
+
                     </main>
                     <BottomNavBar />
                 </div>
