@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LuClipboard } from "react-icons/lu";
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../contexts/contextprovider';
+import HomeReqAtiva from "../components/Student/HomeReqAtiva";
 
 
 function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
@@ -79,7 +80,7 @@ const Home = () => {
         }
     }, [user.id_utilizador]); // Adicionada a dependência correta
 
-    const getCardColor = (estadoId) => {
+/*    const getCardColor = (estadoId) => {
         switch (estadoId) {
             case 1:
                 return 'bg-yellow-100';
@@ -92,10 +93,39 @@ const Home = () => {
             default:
                 return 'bg-white';
         }
-    };
+    };*/
 
     return (
-        <div>
+        <>
+            <div style={{marginBottom:"1rem"}}>
+                <div className="mobile-title">Olá, {user.nome_utilizador.split(" ")[0]}</div>
+            </div>
+
+            {/* Requisições Ativas */}
+
+            <div>
+                <div className="mobile-subtitle mb-4">Requisições Ativas</div>
+                {loading && <p>Loading...</p>}
+                <div>
+                    <div>
+                        {requisicao.map(req => {
+                            const ultimoEstado = req.estados[req.estados.length - 1];
+                            if ([1, 3, 5, 6].includes(ultimoEstado.id_estado)) {
+                                return (
+                                    <HomeReqAtiva
+                                        requisicao={requisicao}
+                                        handleShowMore={handleShowMore}
+                                    />
+                                );
+                            }
+                            return null;
+                        })}
+                    </div>
+                </div>
+
+            </div>
+        </>
+/*        <div>
             <div className="text-4xl mt-6 mb-4">Requisições Ativas</div>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
@@ -144,7 +174,7 @@ const Home = () => {
                 comentarioprofessor={modalData.comentarioprofessor}
                 comentariosara={modalData.comentariosara}
             />
-        </div>
+        </div>*/
     );
 };
 
