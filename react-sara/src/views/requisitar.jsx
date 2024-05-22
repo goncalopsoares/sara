@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../contexts/contextprovider';
+import "../App.css"
+import { FaArrowAltCircleRight } from "react-icons/fa";
 
 const Requisitar = () => {
   const { user } = useStateContext();
@@ -17,6 +19,7 @@ const Requisitar = () => {
     uc_contexto_id_uc_contexto: '',
     requisicao_has_utilizadores: []
   });
+  const [currentStep, setCurrentStep] = useState(1); // Controla a fase atual do processo
 
 console.log(formData)
 
@@ -56,10 +59,10 @@ console.log(formData)
         const ucProfessores = ucUtilizadores.filter(u => u.tipo_utilizador === 2);
         setProfessores(ucProfessores);
 
-        // Adicionar utilizadores tipo 1 (estudantes) ao formulário
-        const estudantes = ucUtilizadores.filter(u => u.tipo_utilizador === 1).map(u => ({
+        // Adicionar utilizadores tipo 1 (SARA) ao formulário
+        const sara = ucUtilizadores.filter(u => u.tipo_utilizador === 1).map(u => ({
           utilizador_id_utilizador: u.id_utilizador,
-          role_utilizador: 1, // Responsáveis
+          role_utilizador: 1, // SARA
           pin_recolha: pinRecolha,
           pin_devolucao: pinDevolucao
         }));
@@ -68,7 +71,7 @@ console.log(formData)
           ...prevFormData,
           requisicao_has_utilizadores: [
             ...prevFormData.requisicao_has_utilizadores.filter(u => u.role_utilizador !== 1),
-            ...estudantes
+            ...sara
           ]
         }));
       })
@@ -151,80 +154,91 @@ console.log(formData)
 
   return (
     <div>
-      <h1>Requisitar</h1>
-      <div>
-        {ucs.map(uc => (
-          <div key={uc.id_uc_contexto}>
-            <h2>{uc.nome_uc_contexto}</h2>
-            <p>{uc.sigla_uc_contexto}</p>
-            <img src={uc.icone_uc_contexto} alt={uc.nome_uc_contexto} />
-            <button onClick={() => handleUcSelect(uc)}>Selecionar UC</button>
-
-            {selectedUc && selectedUc.id_uc_contexto === uc.id_uc_contexto && (
-              <div>
-                <h3>Selecionar Professor</h3>
-                <select onChange={handleProfessorSelect}>
-                  <option value="">Selecione um professor</option>
-                  {professores.map(professor => (
-                    <option key={professor.id_utilizador} value={professor.id_utilizador}>
-                      {professor.nome_utilizador}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-          </div>
-        ))}
+      <h1 className='mb-3'>Requisitar</h1>
+      <div className="breadcrumb">
+        <div onClick={()=>setCurrentStep(1)} className={`step ${currentStep === 1 ? 'active' : ''}`}>UC</div>
+        <div onClick={()=>setCurrentStep(2)} className={`step ${currentStep === 2 ? 'active' : ''}`}>Info</div>
       </div>
 
-      {selectedProfessor && (
+      {currentStep === 1 && (
         <div>
-          <h2>Adicionar Elementos ao Grupo</h2>
-          <div>
-            <select onChange={handleUtilizadoresChange}>
-              <option value="">Selecione um utilizador</option>
-              {utilizadores.filter(u => u.tipo_utilizador === 3 && !selectedGroupMembers.some(s => s.id_utilizador === u.id_utilizador)).map(u => (
-                <option key={u.id_utilizador} value={u.id_utilizador}>
-                  {u.nome_utilizador} - {u.numero_mecanografico_utilizador}
-                </option>
-              ))}
-            </select>
-            <ul>
-              {selectedGroupMembers.map(u => (
-                <li key={u.id_utilizador}>
-                  {u.nome_utilizador} - {u.numero_mecanografico_utilizador}
-                  <button onClick={() => handleRemoveGroupMember(u.id_utilizador)}>Remover</button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <h2 className='mt-5 mb-5'>Escolha a UC e o Professor</h2>
+          {ucs.map(uc => (
+            <div className='bg-grey-100 mb-4' key={uc.id_uc_contexto}>
+              <h4>{uc.nome_uc_contexto}</h4>
+              <p>{uc.sigla_uc_contexto}</p>
+              <button className=' text-green-400 p-3' onClick={() => handleUcSelect(uc)}>Selecionar UC</button>
+      
+              {selectedUc && selectedUc.id_uc_contexto === uc.id_uc_contexto && (
+                <div>
+                  <select onChange={handleProfessorSelect}>
+                    <option value="">Professor</option>
+                    {professores.map(professor => (
+                      <option key={professor.id_utilizador} value={professor.id_utilizador}>
+                        {professor.nome_utilizador}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          ))}
+          {selectedUc && selectedProfessor && (
+            <FaArrowAltCircleRight className='text-end' size={40} onClick={() => setCurrentStep(2)} />
+          )}
         </div>
       )}
 
-      {selectedProfessor && (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Nome da Requisição:</label>
-            <input
-              type="text"
-              name="nome_requisicao"
-              value={formData.nome_requisicao}
-              onChange={handleInputChange}
-              required
-            />
+      {currentStep === 2 && (
+        <div>
+          <h3 className='mt-5 mb-5'>Informação geral</h3>
+          <div className="group-container">
+            <h4>Elementos do grupo</h4>
+            <div className="select-container">
+              <select onChange={handleUtilizadoresChange} className="select-dropdown">
+                <option value="">Selecione um utilizador</option>
+                {utilizadores.filter(u => u.tipo_utilizador === 3 && u.id_utilizador !== user.id_utilizador && !selectedGroupMembers.some(s => s.id_utilizador === u.id_utilizador)).map(u => (
+                  <option key={u.id_utilizador} value={u.id_utilizador}>
+                    {u.nome_utilizador} - {u.numero_mecanografico_utilizador}
+                  </option>
+                ))}
+              </select>
+              <ul className="group-list">
+                {selectedGroupMembers.map(u => (
+                  <li key={u.id_utilizador} className="group-list-item">
+                    {u.nome_utilizador} - {u.numero_mecanografico_utilizador}
+                    <button onClick={() => handleRemoveGroupMember(u.id_utilizador)} className="p-2 text-red-600">Remover</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <form onSubmit={handleSubmit} className="form-container">
+              <div className="form-group">
+                <label>Nome da Requisição:</label>
+                <input
+                  type="text"
+                  name="nome_requisicao"
+                  value={formData.nome_requisicao}
+                  onChange={handleInputChange}
+                  required
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group">
+                <label>Contexto da Requisição:</label>
+                <textarea
+                  name="contexto_requisicao"
+                  value={formData.contexto_requisicao}
+                  onChange={handleInputChange}
+                  required
+                  rows="4"
+                  className="form-control"
+                />
+              </div>
+              <button type="submit" className="bg-green-200 p-2 mt-2 text-black fw-bolder rounded-2">Criar Requisição</button>
+            </form>
           </div>
-          <div>
-            <label>Contexto da Requisição:</label>
-            <textarea
-              name="contexto_requisicao"
-              value={formData.contexto_requisicao}
-              onChange={handleInputChange}
-              required
-              rows="4"
-            />
-          </div>
-          <button type="submit">Enviar Requisição</button>
-        </form>
+        </div>
       )}
     </div>
   );
