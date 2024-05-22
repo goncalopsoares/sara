@@ -1,9 +1,9 @@
-
-
+import axiosClient from "../axiosClient.js";
+import { redirect } from "react-router-dom";
+import { useStateContext } from "../contexts/contextprovider.jsx";
+import { Frown, LogOut } from 'react-feather';
 import React, { useState, useEffect } from 'react';
 import { LuClipboard } from "react-icons/lu";
-import axiosClient from '../axiosClient';
-import { useStateContext } from '../contexts/contextprovider';
 
 function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
     if (!show) return null;
@@ -27,7 +27,24 @@ function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, com
     );
 }
 
-const Users = () => {
+export default function Users() {
+    const { setUser, setToken, setId_utilizador } = useStateContext();
+
+    const onLogout = (ev) => {
+        ev.preventDefault();
+        axiosClient.post('/logout')
+            .then(() => {
+                setUser(null);
+                setToken(null);
+                setId_utilizador(null);
+                redirect('/login');
+            })
+            .catch((error) => {
+                console.error("Erro ao fazer logout:", error);
+                // Optional: handle logout errors
+            });
+    };
+
     const [requisicao, setRequisicao] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -58,7 +75,7 @@ const Users = () => {
                     setLoading(false);
                 });
         }
-    }, [user.id_utilizador]); // Adicionada a dependência correta
+    }, [user.id_utilizador]);
 
     const getCardColor = (estadoId) => {
         switch (estadoId) {
@@ -73,7 +90,32 @@ const Users = () => {
     };
 
     return (
-        <div>
+        <div className="container min-vh-100">
+            <div className="row h-100 justify-content-center align-items-center">
+                <div className="col-lg-6 col-md-8 col-sm-10 col-12">
+                    <div className="d-flex flex-column align-items-center justify-content-center">
+                        <div className="text-center txt-grey-700" style={{ marginBottom: "1rem" }}>
+                            <Frown className="txt-grey-700" style={{ marginBottom: "0.5rem" }} />
+                        </div>
+                        <div className="text-center txt-grey-700" style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
+                            UPS! Parece que esta página está em construção
+                        </div>
+                        <div className="text-center txt-grey-700" style={{ fontWeight: "300", marginBottom: "1rem" }}>
+                            Esta é apenas uma pequena lembrança de que estamos a trabalhar arduamente para desenvolver a melhor plataforma do deca.
+                        </div>
+                        <div className="text-center txt-grey-700" style={{ fontWeight: "300", marginBottom: "2rem" }}>
+                            Contudo, não tens de ficar preso nesta plataforma:
+                        </div>
+                        <div>
+                            <button className="btn btn-sara-primary d-flex align-items-center justify-content-center w-100" onClick={onLogout}>
+                                <LogOut style={{ marginRight: "2rem" }} />
+                                Log Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className="text-4xl mt-6 mb-4">Requisições Passadas</div>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
@@ -108,60 +150,7 @@ const Users = () => {
                 comentarioprofessor={modalData.comentarioprofessor}
                 comentariosara={modalData.comentariosara}
             />
-import axiosClient from "../axiosClient.js";
-import { redirect } from "react-router-dom";
-import { useStateContext } from "../contexts/contextprovider.jsx";
-import { Frown,LogOut } from 'react-feather';
-
-export default function Users() {
-    const { setUser, setToken, setId_utilizador } = useStateContext();
-
-    const onLogout = (ev) => {
-        ev.preventDefault();
-        axiosClient.post('/logout')
-            .then(() => {
-                setUser(null);
-                setToken(null);
-                setId_utilizador(null);
-                redirect('/login');
-            })
-            .catch((error) => {
-                console.error("Erro ao fazer logout:", error);
-                // Optional: handle logout errors
-            });
-    }
-
-    return (
-        <div className="container min-vh-100">
-            <div className="row h-100 justify-content-center align-items-center">
-                <div className="col-lg-6 col-md-8 col-sm-10 col-12">
-                    <div className="d-flex flex-column align-items-center justify-content-center">
-                        <div className="text-center txt-grey-700" style={{ marginBottom: "1rem" }}>
-                            <Frown className="txt-grey-700" style={{ marginBottom: "0.5rem" }} />
-                        </div>
-                        <div className="text-center txt-grey-700" style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
-                            UPS! Parece que esta página está em construção
-                        </div>
-                        <div className="text-center txt-grey-700" style={{ fontWeight: "300", marginBottom: "1rem" }}>
-                            Esta é apenas uma pequena lembrança de que estamos a trabalhar arduamente para desenvolver a melhor plataforma do deca.
-                        </div>
-                        <div className="text-center txt-grey-700" style={{ fontWeight: "300", marginBottom: "2rem" }}>
-                            Contudo, não tens de ficar preso nesta plataforma:
-                        </div>
-                        <div>
-                            <button className="btn btn-sara-primary d-flex align-items-center justify-content-center w-100" onClick={onLogout}>
-                                <LogOut style={{ marginRight: "2rem" }} />
-                                Log Out
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     );
-};
-
-export default Users;
-
-    );
 }
+
