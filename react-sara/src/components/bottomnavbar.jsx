@@ -7,8 +7,8 @@ const BottomNavBar = () => {
 
     const linkStyle = (path) => {
         return location.pathname === path
-            ? { width: 72, height: 72, background: "black", gap: 4 }
-            : { width: 72, height: 72, gap: 4 };
+            ? { background: "black", gap: 4 }
+            : { gap: 4 };
     };
 
     const iconStyle = (path) => {
@@ -39,14 +39,15 @@ const BottomNavBar = () => {
 
     return (
         <div
-            className="d-flex justify-content-start align-items-center gap-3 position-fixed bottom-0 start-0 end-0 p-3"
+            className="d-flex justify-content-around align-items-center position-fixed bottom-0 start-0 end-0 p-2 w-100"
             style={{
-                background:
-                    "linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.90) 100%)",
+                background: "linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.90) 100%)",
                 backdropFilter: "blur(4px)",
+                zIndex: 1000,
+                height: "5rem",
             }}
         >
-            <div className="col-3 text-center">
+            <div className="text-center flex-fill">
                 <Link
                     to="/home"
                     className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
@@ -56,7 +57,7 @@ const BottomNavBar = () => {
                     <span style={textStyle("/home")}>Home</span>
                 </Link>
             </div>
-            <div className="col-3 text-center">
+            <div className="text-center flex-fill">
                 <Link
                     to="/requisitar"
                     className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
@@ -66,8 +67,8 @@ const BottomNavBar = () => {
                     <span style={textStyle("/requisitar")}>Requisitar</span>
                 </Link>
             </div>
-            <div className="col-3 text-center">
-            <Link
+            <div className="text-center flex-fill">
+                <Link
                     to="/equipamentos"
                     className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
                     style={linkStyle("/equipamentos")}
@@ -76,8 +77,8 @@ const BottomNavBar = () => {
                     <span style={textStyle("/equipamentos")}>Equipamentos</span>
                 </Link>
             </div>
-            <div className="col-3 text-center ml-auto">
-            <Link
+            <div className="text-center flex-fill">
+                <Link
                     to="/users"
                     className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
                     style={linkStyle("/users")}
