@@ -1,32 +1,30 @@
-
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from '../images_logo/logo.svg';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../contexts/contextprovider';
 import { redirect } from 'react-router-dom';
 import { ShoppingCart } from 'react-feather';
+import { Link, useLocation } from "react-router-dom";
+
 
 
 export default function Header() {
 
-const { setUser, setToken, setId_utilizador} = useStateContext();
+    const location = useLocation();
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
 
-    const onLogout= (ev)=>{
-        ev.preventDefault();
-        axiosClient.post('/logout')
-            .then(({}) => {
-                setUser(null);
-                setToken(null);
-                setId_utilizador(null);
-                redirect('/login');
-            })
-            .catch((error) => {
-                console.error("Erro ao fazer logout:", error);
-                // Opcional: lidar com erros de logout
-            });
+        window.addEventListener("resize", handleResize);
 
-    }
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
 
     return(
 
@@ -43,13 +41,23 @@ const { setUser, setToken, setId_utilizador} = useStateContext();
             }}
         >
             <div className="d-flex justify-content-center" style={{padding:"0.5rem"}}>
+                <Link
+                    to="/home"
+                >
                 <img src={logo} style={{ width: "2rem", height: "auto"}} />
+                </Link>
             </div>
             <div style={{ fontSize: '0.5rem', textAlign: 'center', padding:"0.5rem" }}
                  className="flex flex-col items-center txt-grey-500"
             >
+                <Link
+                    to="/carrinho"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={{ color: location.pathname === "/carrinho" ? "black" : "#c2c2c2" }}
+                >
                 <ShoppingCart style={{ marginBottom: '0.2rem' }} />
-                <div>Carrinho</div>
+                {screenWidth > 350 && <span>Carrinho</span>}
+                </Link>
             </div>
 
 

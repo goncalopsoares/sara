@@ -1,41 +1,24 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, PlusCircle, Camera, User } from 'react-feather';
+import { Home, PlusCircle, Camera, User,LogOut,Bell } from 'react-feather';
+import {useState,useEffect} from "react";
 
 const BottomNavBar = () => {
     const location = useLocation();
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-    const linkStyle = (path) => {
-        return location.pathname === path
-            ? { background: "black", gap: 4 }
-            : { gap: 4 };
-    };
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
 
-    const iconStyle = (path) => {
-        return location.pathname === path
-            ? { width: 24, height: 24, position: "relative", color: "white" }
-            : { width: 24, height: 24, position: "relative", color: "#C2C2C2" };
-    };
+        window.addEventListener("resize", handleResize);
 
-    const textStyle = (path) => {
-        return location.pathname === path
-            ? {
-                  fontSize: 9,
-                  fontFamily: "Poppins",
-                  lineHeight: "10.80px",
-                  wordWrap: "break-word",
-                  color: "white",
-                  fontWeight: "bold",
-              }
-            : {
-                  fontSize: 9,
-                  fontFamily: "Poppins",
-                  fontWeight: "400",
-                  lineHeight: "10.80px",
-                  wordWrap: "break-word",
-                  color: "#C2C2C2",
-              };
-    };
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
 
     return (
         <div
@@ -45,46 +28,57 @@ const BottomNavBar = () => {
                 backdropFilter: "blur(4px)",
                 zIndex: 1000,
                 height: "5rem",
+                fontSize: '0.5rem',
             }}
         >
             <div className="text-center flex-fill">
                 <Link
                     to="/home"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
-                    style={linkStyle("/home")}
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={{ color: location.pathname === "/home" ? "black" : "#c2c2c2" }}
                 >
-                    <Home style={iconStyle("/home")} />
-                    <span style={textStyle("/home")}>Home</span>
+                    <Home/>
+                    {screenWidth > 350 && <span style={{paddingTop:"0.2rem"}}>Home</span>}
                 </Link>
             </div>
             <div className="text-center flex-fill">
                 <Link
                     to="/requisitar"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
-                    style={linkStyle("/requisitar")}
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={{ color: location.pathname === "/requisitar" ? "black" : "#c2c2c2" }}
                 >
-                    <PlusCircle style={iconStyle("/requisitar")} />
-                    <span style={textStyle("/requisitar")}>Requisitar</span>
+                    <PlusCircle/>
+                    {screenWidth > 350 && <span style={{paddingTop:"0.2rem"}}>Requisitar</span>}
                 </Link>
             </div>
             <div className="text-center flex-fill">
                 <Link
                     to="/equipamentos"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
-                    style={linkStyle("/equipamentos")}
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={{ color: location.pathname === "/equipamentos" ? "black" : "#c2c2c2" }}
                 >
-                    <Camera style={iconStyle("/equipamentos")} />
-                    <span style={textStyle("/equipamentos")}>Equipamentos</span>
+                    <Camera/>
+                    {screenWidth > 350 && <span style={{paddingTop:"0.2rem"}}>Equipamentos</span>}
+                </Link>
+            </div>
+            <div className="text-center flex-fill">
+                <Link
+                    to="/notificacoes"
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={{ color: location.pathname === "/notificacoes" ? "black" : "#c2c2c2" }}
+                >
+                    <Bell />
+                    {screenWidth > 350 && <span style={{paddingTop:"0.2rem"}}>Notificações</span>}
                 </Link>
             </div>
             <div className="text-center flex-fill">
                 <Link
                     to="/users"
-                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none navbar-button"
-                    style={linkStyle("/users")}
+                    className="d-flex flex-column justify-content-center align-items-center rounded text-decoration-none"
+                    style={{ color: location.pathname === "/users" ? "black" : "#c2c2c2" }}
                 >
-                    <User style={iconStyle("/users")} />
-                    <span style={textStyle("/users")}>Perfil</span>
+                    <User />
+                    {screenWidth > 350 && <span style={{paddingTop:"0.2rem"}}>Perfil</span>}
                 </Link>
             </div>
         </div>
