@@ -47,7 +47,8 @@ export default function DefaultLayout() {
                         <Outlet />
             
                     </main>
-                    <BottomNavBar />
+                    {(user.tipo_utilizador === 2 || user.tipo_utilizador === 3) ? <BottomNavBar /> : null}
+
                 </div>
             </div>
         </div>
