@@ -196,7 +196,7 @@ console.log(formData)
             <h4>Elementos do grupo</h4>
             <div className="select-container">
               <select onChange={handleUtilizadoresChange} className="select-dropdown">
-                <option value="">Selecione um utilizador</option>
+                <option value="">Selecione os elementos do grupo</option>
                 {utilizadores.filter(u => u.tipo_utilizador === 3 && u.id_utilizador !== user.id_utilizador && !selectedGroupMembers.some(s => s.id_utilizador === u.id_utilizador)).map(u => (
                   <option key={u.id_utilizador} value={u.id_utilizador}>
                     {u.nome_utilizador} - {u.numero_mecanografico_utilizador}

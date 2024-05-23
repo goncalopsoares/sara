@@ -33,6 +33,7 @@ class RequisicaoEquipamentoPresenter
                 'modelo_equipamento.cuidados_modelo_equipamento',
                 'modelo_equipamento_has_modelo_equipamento.camaras',
                 'modelo_equipamento_has_modelo_equipamento.objetivas',
+                'requisicao_has_equipamento.requisicao_id_requisicao',
                 'requisicao_has_equipamento.comentarios',
                 'requisicao_has_equipamento.data_inicio_requisicao',
                 'requisicao_has_equipamento.data_fim_requisicao'
