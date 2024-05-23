@@ -54,9 +54,24 @@ class RequisicaoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function ultimaRequisicao($id)
     {
-        //
+        try {
+            // Busca a última requisição para o utilizador com o role_utilizador = 3
+            $ultimaRequisicao = RequisicaoHasUtilizador::where('utilizador_id_utilizador', $id)
+                                ->where('role_utilizador', 3)
+                                ->orderBy('requisicao_id_requisicao', 'desc')
+                                ->first();
+
+            // Verifica se encontrou algum resultado
+            if ($ultimaRequisicao) {
+                return response()->json($ultimaRequisicao, 200);
+            } else {
+                return response()->json(['message' => 'Nenhuma requisição encontrada para este utilizador.'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao buscar a última requisição: ' . $e->getMessage()], 500);
+        }
     }
 
     /**

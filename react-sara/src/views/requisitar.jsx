@@ -4,11 +4,15 @@ import { useStateContext } from '../contexts/contextprovider';
 import Step1 from '../components/Requisitar/step_1';
 import Step2 from '../components/Requisitar/step_2';
 import Step3 from '../components/Requisitar/step_3';
+import Step4 from '../components/Requisitar/step_4';
+import Step5 from '../components/Requisitar/step_5';
 import "../App.css";
 import 'react-datepicker/dist/react-datepicker.css';
+import { FaArrowAltCircleRight } from "react-icons/fa";
 
 const Requisitar = () => {
-  const { user } = useStateContext();
+  const { user } = useStateContext(); // Adicionei user ao contexto
+  const { cart, setCart } = useStateContext();
   const [ucs, setUcs] = useState([]);
   const [selectedUc, setSelectedUc] = useState(null);
   const [professores, setProfessores] = useState([]);
@@ -23,10 +27,9 @@ const Requisitar = () => {
     requisicao_has_utilizadores: []
   });
   const [currentStep, setCurrentStep] = useState(1);
-
-  // State for step 3
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [requestId, setRequestId] = useState(null);
 
   useEffect(() => {
     axiosClient.get(`/estudantehome/uc/${user.id_utilizador}`)
@@ -59,12 +62,13 @@ const Requisitar = () => {
     axiosClient.get(`/utilizadores`)
       .then(response => {
         const ucUtilizadores = response.data.find(u => u.id_uc_contexto === uc.id_uc_contexto)?.utilizador || [];
-        setUtilizadores(ucUtilizadores);
+        const filteredUtilizadores = ucUtilizadores.filter(u => u.id_utilizador !== user.id_utilizador);
+        setUtilizadores(filteredUtilizadores);
 
-        const ucProfessores = ucUtilizadores.filter(u => u.tipo_utilizador === 2);
+        const ucProfessores = filteredUtilizadores.filter(u => u.tipo_utilizador === 2);
         setProfessores(ucProfessores);
 
-        const sara = ucUtilizadores.filter(u => u.tipo_utilizador === 1).map(u => ({
+        const sara = filteredUtilizadores.filter(u => u.tipo_utilizador === 1).map(u => ({
           utilizador_id_utilizador: u.id_utilizador,
           role_utilizador: 1,
           pin_recolha: pinRecolha,
@@ -109,6 +113,12 @@ const Requisitar = () => {
     });
   };
 
+  console.log(formData)
+  console.log(cart, "cart")
+console.log(requestId, "id")
+console.log(startDate, endDate)
+
+
   const handleUtilizadoresChange = (e) => {
     const selectedUserId = parseInt(e.target.value);
     if (selectedUserId && !selectedGroupMembers.some(u => u.id_utilizador === selectedUserId)) {
@@ -140,27 +150,60 @@ const Requisitar = () => {
   const handleDateSubmit = (start, end) => {
     setStartDate(start);
     setEndDate(end);
-    console.log("Selected Start Date: ", start);
-    console.log("Selected End Date: ", end);
-    // Handle the date submission, e.g., proceed to the next step or submit the form
+    goToNextStep();
   };
 
   const generateRandomPin = () => {
     return Math.random().toString(36).substring(2, 6);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const finalData = {
-      ...formData
-    };
-
-    axiosClient.post('/requisicao', finalData)
+  const fetchLastRequestId = () => {
+    axiosClient.get(`/requisicao/ultimarequisicao/${user.id_utilizador}`)
       .then(response => {
-        console.log("Requisição criada com sucesso:", response.data);
+        setRequestId(response.data.requisicao_id_requisicao);
+        goToNextStep();
+      })
+      .catch(error => {
+        console.error("Erro ao obter última requisição:", error);
+      });
+  };
+
+  const handleSubmitStep2 = (e) => {
+    e.preventDefault();
+    axiosClient.post('/requisicao', formData)
+      .then(response => {
+        fetchLastRequestId();
+        console.log("criada a requisicao")
       })
       .catch(error => {
         console.error("Erro ao criar requisição:", error);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    submitRequest();
+  };
+
+  const submitRequest = () => {
+    const requestBody = {
+      requisicao_id_requisicao: requestId,
+      estado_id_estado: 1,
+      data_estado: new Date().toISOString(),
+      requisicao_has_equipamentos: cart.map(equipment => ({
+        requisicao_id_requisicao: requestId,
+        equipamento_id_equipamento: equipment.equipamento_id_equipamento,
+        data_inicio_requisicao: new Date(startDate).toISOString(),
+        data_fim_requisicao: new Date(endDate).toISOString(),
+      })),
+    };
+
+    axiosClient.post(`/requisicao/${requestId}`, requestBody)
+      .then(response => {
+        console.log("Requisição finalizada com sucesso:", response.data);
+      })
+      .catch(error => {
+        console.error("Erro ao finalizar requisição:", error);
       });
   };
 
@@ -168,12 +211,13 @@ const Requisitar = () => {
     setCurrentStep(currentStep + 1);
   };
 
-  const goToPreviousStep = () => {
-    setCurrentStep(currentStep - 1);
+  const goToStep5 = () => {
+    setCurrentStep(5);
   };
 
   console.log(formData)
-  console.log(startDate, endDate)
+  console.log(requestId, "id")
+  console.log(cart, "cart")
 
   return (
     <div>
@@ -181,11 +225,14 @@ const Requisitar = () => {
       <div className="breadcrumb">
         {currentStep && (
           <>
-            <div onClick={() => setCurrentStep(1)} className={`step ${currentStep === 1 ? 'active' : ''}`}>UC</div>
-            <div onClick={() => setCurrentStep(2)} className={`step ${currentStep === 2 ? 'active' : ''}`}>Info</div>
-            <div onClick={() => setCurrentStep(3)} className={`step ${currentStep === 3 ? 'active' : ''}`}>Datas</div>
-
-            {/* <div className={`step ${currentStep === 3 ? 'active' : ''}`}>Datas</div>  */}
+            <div  className={`step ${currentStep === 1 ? 'active' : ''}`}>UC</div>
+            <div  className={`step ${currentStep === 2 ? 'active' : ''}`}>Info</div>
+            <div  className={`step ${currentStep === 3 ? 'active' : ''}`}>Datas</div>
+            <div  className={`step ${currentStep === 4 ? 'active' : ''}`}>Equipments</div>
+            <div  className={`step ${currentStep === 5 ? 'active' : ''}`}>Summary</div>
+            {selectedUc && selectedProfessor && (
+              <FaArrowAltCircleRight className='text-end' size={40} onClick={goToNextStep} />
+            )}
           </>
         )}
       </div>
@@ -198,7 +245,6 @@ const Requisitar = () => {
           professores={professores}
           handleUcSelect={handleUcSelect}
           handleProfessorSelect={handleProfessorSelect}
-          goToNextStep={goToNextStep}
         />
       )}
 
@@ -210,13 +256,34 @@ const Requisitar = () => {
           handleRemoveGroupMember={handleRemoveGroupMember}
           formData={formData}
           handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
+          handleSubmit={handleSubmitStep2}
         />
       )}
 
       {currentStep === 3 && (
         <Step3
           handleDateSubmit={handleDateSubmit}
+        />
+      )}
+
+      {currentStep === 4 && (
+        <Step4
+          selectedUc={selectedUc}
+          startDate={startDate}
+          endDate={endDate}
+          handleAddToCart={(equipamento) => setCart([...cart, equipamento])}
+          goToNextStep={goToNextStep}
+          goToStep5={goToStep5}
+        />
+      )}
+
+      {currentStep === 5 && (
+        <Step5
+          requestId={requestId}
+          startDate={startDate}
+          endDate={endDate}
+          formData={formData}
+          handleSubmit={handleSubmit}
         />
       )}
     </div>

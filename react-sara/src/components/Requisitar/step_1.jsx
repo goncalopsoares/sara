@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaArrowAltCircleRight } from "react-icons/fa";
+
 
 const Step1 = ({ ucs, selectedUc, selectedProfessor, professores, handleUcSelect, handleProfessorSelect, goToNextStep }) => {
   return (
@@ -25,9 +25,7 @@ const Step1 = ({ ucs, selectedUc, selectedProfessor, professores, handleUcSelect
           )}
         </div>
       ))}
-      {selectedUc && selectedProfessor && (
-        <FaArrowAltCircleRight className='text-end' size={40} onClick={goToNextStep} />
-      )}
+     
     </div>
   );
 };
