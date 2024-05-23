@@ -98,6 +98,19 @@ input {
     background-color: #3c3c3c;
 }
 
+.background-green-50 {
+    background-color: #F3FAE6;
+}
+
+.background-green-500 {
+    background-color: #92D400;
+}
+
+.txt-green-900 {
+    color:#1C7A00;
+}
+
+
 .btn-sara-primary {
     color: white;
     background-color: #1C7A00;
@@ -185,5 +198,17 @@ input {
         width: 50%;
         padding: 4rem;
     }
+}
+
+.mobile-title {
+    color: black;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.mobile-subtitle {
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 200;
 }
 
