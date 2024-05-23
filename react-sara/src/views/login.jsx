@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Eye, EyeOff } from 'react-feather';
+import { Eye, EyeOff,XCircle } from 'react-feather';
 import { useState, useRef } from 'react';
 import logo from '../images_logo/logo.svg';
 import { useStateContext } from '../contexts/contextprovider';
@@ -9,7 +9,7 @@ import axiosClient from '../axiosClient';
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
-
+    const [isMessageVisible, setIsMessageVisible] = useState(true);
     const location = useLocation();
     const successMessage = location.state?.successMessage;
 
@@ -52,20 +52,45 @@ export default function Login() {
     }
   };
 
+    const handleCloseMessage = () => {
+        setIsMessageVisible(false);
+    };
+
     return (
         <div>
-     {successMessage && (
-    <div style={{
-        color: 'white',
-        fontSize: '2rem',
-        textAlign: 'center',
-        margin: '1.5rem',
-        backgroundColor: '#198754'
-    }}>
-        {successMessage}
-    </div>
-)}
-      <div className="login-container">
+            {successMessage && isMessageVisible && (
+                <div style={{
+                    position: 'absolute',
+                    top: '2rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}>
+                    <div
+                        style={{
+                            color: 'white',
+                            fontSize: '0.8rem',
+                            fontWeight: 600,
+                            textAlign: 'right',
+                            backgroundColor: '#92D400',
+                            borderRadius: 10,
+                            padding: '1rem',
+                            position: 'relative',
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        {successMessage}
+                        <XCircle
+                            onClick={handleCloseMessage}
+                            style={{ marginLeft: '0.5rem', cursor: 'pointer' }}
+                        />
+                    </div>
+                </div>
+            )}
+
+            <div className="login-container">
       <div className="login-image-container">
           <img
               src={background}

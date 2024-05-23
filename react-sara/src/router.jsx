@@ -7,6 +7,8 @@ import Users from './views/users.jsx';
 import Home from './views/home.jsx';
 import Requisitar from './views/requisitar.jsx';
 import Equipamentos from './views/equipamentos.jsx';
+import Notificacoes from "./views/Notificacoes";
+import Carrinho from "./views/Carrinho";
 
 
 
@@ -31,9 +33,17 @@ const router = createBrowserRouter(
                         {
                             path: '/equipamentos',
                             element: <Equipamentos/>,
-                            }
+                            },
+                {
+                    path: "/notificacoes",
+                    element: <Notificacoes/>
+                },
+                {
+                    path: "/carrinho",
+                    element: <Carrinho/>
+                }
 
-            
+
             ]
         },
         {

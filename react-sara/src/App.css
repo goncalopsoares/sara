@@ -191,3 +191,32 @@ input {
 .navbar-button:hover, .navbar-button:active {
     background-color: #F0F0F0; /* g-300 */
 }
+
+.mt-6
+{
+    margin-top: 5rem;
+}
+
+
+.breadcrumb {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .step {
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 100%;
+    text-align: center;
+    background-color: #d3d3d3;
+    color: #090909;
+    font-weight: bold;
+  }
+  
+  .step.active {
+    background-color: #b4e0b6;
+  }
+
+  

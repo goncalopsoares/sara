@@ -19,13 +19,9 @@ class RequisicaoEquipamentoPresenter
             ->leftJoin('modelo_equipamento_has_modelo_equipamento', 'modelo_equipamento.id_modelo_equipamento', '=', 'modelo_equipamento_has_modelo_equipamento.camaras')
             ->where('equipamento_has_uc.uc_id_uc', $id_uc)
             ->select(
-                'equipamento_has_uc.uc_id_uc',
                 'modelo_equipamento.id_modelo_equipamento',
                 'marca_equipamento.nome_marca_equipamento',
                 'modelo_equipamento.nome_modelo_equipamento',
-                'equipamento.observacoes_equipamento',
-                'sub_categoria.nome_sub_categoria',
-                'categoria.nome_categoria',
                 'modelo_equipamento.descricao_modelo_equipamento',
                 'modelo_equipamento.imagem_modelo_equipamento',
                 'modelo_equipamento.especificacoes_modelo_equipamento',
@@ -33,12 +29,70 @@ class RequisicaoEquipamentoPresenter
                 'modelo_equipamento.cuidados_modelo_equipamento',
                 'modelo_equipamento_has_modelo_equipamento.camaras',
                 'modelo_equipamento_has_modelo_equipamento.objetivas',
+                'equipamento.id_equipamento',
+                'equipamento.observacoes_equipamento',
+                'sub_categoria.nome_sub_categoria',
+                'categoria.nome_categoria',
+                'requisicao_has_equipamento.requisicao_id_requisicao',
                 'requisicao_has_equipamento.comentarios',
                 'requisicao_has_equipamento.data_inicio_requisicao',
                 'requisicao_has_equipamento.data_fim_requisicao'
             );
 
+        $results = $query->get();
 
-        return $query->get();
+        $groupedResults = [];
+        foreach ($results as $result) {
+            $id_modelo = $result->id_modelo_equipamento;
+            $id_equipamento = $result->id_equipamento;
+
+            // Group by id_modelo_equipamento
+            if (!isset($groupedResults[$id_modelo])) {
+                $groupedResults[$id_modelo] = $result->only([
+                    'id_modelo_equipamento',
+                    'nome_marca_equipamento',
+                    'nome_modelo_equipamento',
+                    'descricao_modelo_equipamento',
+                    'imagem_modelo_equipamento',
+                    'especificacoes_modelo_equipamento',
+                    'aplicablidade_modelo_equipamento',
+                    'cuidados_modelo_equipamento',
+                    'camaras',
+                    'objetivas'
+                ]);
+                $groupedResults[$id_modelo]['equipamentos'] = [];
+            }
+
+            // Group by id_equipamento within each id_modelo_equipamento
+            if (!isset($groupedResults[$id_modelo]['equipamentos'][$id_equipamento])) {
+                $groupedResults[$id_modelo]['equipamentos'][$id_equipamento] = $result->only([
+                    'id_equipamento',
+                    'observacoes_equipamento',
+                    'nome_sub_categoria',
+                    'nome_categoria'
+                ]);
+                $groupedResults[$id_modelo]['equipamentos'][$id_equipamento]['requisicoes'] = [];
+            }
+
+            // Add requisition details under each equipamento
+            $requisicao = $result->only([
+                'requisicao_id_requisicao',
+                'comentarios',
+                'data_inicio_requisicao',
+                'data_fim_requisicao'
+            ]);
+
+            // Check if the requisition already exists to avoid duplicates
+            if (!in_array($requisicao, $groupedResults[$id_modelo]['equipamentos'][$id_equipamento]['requisicoes'])) {
+                $groupedResults[$id_modelo]['equipamentos'][$id_equipamento]['requisicoes'][] = $requisicao;
+            }
+        }
+
+        // Convert the nested arrays into the desired structure
+        foreach ($groupedResults as &$groupedResult) {
+            $groupedResult['equipamentos'] = array_values($groupedResult['equipamentos']);
+        }
+
+        return array_values($groupedResults);
     }
 }
