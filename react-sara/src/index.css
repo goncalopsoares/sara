@@ -198,6 +198,10 @@ input {
         width: 50%;
         padding: 4rem;
     }
+
+    .truncate-text {
+        max-width: 35ch;
+    }
 }
 
 .mobile-title {
@@ -210,5 +214,11 @@ input {
     color: black;
     font-size: 1.2rem;
     font-weight: 200;
+}
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
