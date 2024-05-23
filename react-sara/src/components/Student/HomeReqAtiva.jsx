@@ -3,7 +3,7 @@ import { LuClipboard } from 'react-icons/lu';
 
 export default function HomeReqAtiva(props){
 
-    const {requisicao,handleShowMore} = props;
+    const {requisicao,handleShowMore,req} = props;
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -48,17 +48,6 @@ export default function HomeReqAtiva(props){
                                     <LuClipboard className='inline-block align-middle me-3'/><span className="text-uppercase" style={{fontSize:"0.8rem"}}>Ver Requisição</span>
                                 </button>
                             </div>
-{/*                            <p>{req.nome_uc_contexto}</p>
-                            <h3 className="text-2xl font-bold">{req.nome_requisicao}</h3>
-                            <p className='text-gray-500 text-end mt-2 mb-2'>{ultimoEstado.nome_estado}</p>
-                            <p className='text-gray-500'><strong>Data recolha:</strong> {req.data_inicio_requisicao}</p>
-                            <p className='text-gray-500'><strong>Data devolução:</strong> {req.data_fim_requisicao}</p>
-                            <button
-                                onClick={() => handleShowMore(req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
-                                className='mt-4 border-r-2 text-white bg-green-950 p-2 rounded'
-                            >
-                                <LuClipboard className='inline-block align-middle me-3 ' />Ver requisição
-                            </button>*/}
                         </div>
                     );
                 }

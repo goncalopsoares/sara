@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { LuClipboard } from "react-icons/lu";
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../contexts/contextprovider';
 import HomeReqAtiva from "../components/Student/HomeReqAtiva";
 import HomeUcsAtiva from "../components/Student/HomeUcsAtiva";
 
 
-function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
+/*function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
     if (!show) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" style={{fontSize:"0.2rem"}}>
             <div className="bg-white p-6 rounded-lg">
                 <button onClick={onClose} className="float-right text-red-500">Close</button>
                 {equipamentos.map((equipamento, index) => (
@@ -26,7 +25,7 @@ function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, com
             </div>
         </div>
     );
-}
+}*/
 
 const Home = () => {
     const [requisicao, setRequisicao] = useState([]);
@@ -81,26 +80,11 @@ const Home = () => {
         }
     }, [user.id_utilizador]); // Adicionada a dependência correta
 
-/*    const getCardColor = (estadoId) => {
-        switch (estadoId) {
-            case 1:
-                return 'bg-yellow-100';
-            case 3:
-                return 'bg-blue-100';
-            case 5:
-                return 'bg-orange-100';
-            case 6:
-                return 'bg-red-100';
-            default:
-                return 'bg-white';
-        }
-    };*/
-
     return (
         <>
             <div style={{marginBottom:"4rem"}}>
             <div style={{marginBottom:"1rem"}}>
-                <div className="mobile-title">Olá, {user.nome_utilizador.split(" ")[0]}</div>
+                <div className="mobile-title">Olá, {user.nome_utilizador?.split(" ")[0]}</div>
             </div>
 
             {/* Requisições Ativas */}
@@ -117,6 +101,7 @@ const Home = () => {
                                     <HomeReqAtiva
                                         requisicao={requisicao}
                                         handleShowMore={handleShowMore}
+                                        req={req}
                                     />
                                 );
                             }
@@ -140,7 +125,21 @@ const Home = () => {
                 </div>
             </div>
             </div>
+            {/*<Modal
+                show={modalData.show}
+                onClose={handleCloseModal}
+                equipamentos={modalData.equipamentos}
+                contexto={modalData.contexto}
+                comentarioprofessor={modalData.comentarioprofessor}
+                comentariosara={modalData.comentariosara}
+            />*/}
         </>
+    );
+};
+
+export default Home;
+
+
 /*        <div>
             <div className="text-4xl mt-6 mb-4">Requisições Ativas</div>
             {loading && <p>Loading...</p>}
@@ -193,7 +192,3 @@ const Home = () => {
         </div>
 
             */
-    );
-};
-
-export default Home;
