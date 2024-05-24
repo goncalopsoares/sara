@@ -39,7 +39,7 @@ Route::post('requisicao/avaliar/{id}', [RequisicaoController::class, 'avaliarReq
 
 //Rotas para os SARA
 Route::get('/sara/validar', [SaraHomeController::class, 'saraValidar']); //pagina inicial -> informacoes das requisicao por validar, com utilizadores
-Route::get('/sara/recolher', [SaraHomeController::class, 'saraRecolherDevolver']); //pagina inicial -> informacoes das requisicao por recolher e devolver, com utilizadores
+Route::get('/sara/recolher/{data}', [SaraHomeController::class, 'saraRecolherDevolver']); //pagina inicial -> informacoes das requisicao por recolher e devolver, com utilizadores
 Route::get('/sara/detalherequisicao/{id}', [SaraHomeController::class, 'saraEquipamento']); //pagina inicial -> informacoes das requisicoes -> nome, contexto, datas de inicio e fim, equipamentos, comentarios sara e estado, onde o professor está. ->necessário ver também a data do ultimo estado para perceber se ele já foi ou não validado.
 Route::post('/sara/atualizarestado/{id}', [SaraHomeController::class, 'atualizarEstado']); //atualizar estado da requisicao -> comentario so deve ser elaborado se a requisicao mudar para o estado 4 ou 5 (confirmar ou rejeitar)
 

@@ -4,6 +4,7 @@ import BottomNavBar from "./bottomnavbar";
 import Header from "./header";
 import { useEffect } from "react";
 import axiosClient from "../axiosClient";
+import TopNavbar from "./TopNavbar";
 
 
 export default function DefaultLayout() {
@@ -41,11 +42,11 @@ export default function DefaultLayout() {
         <div>
             <div id="defaultLayout">
                 <div>
-                    <Header />
+                    {(user.tipo_utilizador === 2 || user.tipo_utilizador === 3) ? <Header /> : null}
                     <main className="p-4">
                     {location.pathname === '/' && (
                             <>
-                                <h1 className="mt-4 text-green-600 fw-bolder">
+                                <h1 clsassName="mt-4 text-green-600 fw-bolder">
                                     {user.nome_utilizador},
                                 </h1>
                                 <h1 className='indent-3'>bem vindo de novo!!!</h1>
@@ -58,7 +59,7 @@ export default function DefaultLayout() {
                         <Outlet />
 
                     </main>
-                    {(user.tipo_utilizador === 2 || user.tipo_utilizador === 3) ? <BottomNavBar /> : null}
+                    {(user.tipo_utilizador === 2 || user.tipo_utilizador === 3) ? <BottomNavBar /> : <TopNavbar />}
 
                 </div>
             </div>

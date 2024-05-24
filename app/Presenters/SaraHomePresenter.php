@@ -3,28 +3,34 @@
 namespace App\Presenters;
 
 use App\Models\Requisicao;
+use Illuminate\Support\Facades\DB;
+use App\Models\RequisicaoHasEstado;
 
 class SaraHomePresenter
 {
     public function getSaraPorValidar()
     {
+        $subQuery = RequisicaoHasEstado::select('requisicao_id_requisicao', DB::raw('MAX(data_estado) as latest_date'))
+            ->groupBy('requisicao_id_requisicao');
+
         $query = Requisicao::leftJoin('requisicao_has_utilizador', 'requisicao.id_requisicao', '=', 'requisicao_has_utilizador.requisicao_id_requisicao')
             ->leftJoin('utilizador', 'requisicao_has_utilizador.utilizador_id_utilizador', '=', 'utilizador.id_utilizador')
             ->leftJoin('requisicao_has_estado', 'requisicao.id_requisicao', '=', 'requisicao_has_estado.requisicao_id_requisicao')
             ->leftJoin('estado', 'requisicao_has_estado.estado_id_estado', '=', 'estado.id_estado')
-            ->where(function ($query) {
-                $query->whereBetween('requisicao_has_estado.data_estado', ['2024-05-13 00:00:00', '2024-05-13 23:59:00'])
-                    ->whereIn('requisicao_has_estado.estado_id_estado', [3, 4, 5]);
+            ->leftJoin('requisicao_has_equipamento', 'requisicao.id_requisicao', '=', 'requisicao_has_equipamento.requisicao_id_requisicao')
+            ->leftJoin('uc_contexto', 'requisicao.uc_contexto_id_uc_contexto', '=', 'uc_contexto.id_uc_contexto')
+            ->joinSub($subQuery, 'latest', function ($join) {
+                $join->on('requisicao_has_estado.requisicao_id_requisicao', '=', 'latest.requisicao_id_requisicao')
+                    ->on('requisicao_has_estado.data_estado', '=', 'latest.latest_date');
             })
-            ->orWhere(function ($query) {
-                $query->whereBetween('requisicao_has_estado.data_estado', ['2024-05-13 00:00:00', '2024-05-13 23:59:00'])
-                    ->whereIn('requisicao_has_estado.estado_id_estado', [3, 4, 5]);
-            })
+            ->where('requisicao_has_estado.estado_id_estado', 3)
             ->select(
                 'requisicao.id_requisicao',
                 'requisicao.nome_requisicao',
+                'uc_contexto.nome_uc_contexto',
                 'requisicao.avaliacao_requisicao',
-                'estado.nome_estado',
+                'requisicao_has_equipamento.data_inicio_requisicao',
+                'requisicao_has_equipamento.data_fim_requisicao',
                 'requisicao_has_estado.data_estado',
                 'requisicao_has_utilizador.role_utilizador',
                 'requisicao_has_utilizador.pin_recolha',
@@ -33,19 +39,16 @@ class SaraHomePresenter
                 'utilizador.numero_mecanografico_utilizador',
                 'utilizador.email_utilizador',
                 'utilizador.avatar_utilizador',
-                'utilizador.tipo_utilizador'
+                'utilizador.tipo_utilizador',
             );
 
         $results = $query->get();
-
 
         $groupedResults = [];
         foreach ($results as $result) {
             $id_requisicao = $result->id_requisicao;
             if (!isset($groupedResults[$id_requisicao])) {
-                // Copy the result as the base for this requisition
                 $groupedResults[$id_requisicao] = $result->getAttributes();
-                // Initialize an empty array for the equipment
                 $groupedResults[$id_requisicao]['utilizador'] = [];
             }
 
@@ -55,44 +58,51 @@ class SaraHomePresenter
                 'email_utilizador' => $result->email_utilizador,
                 'avatar_utilizador' => $result->avatar_utilizador,
                 'tipo_utilizador' => $result->tipo_utilizador,
+                'role_utilizador' => $result->role_utilizador,
             ];
 
-            // Check if this equipment is already in the 'equipamento' array
             if (!in_array($utilizador, $groupedResults[$id_requisicao]['utilizador'])) {
-                // If not, add it to the 'equipamento' array
                 $groupedResults[$id_requisicao]['utilizador'][] = $utilizador;
             }
+
             // Remove the equipment information from the base requisition array
             unset($groupedResults[$id_requisicao]['nome_utilizador']);
             unset($groupedResults[$id_requisicao]['tipo_utilizador']);
             unset($groupedResults[$id_requisicao]['numero_mecanografico_utilizador']);
             unset($groupedResults[$id_requisicao]['email_utilizador']);
             unset($groupedResults[$id_requisicao]['avatar_utilizador']);
+            unset($groupedResults[$id_requisicao]['role_utilizador']);
         }
 
         return array_values($groupedResults);
     }
 
 
-    public function getSaraPorRecolherDevolver()
+    public function getSaraPorRecolherDevolver($data)
     {
         $query = Requisicao::leftJoin('requisicao_has_utilizador', 'requisicao.id_requisicao', '=', 'requisicao_has_utilizador.requisicao_id_requisicao')
             ->leftJoin('utilizador', 'requisicao_has_utilizador.utilizador_id_utilizador', '=', 'utilizador.id_utilizador')
             ->leftJoin('requisicao_has_estado', 'requisicao.id_requisicao', '=', 'requisicao_has_estado.requisicao_id_requisicao')
             ->leftJoin('estado', 'requisicao_has_estado.estado_id_estado', '=', 'estado.id_estado')
-            ->where(function ($query) {
-                $query->whereBetween('requisicao_has_estado.data_estado', ['2024-05-13 00:00:00', '2024-05-13 23:59:00'])
-                    ->whereIn('requisicao_has_estado.estado_id_estado', [5, 6, 7]);
-            })
-            ->orWhere(function ($query) {
-                $query->whereBetween('requisicao_has_estado.data_estado', ['2024-05-13 00:00:00', '2024-05-13 23:59:00'])
-                    ->whereIn('requisicao_has_estado.estado_id_estado', [5, 6, 7]);
+            ->leftJoin('requisicao_has_equipamento', 'requisicao.id_requisicao', '=', 'requisicao_has_equipamento.requisicao_id_requisicao')
+            ->leftJoin('uc_contexto', 'requisicao.uc_contexto_id_uc_contexto', '=', 'uc_contexto.id_uc_contexto')
+            ->where(function ($query) use ($data) {
+                $query->where(function ($query) use ($data) {
+                    $query->where(DB::raw('DATE(requisicao_has_equipamento.data_inicio_requisicao)'), $data)
+                        ->whereIn('requisicao_has_estado.estado_id_estado', [5, 7]);
+                })
+                ->orWhere(function ($query) use ($data) {
+                    $query->where(DB::raw('DATE(requisicao_has_equipamento.data_fim_requisicao)'), $data)
+                        ->whereIn('requisicao_has_estado.estado_id_estado', [6, 7]);
+                });
             })
             ->select(
                 'requisicao.id_requisicao',
                 'requisicao.nome_requisicao',
+                'uc_contexto.nome_uc_contexto',
                 'requisicao.avaliacao_requisicao',
-                'estado.nome_estado',
+                'requisicao_has_equipamento.data_inicio_requisicao',
+                'requisicao_has_equipamento.data_fim_requisicao',
                 'requisicao_has_estado.data_estado',
                 'requisicao_has_utilizador.role_utilizador',
                 'requisicao_has_utilizador.pin_recolha',
@@ -103,17 +113,15 @@ class SaraHomePresenter
                 'utilizador.avatar_utilizador',
                 'utilizador.tipo_utilizador'
             );
-
+        
         $results = $query->get();
-
+        
 
         $groupedResults = [];
         foreach ($results as $result) {
             $id_requisicao = $result->id_requisicao;
             if (!isset($groupedResults[$id_requisicao])) {
-                // Copy the result as the base for this requisition
                 $groupedResults[$id_requisicao] = $result->getAttributes();
-                // Initialize an empty array for the equipment
                 $groupedResults[$id_requisicao]['utilizador'] = [];
             }
 
@@ -123,19 +131,20 @@ class SaraHomePresenter
                 'email_utilizador' => $result->email_utilizador,
                 'avatar_utilizador' => $result->avatar_utilizador,
                 'tipo_utilizador' => $result->tipo_utilizador,
+                'role_utilizador' => $result->role_utilizador,
             ];
 
-            // Check if this equipment is already in the 'equipamento' array
             if (!in_array($utilizador, $groupedResults[$id_requisicao]['utilizador'])) {
-                // If not, add it to the 'equipamento' array
                 $groupedResults[$id_requisicao]['utilizador'][] = $utilizador;
             }
+
             // Remove the equipment information from the base requisition array
             unset($groupedResults[$id_requisicao]['nome_utilizador']);
             unset($groupedResults[$id_requisicao]['tipo_utilizador']);
             unset($groupedResults[$id_requisicao]['numero_mecanografico_utilizador']);
             unset($groupedResults[$id_requisicao]['email_utilizador']);
             unset($groupedResults[$id_requisicao]['avatar_utilizador']);
+            unset($groupedResults[$id_requisicao]['role_utilizador']);
         }
 
         return array_values($groupedResults);

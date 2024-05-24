@@ -35,10 +35,10 @@ class SaraHomeController extends Controller
         }
     }
 
-    public function saraRecolherDevolver()
+    public function saraRecolherDevolver($data)
     {
         try {
-            $response = $this->saraPorRecolherDevolverPresenter->getSaraPorRecolherDevolver();
+            $response = $this->saraPorRecolherDevolverPresenter->getSaraPorRecolherDevolver($data);
             return response()->json($response);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro ao obter requisições' . $e->getMessage()], 500);
