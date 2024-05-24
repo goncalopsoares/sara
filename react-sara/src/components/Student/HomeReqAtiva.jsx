@@ -11,7 +11,6 @@ export default function HomeReqAtiva(props) {
         return date.toLocaleDateString('pt-PT', options);
     };
 
-
     return (
         <>
             {requisicao.map(req => {
