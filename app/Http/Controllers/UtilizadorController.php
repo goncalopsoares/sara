@@ -7,6 +7,7 @@ use App\Models\Categoria;
 use App\Models\UcContexto;
 use App\Models\Utilizador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UtilizadorController extends Controller
 {
@@ -19,6 +20,28 @@ class UtilizadorController extends Controller
         
         return response()->json($UcHasUtilizador);
     }
+
+
+    public function nomesUtilizadores()
+    {
+
+        try {
+            // Buscar todos os utilizadores com os campos nome_utilizador e id_utilizador
+            $utilizadores = DB::table('utilizador')->select('id_utilizador', 'nome_utilizador')->get();
+    
+            // Verifica se encontrou algum resultado
+            if ($utilizadores->isEmpty()) {
+                return response()->json(['message' => 'Nenhum utilizador encontrado.'], 404);
+            } else {
+                return response()->json($utilizadores, 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao buscar os utilizadores: ' . $e->getMessage()], 500);
+        }
+
+
+    }
+
 
     /**
      * Show the form for creating a new resource.

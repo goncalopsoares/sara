@@ -6,17 +6,25 @@ const Step3 = ({ handleDateSubmit }) => {
   const [selectedRange, setSelectedRange] = useState([null, null]);
   const [error, setError] = useState(null);
 
+  const setToSpecificTime = (date, hours, minutes) => {
+    if (!date) return null;
+    const newDate = new Date(date);
+    newDate.setHours(hours, minutes, 0, 0);
+    return newDate;
+  };
+
   const handleChange = (dates) => {
-    const [start, end] = dates;
+    let [start, end] = dates;
     const maxEndDate = start ? new Date(start.getTime() + 5 * 24 * 60 * 60 * 1000) : null;
 
     if (end && end > maxEndDate) {
-      setSelectedRange([start, maxEndDate]);
+      end = maxEndDate;
       setError('Intervalo máximo de 5 dias.');
     } else {
-      setSelectedRange(dates);
       setError(null);
     }
+
+    setSelectedRange([start, end]);
   };
 
   const handleSubmit = (e) => {
@@ -25,7 +33,10 @@ const Step3 = ({ handleDateSubmit }) => {
       setError('Selecione as datas de início e fim.');
       return;
     }
-    handleDateSubmit(selectedRange[0], selectedRange[1]);
+
+    const startWithTime = setToSpecificTime(selectedRange[0], 14, 0);
+    const endWithTime = setToSpecificTime(selectedRange[1], 12, 0);
+    handleDateSubmit(startWithTime, endWithTime);
   };
 
   return (
