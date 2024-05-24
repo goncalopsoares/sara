@@ -76,7 +76,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
             {isAvailable(equipamento.equipamentos[0]?.requisicoes) ? (
               <button className='text-green-500' onClick={() => handleAddEquipmentToCart(equipamento)}>Add to Cart</button>
             ) : (
-              <p>Not available</p>
+              <p className='text-red-600'>Not available</p>
             )}
           </div>
         ))}
@@ -110,7 +110,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
               {cart.map((item, index) => (
                 <li key={index}>
                   {item.nome_modelo_equipamento} - {item.nome_marca_equipamento}
-                  <button className='text-red-500' onClick={() => handleRemoveFromCart(item)}>  Remove</button>
+                  <button className='text-red-600 font-bold indent-3' onClick={() => handleRemoveFromCart(item)}>  Remove</button>
                 </li>
               ))}
             </ul>
