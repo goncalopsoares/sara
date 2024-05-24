@@ -1,9 +1,10 @@
+// HomeReqPassada.jsx
+
 import React from 'react';
 import { LuClipboard } from 'react-icons/lu';
 
-export default function HomeReqAtiva(props) {
-
-    const {requisicao,handleShowMore} = props;
+export default function HomeReqPassada(props) {
+    const { requisicao, handleShowMore, req } = props;
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -11,15 +12,14 @@ export default function HomeReqAtiva(props) {
         return date.toLocaleDateString('pt-PT', options);
     };
 
-
     return (
         <>
             {requisicao.map(req => {
                 const ultimoEstado = req.estados[req.estados.length - 1];
-                if ([1, 3, 5, 6].includes(ultimoEstado.id_estado)) {
+                if ([2, 4, 7].includes(ultimoEstado.id_estado)) {
                     return (
-                        <div key={req.id_requisicao} className={`background-green-50 p-4 mb-2`} style={{ borderRadius: "1rem" }}>
-                            <div className="d-flex align-items-center mb-2">
+                        <div key={req.id_requisicao} className={`background-grey-300 p-4 mb-2`} style={{ borderRadius: "1rem" }}>
+                            <div className="d-flex align-items-center mb-4">
                                 <img src="https://images.pexels.com/photos/164907/pexels-photo-164907.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" style={{ height: "1.2rem", width: "1.2rem", borderRadius: "0.2rem", marginRight: "0.5rem" }} />
                                 <div style={{ fontSize: "1.2rem", fontWeight: "700" }}>{req.nome_requisicao}</div>
                             </div>
@@ -54,5 +54,5 @@ export default function HomeReqAtiva(props) {
                 return null;
             })}
         </>
-    )
+    );
 }

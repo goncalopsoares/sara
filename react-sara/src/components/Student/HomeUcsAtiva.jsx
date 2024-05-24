@@ -7,13 +7,15 @@ export default function HomeUcsAtiva(props){
 
     return(
         <>
-            <div key={uc.id_uc_contexto} className={`background-green-50 mb-2`} style={{borderRadius: "1rem", overflow: "hidden"}}>
+            <div key={uc.id_uc_contexto} className={`background-grey-300 mb-4`} style={{borderRadius: "1rem", overflow: "hidden"}}>
                 <div style={{height: "5rem"}}>
                     <img src="https://images.pexels.com/photos/164907/pexels-photo-164907.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Top Image" style={{width: "100%", height: "100%", objectFit: "cover"}} />
                 </div>
                 <div style={{padding: "0.5rem"}}>
                     <div style={{fontSize: "0.8rem", fontWeight: "700", paddingTop:"1rem"}}>{uc.sigla_uc_contexto}</div>
-                    <div style={{fontSize: "0.8rem", paddingBottom:"1rem"}}>{uc.nome_uc_contexto}</div>
+                    <div className="truncate-text" style={{fontSize: "0.8rem", paddingBottom:"1rem"}}>
+                        {uc.nome_uc_contexto}
+                    </div>
                 </div>
             </div>
 
