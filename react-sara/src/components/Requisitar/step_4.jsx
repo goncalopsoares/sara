@@ -8,6 +8,8 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedEquipamento, setSelectedEquipamento] = useState(null);
   const [cartModalIsOpen, setCartModalIsOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedSubCategory, setSelectedSubCategory] = useState('All');
   const { cart, setCart } = useStateContext();
 
   useEffect(() => {
@@ -63,18 +65,64 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
     setEquipamentos([...equipamentos, equipamento]);
   };
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleSubCategoryChange = (subCategory) => {
+    setSelectedSubCategory(subCategory);
+  };
+
+  const uniqueCategories = ['All', ...new Set(equipamentos.flatMap(equipamento =>
+    equipamento.equipamentos.map(e => e.nome_categoria).filter(Boolean)
+  ))];
+
+  const uniqueSubCategories = ['All', ...new Set(equipamentos.flatMap(equipamento =>
+    equipamento.equipamentos.map(e => e.nome_sub_categoria).filter(Boolean)
+  ))];
+
+  const filteredEquipamentos = equipamentos.filter(equipamento => {
+    const categoriesMatch = selectedCategory === 'All' || equipamento.equipamentos.some(e => e.nome_categoria === selectedCategory);
+    const subCategoriesMatch = selectedSubCategory === 'All' || equipamento.equipamentos.some(e => e.nome_sub_categoria === selectedSubCategory);
+    return categoriesMatch && subCategoriesMatch;
+  });
+
   return (
     <div>
       <h2>Available Equipments</h2>
+      <div className="category-buttons">
+        <h4>Categories</h4>
+        {uniqueCategories.map(category => (
+          <button
+            key={category}
+            onClick={() => handleCategoryChange(category)}
+            className={selectedCategory === category ? 'active' : ''}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+      <div className="subcategory-buttons">
+        <h4>Subcategories</h4>
+        {uniqueSubCategories.map(subCategory => (
+          <button
+            key={subCategory}
+            onClick={() => handleSubCategoryChange(subCategory)}
+            className={selectedSubCategory === subCategory ? 'active' : ''}
+          >
+            {subCategory}
+          </button>
+        ))}
+      </div>
       <div className="equipments-grid">
-        {equipamentos.map(equipamento => (
+        {filteredEquipamentos.map(equipamento => (
           <div key={equipamento.id_modelo_equipamento} className="equipment-card">
             <img src={equipamento.imagem_modelo_equipamento || 'default_image.jpg'} alt={equipamento.nome_modelo_equipamento} />
             <h3>{equipamento.nome_marca_equipamento} {equipamento.nome_modelo_equipamento}</h3>
             <p>{equipamento.equipamentos[0]?.observacoes_equipamento}</p>
             <button onClick={() => openModal(equipamento)}>Ver mais</button>
             {isAvailable(equipamento.equipamentos[0]?.requisicoes) ? (
-              <button className='text-green-500' onClick={() => handleAddEquipmentToCart(equipamento)}>Add to Cart</button>
+              <button className='text-green-200 indent-4 fw-bolder' onClick={() => handleAddEquipmentToCart(equipamento)}>Add to Cart</button>
             ) : (
               <p className='text-red-600'>Not available</p>
             )}
@@ -82,7 +130,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
         ))}
       </div>
 
-      <button onClick={goToNextStep}>Next</button>
+      
 
       {modalIsOpen && (
         <div className="modal-overlay" onClick={closeModal}>

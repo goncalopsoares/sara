@@ -247,6 +247,9 @@ console.log(startDate, endDate)
             {selectedUc && selectedProfessor && (
               <FaArrowAltCircleRight className='text-end' size={40} onClick={goToNextStep} />
             )}
+            {cart.length>0 &&(
+               <FaArrowAltCircleRight className='text-end' size={40} onClick={goToNextStep} />
+            )}
           </>
         )}
       </div>
