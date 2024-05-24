@@ -89,9 +89,9 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
 
   return (
     <div>
-      <h2>Available Equipments</h2>
+      <h2>Equipamento disponivel</h2>
       <div className="category-buttons">
-        <h4>Categories</h4>
+        <h4>Categorias</h4>
         {uniqueCategories.map(category => (
           <button
             key={category}
@@ -103,7 +103,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
         ))}
       </div>
       <div className="subcategory-buttons">
-        <h4>Subcategories</h4>
+        <h4>Subcategorias</h4>
         {uniqueSubCategories.map(subCategory => (
           <button
             key={subCategory}
@@ -122,9 +122,9 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
             <p>{equipamento.equipamentos[0]?.observacoes_equipamento}</p>
             <button onClick={() => openModal(equipamento)}>Ver mais</button>
             {isAvailable(equipamento.equipamentos[0]?.requisicoes) ? (
-              <button className='text-green-200 indent-4 fw-bolder' onClick={() => handleAddEquipmentToCart(equipamento)}>Add to Cart</button>
+              <button className='text-green-200 indent-4 fw-bolder' onClick={() => handleAddEquipmentToCart(equipamento)}>Adicionar ao carrinho</button>
             ) : (
-              <p className='text-red-600'>Not available</p>
+              <p className='text-red-600'>Não disponivel</p>
             )}
           </div>
         ))}
@@ -153,16 +153,16 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
         <div className="modal-overlay" onClick={closeCartModal}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={closeCartModal}>X</button>
-            <h3>Cart</h3>
+            <h3>Carrinho</h3>
             <ul>
               {cart.map((item, index) => (
                 <li key={index}>
                   {item.nome_modelo_equipamento} - {item.nome_marca_equipamento}
-                  <button className='text-red-600 font-bold indent-3' onClick={() => handleRemoveFromCart(item)}>  Remove</button>
+                  <button className='text-red-600 font-bold indent-3' onClick={() => handleRemoveFromCart(item)}>  Remover do carrinho</button>
                 </li>
               ))}
             </ul>
-            <button onClick={goToStep5}>Proceed to Summary</button>
+            <button onClick={goToStep5}>Avançar para o resumo</button>
           </div>
         </div>
       )}

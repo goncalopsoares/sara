@@ -63,13 +63,13 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
 
   return (
     <div>
-      <h2>Request Summary</h2>
-      <p>Request Name: {formData.nome_requisicao}</p>
-      <p>Context: {formData.contexto_requisicao}</p>
-      <p>Request Type: {formData.tipo_requisicao}</p>
-      <p>Start Date: {formatDate(startDate)}</p>
-      <p>End Date: {formatDate(endDate)}</p>
-      <h3>Selected Equipment</h3>
+      <h3>Resumo Requisição</h3>
+      <p>Nome Requisição: {formData.nome_requisicao}</p>
+      <p>Contexto: {formData.contexto_requisicao}</p>
+      <p>Tipo Requisição: {formData.tipo_requisicao}</p>
+      <p>Data inicio: {formatDate(startDate)}</p>
+      <p>Data fim: {formatDate(endDate)}</p>
+      <h4>Equipamento escolhido</h4>
       <ul>
         {cart.map((item, index) => (
           <li key={index}>{item.nome_modelo_equipamento} - {item.nome_marca_equipamento}</li>
@@ -78,20 +78,20 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
       {professor && (
         <div>
           <h3>Professor</h3>
-          <p>Name: {getUserName(professor.utilizador_id_utilizador)}</p>
+          <p>Nome: {getUserName(professor.utilizador_id_utilizador)}</p>
         </div>
       )}
       {groupMembers.length > 0 && (
         <div>
-          <h3>Group Members</h3>
+          <h3>Membros do Grupo</h3>
           <ul>
             {groupMembers.map((member, index) => (
-              <li key={index}>Name: {getUserName(member.utilizador_id_utilizador)}</li>
+              <li key={index}>Nome: {getUserName(member.utilizador_id_utilizador)}</li>
             ))}
           </ul>
         </div>
       )}
-      <button className='text-dark bg-green-300 p-2' onClick={submitRequest}>Submit Request</button>
+      <button className='text-dark bg-green-300 p-2' onClick={submitRequest}>Submeter Requisição</button>
     </div>
   );
 };

@@ -242,8 +242,8 @@ console.log(startDate, endDate)
             <div  className={`step ${currentStep === 1 ? 'active' : ''}`}>UC</div>
             <div  className={`step ${currentStep === 2 ? 'active' : ''}`}>Info</div>
             <div  className={`step ${currentStep === 3 ? 'active' : ''}`}>Datas</div>
-            <div  className={`step ${currentStep === 4 ? 'active' : ''}`}>Equipments</div>
-            <div  className={`step ${currentStep === 5 ? 'active' : ''}`}>Summary</div>
+            <div  className={`step ${currentStep === 4 ? 'active' : ''}`}>Equipamentos</div>
+            <div  className={`step ${currentStep === 5 ? 'active' : ''}`}>Resumo</div>
             {selectedUc && selectedProfessor && (
               <FaArrowAltCircleRight className='text-end' size={40} onClick={goToNextStep} />
             )}
