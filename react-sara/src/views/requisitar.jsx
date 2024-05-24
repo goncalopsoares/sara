@@ -41,6 +41,40 @@ const Requisitar = () => {
       });
   }, [user.id_utilizador]);
 
+
+  useEffect(() => {
+    axiosClient.get(`/requisicao/ultimarequisicaosemestado/${user.id_utilizador}`)
+      .then(response => {
+        if (response.data.message === 'A última requisição encontrada não possui um estado associado.') {
+          setCart([]);
+          setCurrentStep(3);
+          setSelectedUc({id_uc_contexto:response.data.uc_contexto_id_uc_contexto});
+          setRequestId(response.data.id_requisicao)
+          setFormData({
+            nome_requisicao: response.data.nome_requisicao,
+            contexto_requisicao: response.data.contexto_requisicao,
+            tipo_requisicao: 'Equipamento', // Supondo que este valor seja fixo
+            uc_contexto_id_uc_contexto: response.data.uc_contexto_id_uc_contexto,
+            requisicao_has_utilizadores: response.data.utilizadores.map(utilizador => ({
+              utilizador_id_utilizador: utilizador.utilizador_id_utilizador,
+              role_utilizador: utilizador.role_utilizador
+            }))
+          
+        }
+          )
+      }
+    }
+    )
+    
+      .catch(error => {
+        console.error("Erro ao obter última requisição:", error);
+      });
+  }, []);
+
+
+
+  
+
   const handleUcSelect = (uc) => {
     const pinRecolha = generateRandomPin();
     const pinDevolucao = generateRandomPin();
@@ -185,28 +219,7 @@ console.log(startDate, endDate)
     submitRequest();
   };
 
-  const submitRequest = () => {
-    const requestBody = {
-      requisicao_id_requisicao: requestId,
-      estado_id_estado: 1,
-      data_estado: new Date().toISOString(),
-      requisicao_has_equipamentos: cart.map(equipment => ({
-        requisicao_id_requisicao: requestId,
-        equipamento_id_equipamento: equipment.equipamento_id_equipamento,
-        data_inicio_requisicao: new Date(startDate).toISOString(),
-        data_fim_requisicao: new Date(endDate).toISOString(),
-      })),
-    };
-
-    axiosClient.post(`/requisicao/${requestId}`, requestBody)
-      .then(response => {
-        console.log("Requisição finalizada com sucesso:", response.data);
-      })
-      .catch(error => {
-        console.error("Erro ao finalizar requisição:", error);
-      });
-  };
-
+ 
   const goToNextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -218,6 +231,7 @@ console.log(startDate, endDate)
   console.log(formData)
   console.log(requestId, "id")
   console.log(cart, "cart")
+  console.log(selectedUc)
 
   return (
     <div>

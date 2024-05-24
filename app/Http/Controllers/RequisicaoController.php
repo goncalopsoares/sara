@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Requisicao;
-use App\Models\RequisicaoHasEquipamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\RequisicaoHasEstado;
 use App\Models\RequisicaoHasUtilizador;
+use App\Models\RequisicaoHasEquipamento;
 use App\Presenters\RequisicaoEquipamentoPresenter;
 
 class RequisicaoController extends Controller
@@ -66,6 +67,57 @@ class RequisicaoController extends Controller
             // Verifica se encontrou algum resultado
             if ($ultimaRequisicao) {
                 return response()->json($ultimaRequisicao, 200);
+            } else {
+                return response()->json(['message' => 'Nenhuma requisição encontrada para este utilizador.'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao buscar a última requisição: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function ultimaRequisicaoSemEstado($id)
+    {
+        try {
+            // Busca a última requisição para o utilizador com o role_utilizador = 3
+            $ultimaRequisicao = RequisicaoHasUtilizador::where('utilizador_id_utilizador', $id)
+                                    ->where('role_utilizador', 3)
+                                    ->orderBy('requisicao_id_requisicao', 'desc')
+                                    ->first();
+            
+            // Verifica se encontrou algum resultado
+            if ($ultimaRequisicao) {
+                // ID da última requisição encontrada
+                $ultimaRequisicaoId = $ultimaRequisicao->requisicao_id_requisicao;
+        
+                // Busca a requisição completa para obter a coluna uc_contexto_id_uc_contexto
+                $requisicao = DB::table('requisicao')
+                                ->where('id_requisicao', $ultimaRequisicaoId)
+                                ->first();
+        
+                // Verifica se a última requisição está na tabela requisicao_has_estado
+                $requisicaoComEstado = DB::table('requisicao_has_estado')
+                                        ->where('requisicao_id_requisicao', $ultimaRequisicaoId)
+                                        ->exists();
+        
+                // Busca dados da tabela requisicao_has_utilizador relacionados à última requisição
+                $utilizadores = DB::table('requisicao_has_utilizador')
+                                    ->where('requisicao_id_requisicao', $ultimaRequisicaoId)
+                                    ->get(['utilizador_id_utilizador', 'role_utilizador']);
+        
+                if ($requisicaoComEstado) {
+                    return response()->json([
+                        'message' => 'A última requisição encontrada já possui um estado associado.',
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => 'A última requisição encontrada não possui um estado associado.',
+                        'uc_contexto_id_uc_contexto' => $requisicao->uc_contexto_id_uc_contexto,
+                        'id_requisicao' => $requisicao->id_requisicao,
+                        'nome_requisicao' => $requisicao->nome_requisicao,
+                        'contexto_requisicao' => $requisicao->contexto_requisicao,
+                        'utilizadores' => $utilizadores,
+                    ], 200);
+                }
             } else {
                 return response()->json(['message' => 'Nenhuma requisição encontrada para este utilizador.'], 404);
             }

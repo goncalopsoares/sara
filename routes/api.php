@@ -25,6 +25,9 @@ Route::get('/requisicao/ultimarequisicao/{id}', [RequisicaoController::class,'ul
 
 Route::post('requisicao/avaliar/{id}', [RequisicaoController::class, 'avaliarRequisicao']); //avaliar requisicao e comentario
 
+Route::get('/requisicao/ultimarequisicaosemestado/{id}', [RequisicaoController::class,'ultimaRequisicaoSemEstado']); //ver a ultima requisicao criada sem estado para o carrinho
+
+Route::get('/nomesutilizadores', [UtilizadorController::class,'nomesUtilizadores']);//nomes para o carrinho final
 
 // Rotas para professores
 

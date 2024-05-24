@@ -74,7 +74,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
             <p>{equipamento.equipamentos[0]?.observacoes_equipamento}</p>
             <button onClick={() => openModal(equipamento)}>Ver mais</button>
             {isAvailable(equipamento.equipamentos[0]?.requisicoes) ? (
-              <button onClick={() => handleAddEquipmentToCart(equipamento)}>Add to Cart</button>
+              <button className='text-green-500' onClick={() => handleAddEquipmentToCart(equipamento)}>Add to Cart</button>
             ) : (
               <p>Not available</p>
             )}
@@ -110,7 +110,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
               {cart.map((item, index) => (
                 <li key={index}>
                   {item.nome_modelo_equipamento} - {item.nome_marca_equipamento}
-                  <button onClick={() => handleRemoveFromCart(item)}>Remove</button>
+                  <button className='text-red-500' onClick={() => handleRemoveFromCart(item)}>  Remove</button>
                 </li>
               ))}
             </ul>
