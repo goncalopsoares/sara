@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import axiosClient from '../axiosClient';
 import { ShoppingCart } from 'react-feather';
-
+import { Info } from 'react-feather'; // Import Info icon
 
 export default function Equipamentos() {
     const [loading, setLoading] = useState(true);
@@ -14,6 +14,7 @@ export default function Equipamentos() {
     const observer = useRef();
 
     const ITEMS_PER_PAGE = 10;
+    const BASE_URL = "http://localhost:8000";
 
     useEffect(() => {
         axiosClient.get(`/equipamentos`)
@@ -113,37 +114,35 @@ export default function Equipamentos() {
                     {/* List of Equipamento Cards */}
                     <div style={{ display: "flex", flexWrap: "wrap" }}>
                         {visibleEquipamentos.map((equipamento, index) => {
-                            if (visibleEquipamentos.length === index + 1) {
-                                return (
-                                    <div key={index} ref={lastEquipamentoElementRef} className="card">
-                                        <h3>{equipamento.nome_marca_equipamento} {equipamento.nome_modelo_equipamento}</h3>
-                                        <p>{equipamento.nome_categoria}</p>
-                                        <p>{equipamento.numero_serie_equipamento}</p>
-                                        <p>{equipamento.observacoes_equipamento}</p>
-                                    </div>
-                                );
-                            } else {
-                                return (
-                                    <div key={index} className="card mt-4 border-0">
-                                        <div className="row">
-                                            <div className="col-4">
-                                                <img src="https://d2e6ccujb3mkqf.cloudfront.net/5b8bf1d5-3769-498b-a0fa-c1f3d8ea6b43-1_cd3efcee-d1d8-4d60-89c4-2d53e4563477.jpg" className="img-fluid"/>
-                                            </div>
-                                            <div className="col-8">
-                                                <div className="row font-bold">
+                            const imageUrl = `${BASE_URL}${equipamento.imagem_modelo_equipamento}`;
+
+                            return (
+                                <div key={index} ref={visibleEquipamentos.length === index + 1 ? lastEquipamentoElementRef : null} className="card mt-4 border-0 position-relative">
+                                    <div className="row align-items-center">
+                                        <div className="col-4 d-flex justify-content-center">
+                                            <img src={equipamento.imagem_modelo_equipamento || '/src/images/equipamento/noImg.png'} className="img-fluid" />
+                                        </div>
+                                        <div className="col-8 d-flex flex-column justify-content-between">
+                                            <div>
+                                                <div className="font-bold">
                                                     {equipamento.nome_marca_equipamento} {equipamento.nome_modelo_equipamento}
                                                 </div>
-                                                <div className="row txt-grey-700 mb-2" style={{fontSize:"0.8rem"}}>
+                                                <div className="txt-grey-700 mb-2" style={{ fontSize: "0.8rem" }}>
                                                     {equipamento.nome_categoria}
                                                 </div>
-                                                <div>
-                                                    <button className="btn-sara-terciary d-flex align-items-center"><ShoppingCart size={16} className="me-3"/> Adicionar</button>
-                                                </div>
+                                            </div>
+                                            <div className="mt-2">
+                                                <button className="btn-sara-terciary d-flex align-items-center">
+                                                    <ShoppingCart size={16} className="me-3" /> Adicionar
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                );
-                            }
+                                    <div className="position-absolute" style={{ top: '10px', right: '10px' }}>
+                                        <Info size={20} /> {/* Adjust size as needed */}
+                                    </div>
+                                </div>
+                            );
                         })}
                     </div>
                     {loading && <p>Loading more items...</p>}
