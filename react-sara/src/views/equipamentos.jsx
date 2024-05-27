@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import axiosClient from '../axiosClient';
-import { ShoppingCart } from 'react-feather';
-import { Info } from 'react-feather'; // Import Info icon
+import { ShoppingCart, Info } from 'react-feather';
 
 export default function Equipamentos() {
     const [loading, setLoading] = useState(true);
@@ -19,15 +18,9 @@ export default function Equipamentos() {
     useEffect(() => {
         axiosClient.get(`/equipamentos`)
             .then(response => {
-                console.log('equipamentos:', response.data);
                 const equipamentosData = response.data.equipamentos;
-
-                // Extract unique categories and filter out empty strings
                 let uniqueCategories = [...new Set(equipamentosData.map(e => e.nome_categoria))].filter(category => category !== null);
-
-                // Add "Todos" at the beginning of the array
                 uniqueCategories = ["Todos", ...uniqueCategories];
-
                 setCategories(uniqueCategories);
                 setEquipamentos(equipamentosData);
                 setVisibleEquipamentos(equipamentosData.slice(0, ITEMS_PER_PAGE));
@@ -50,9 +43,11 @@ export default function Equipamentos() {
                 ...prevVisibleEquipamentos,
                 ...filteredEquipamentos.slice(prevVisibleEquipamentos.length, prevVisibleEquipamentos.length + ITEMS_PER_PAGE)
             ];
-            if (newVisibleEquipamentos.length === filteredEquipamentos.length) {
+
+            if (newVisibleEquipamentos.length >= filteredEquipamentos.length) {
                 setHasMore(false);
             }
+
             return newVisibleEquipamentos;
         });
     }, [equipamentos, selectedCategory]);
@@ -77,9 +72,6 @@ export default function Equipamentos() {
     useEffect(() => {
         setVisibleEquipamentos([]);
         setHasMore(true);
-    }, [selectedCategory]);
-
-    useEffect(() => {
         if (selectedCategory) {
             loadMore();
         }
@@ -115,7 +107,6 @@ export default function Equipamentos() {
                     <div style={{ display: "flex", flexWrap: "wrap" }}>
                         {visibleEquipamentos.map((equipamento, index) => {
                             const imageUrl = `${BASE_URL}${equipamento.imagem_modelo_equipamento}`;
-
                             return (
                                 <div key={index} ref={visibleEquipamentos.length === index + 1 ? lastEquipamentoElementRef : null} className="card mt-4 border-0 position-relative">
                                     <div className="row align-items-center">
