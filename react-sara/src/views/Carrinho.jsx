@@ -72,21 +72,22 @@ const Carrinho = () => {
                     </div>
                 )}
             <p className="text-center">{message}</p>{" "}
-            {showEquipamentosButton && (
+            <div className="d-flex justify-content-between">
+                {showEquipamentosButton && (
+                    <button
+                        className="btn btn-sara-secondary flex-grow-1 mr-2"
+                        onClick={handleEquipamentosClick}
+                    >
+                        Equipamentos
+                    </button>
+                )}
                 <button
-                    className="btn btn-sara-secondary w-100"
-                    onClick={handleEquipamentosClick}
-                    style={{ marginBottom: "1rem" }} // Add a margin to the bottom of the button
+                    className="btn btn-sara-primary flex-grow-1"
+                    onClick={handleButtonClick}
                 >
-                    Equipamentos
+                    {buttonText}
                 </button>
-            )}
-            <button
-                className="btn btn-sara-primary w-100"
-                onClick={handleButtonClick}
-            >
-                {buttonText}
-            </button>
+            </div>
             {message === "Ainda não concluiu o processo de requisição" ? (
                 <div>
                     <h2>O que tens até agora no carrinho:</h2>
