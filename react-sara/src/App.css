@@ -113,6 +113,26 @@ input {
     color: white !important;
 }
 
+.btn-sara-secondary {
+    color: #1C7A00;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    border: 2px solid #1C7A00;
+}
+
+.btn-sara-secondary:hover {
+    background-color: #F3FAE6;
+}
+
+.btn-sara-secondary:hover {
+    color: #1C7A00 !important;
+    border: 2px solid #1C7A00;
+}
+
 .login-container {
     display: flex;
     height: 100vh;
@@ -197,13 +217,22 @@ input {
     margin-top: 5rem;
 }
 
+h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+}
 
 .breadcrumb {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
   }
-  
+
   .step {
     width: 150px;
     height: 50px;
@@ -214,7 +243,7 @@ input {
     color: #090909;
     font-weight: bold;
   }
-  
+
   .step.active {
     background-color: #b4e0b6;
   }
@@ -231,7 +260,7 @@ input {
     justify-content: center;
     z-index: 1000;
   }
-  
+
   .modal-content {
     background: #fff;
     padding: 20px;
@@ -240,7 +269,7 @@ input {
     max-width: 80%;
     position: relative;
   }
-  
+
   .modal-close {
     position: absolute;
     top: 10px;
@@ -259,13 +288,13 @@ input {
     border: none;
     cursor: pointer;
   }
-  
+
   .category-buttons .active,
   .subcategory-buttons .active {
     background-color: gray;
     color: white;
   }
-  
+
   .category-buttons button:hover,
   .subcategory-buttons button:hover {
     background-color: darkgray;
