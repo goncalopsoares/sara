@@ -68,12 +68,12 @@ export default function Users() {
     };
 
     useEffect(() => {
-        if (user.id_utilizador) {
+        if (user.id_utilizador && user.tipo_utilizador === 3) {
             axiosClient.get(`/estudantehome/${user.id_utilizador}`)
                 .then(response => {
                     console.log('Requisicao:', response.data);
                     const result = response.data.EstudanteHome;
-                    setRequisicao(result);
+                    setRequisicao(result || []);
                     setLoading(false);
                 })
                 .catch(error => {
@@ -81,8 +81,22 @@ export default function Users() {
                     setError(error);
                     setLoading(false);
                 });
-        }
-    }, [user.id_utilizador]);
+             } else if (user.id_utilizador && user.tipo_utilizador === 2) {
+                    axiosClient.get(`/c/${user.id_utilizador}`)
+                        .then(response => {
+                            console.log('Requisicao:', response.data);
+                            const result = response.data.ProfessorHome;
+                            setRequisicao(result || []);
+                            setLoading(false);
+                        })
+                        .catch(error => {
+                            console.error('Erro ao obter equipamentos:', error);
+                            setError(error);
+                            setLoading(false);
+                        });
+                }
+            
+    }, [user.id_utilizador, user.tipo_utilizador]);
 
     const getCardColor = (estadoId) => {
         switch (estadoId) {

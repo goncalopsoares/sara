@@ -36,6 +36,10 @@ export default function DefaultLayout() {
         return <Navigate to="/login" />;
     }
 
+    if (location.pathname === '/') {
+        return <Navigate to="/home" />;
+    }
+
     console.log({user});
 
     return (
@@ -44,17 +48,7 @@ export default function DefaultLayout() {
                 <div>
                     {(user.tipo_utilizador === 2 || user.tipo_utilizador === 3) ? <Header /> : null}
                     <main className="p-4">
-                    {location.pathname === '/' && (
-                            <>
-                                <h1 clsassName="mt-4 text-green-600 fw-bolder">
-                                    {user.nome_utilizador},
-                                </h1>
-                                <h1 className='indent-3'>bem vindo de novo!!!</h1>
-                                <p>O teu id é o <span className='fw-bolder'>{user.id_utilizador}</span></p>
-                                <p>O teu mail associado é <span className='fw-bolder'>{user.email_utilizador}</span></p>
-                                <p>O teu numero mecanografico é <span className='fw-bolder'>{user.numero_mecanografico_utilizador}</span></p>
-                            </>
-                        )}
+                    
 
                         <Outlet />
 
