@@ -4,8 +4,8 @@ import { useStateContext } from '../contexts/contextprovider';
 import HomeReqAtiva from "../components/Student/HomeReqAtiva";
 import HomeUcsAtiva from "../components/Student/HomeUcsAtiva";
 
-
-/*function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
+/*
+function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
     if (!show) return null;
 
     return (
@@ -25,7 +25,8 @@ import HomeUcsAtiva from "../components/Student/HomeUcsAtiva";
             </div>
         </div>
     );
-}*/
+}
+*/
 
 const Home = () => {
     const [requisicao, setRequisicao] = useState([]);
@@ -125,62 +126,7 @@ const Home = () => {
                 </div>
             </div>
             </div>
-            {/*<Modal
-                show={modalData.show}
-                onClose={handleCloseModal}
-                equipamentos={modalData.equipamentos}
-                contexto={modalData.contexto}
-                comentarioprofessor={modalData.comentarioprofessor}
-                comentariosara={modalData.comentariosara}
-            />*/}
-        </>
-    );
-};
-
-export default Home;
-
-
-/*        <div>
-            <div className="text-4xl mt-6 mb-4">Requisições Ativas</div>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error.message}</p>}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {requisicao.map(req => {
-                    const ultimoEstado = req.estados[req.estados.length - 1];
-                    if ([1, 3, 5, 6].includes(ultimoEstado.id_estado)) {
-                        return (
-                            <div key={req.id_requisicao} className={`${getCardColor(ultimoEstado.id_estado)} p-4 rounded-lg shadow-lg border-2`}>
-                                <p>{req.nome_uc_contexto}</p>
-                                <h3 className="text-2xl font-bold">{req.nome_requisicao}</h3>
-                                <p className='text-gray-500 text-end mt-2 mb-2'>{ultimoEstado.nome_estado}</p>
-                                <p className='text-gray-500'><strong>Data recolha:</strong> {req.data_inicio_requisicao}</p>
-                                <p className='text-gray-500'><strong>Data devolução:</strong> {req.data_fim_requisicao}</p>
-                                <button
-                                    onClick={() => handleShowMore(req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
-                                    className='mt-4 border-r-2 text-white bg-green-950 p-2 rounded'
-                                >
-                                    <LuClipboard className='inline-block align-middle me-3 ' />Ver requisição
-                                </button>
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
-            </div>
-            <div className="text-4xl mt-4 mb-4">Uc's ativas</div>
-            {loading2 && <p>Loading...</p>}
-            {error2 && <p>Error: {error2.message}</p>}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {ucs_aluno.map(uc => (
-                    <div key={uc.id_uc_contexto} className="bg-white p-4 rounded-lg shadow-lg border-2">
-                        <p className='text-2xl font-bold'>{uc.nome_uc_contexto}</p>
-                        <h3 className="text-2xl font-bold">{uc.nome_requisicao}</h3>
-                        <p className='text-gray-500 text-end mt-2 mb-2'>{uc.sigla_uc_contexto}</p>
-                        <p className='text-gray-500'><strong>Código UC:</strong> {uc.codigo_uc_contexto}</p>
-                        <p className='text-gray-500'><strong>Semestre UC:</strong> {uc.semestre_uc_contexto}</p>
-                    </div>
-                ))}
-            </div>
+            {/*
             <Modal
                 show={modalData.show}
                 onClose={handleCloseModal}
@@ -189,6 +135,9 @@ export default Home;
                 comentarioprofessor={modalData.comentarioprofessor}
                 comentariosara={modalData.comentariosara}
             />
-        </div>
+            */}
+        </>
+    );
+};
 
-            */
+export default Home;
