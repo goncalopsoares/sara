@@ -1,21 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { LuClipboard } from "react-icons/lu";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LuClipboard } from 'react-icons/lu';
 
-const HomeReqAtiva = ({ req, handleShowMore }) => {
+const HomeReqAtiva = ({ req }) => {
+    const navigate = useNavigate();
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const options = { day: "numeric", month: "long", year: "numeric" };
-        return date.toLocaleDateString("pt-PT", options);
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        return date.toLocaleDateString('pt-PT', options);
     };
 
-    const handleShowMore = (
-        id,
-        equipamento,
-        contexto_requisicao,
-        comentario_professor_requisicao,
-        comentario_sara_requisicao
-    ) => {
+    const handleShowMore = (id, equipamento, contexto_requisicao, comentario_professor_requisicao, comentario_sara_requisicao) => {
         navigate(`/requisicao/${id}`, {
             state: {
                 equipamento,
@@ -53,7 +49,7 @@ const HomeReqAtiva = ({ req, handleShowMore }) => {
                     </div>
                 </div>
                 <button
-                    onClick={() => handleShowMore(req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
+                    onClick={() => handleShowMore(req.id_requisicao, req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
                     className='mt-3 text-white background-green-500 rounded font-semibold' style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
                 >
                     <LuClipboard className='inline-block align-middle me-3' /><span className="text-uppercase" style={{ fontSize: "0.8rem" }}>Ver Requisição</span>

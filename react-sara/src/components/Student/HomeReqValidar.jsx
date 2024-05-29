@@ -1,11 +1,25 @@
 import React from 'react';
 import { LuClipboard } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 
-const HomeReqValidar = ({ req, handleShowMore }) => {
+const HomeReqValidar = ({ req }) => {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const options = { day: 'numeric', month: 'long', year: 'numeric' };
         return date.toLocaleDateString('pt-PT', options);
+    };
+
+    const navigate = useNavigate();
+
+    const handleShowMore = (id, equipamento, contexto_requisicao, comentario_professor_requisicao, comentario_sara_requisicao) => {
+        navigate(`/requisicao/${id}`, {
+            state: {
+                equipamento,
+                contexto_requisicao,
+                comentario_professor_requisicao,
+                comentario_sara_requisicao,
+            },
+        });
     };
 
     const ultimoEstado = req.estado[req.estado.length - 1];
@@ -35,7 +49,7 @@ const HomeReqValidar = ({ req, handleShowMore }) => {
                     </div>
                 </div>
                 <button
-                    onClick={() => handleShowMore(req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
+                    onClick={() => handleShowMore(req.id_requisicao, req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
                     className='mt-3 text-white background-green-500 rounded font-semibold' style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
                 >
                     <LuClipboard className='inline-block align-middle me-3' /><span className="text-uppercase" style={{ fontSize: "0.8rem" }}>Ver Requisição</span>
