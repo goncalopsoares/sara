@@ -41,6 +41,24 @@ class EstudanteHomeController extends Controller
         //
     }
 
+
+    public function getUc($id){
+
+        try {
+            // Supondo que você tenha um modelo UcContexto para a tabela uc_contexto
+            $ucContexto = UcContexto::find($id);
+    
+            // Verifica se o registro foi encontrado
+            if (!$ucContexto) {
+                return response()->json(['message' => 'UC Contexto não encontrado'], 404);
+            }
+    
+            return response()->json($ucContexto, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao buscar UC Contexto: ' . $e->getMessage()], 500);
+        }
+    }
+
     /**
      * Display the specified resource.
      */
