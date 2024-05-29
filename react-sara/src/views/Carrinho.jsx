@@ -149,6 +149,7 @@ const Carrinho = () => {
                                     <h5>Professor</h5>
                                     <p>Nome: {getUserInfo(professor.utilizador_id_utilizador).nome_utilizador}</p>
                                     <p> {getUserInfo(professor.utilizador_id_utilizador).email_utilizador}</p>
+                                    <img className="rounded-full h-12 w-12 mr-1" src={`http://localhost:8000${getUserInfo(professor.utilizador_id_utilizador).avatar_utilizador}`} alt={getUserInfo(professor.utilizador_id_utilizador).nome_utilizador} />
                                 </div>
                             )}
                             {groupMembers.length > 0 && (
@@ -157,10 +158,14 @@ const Carrinho = () => {
                                     <ul>
                                         {groupMembers.map((member, index) => (
                                             <li className="p-2" key={index}>
-                                                Nome: {getUserInfo(member.utilizador_id_utilizador).nome_utilizador}<br />
-                                                Email: {getUserInfo(member.utilizador_id_utilizador).email_utilizador}<br />
-                                                Número Mecanografico: {getUserInfo(member.utilizador_id_utilizador).numero_mecanografico_utilizador}
-                                            </li>
+                                            Nome: {member && getUserInfo(member.utilizador_id_utilizador).nome_utilizador}<br />
+                                            Email: {member && getUserInfo(member.utilizador_id_utilizador).email_utilizador}<br />
+                                            Número Mecanográfico: {member && getUserInfo(member.utilizador_id_utilizador).numero_mecanografico_utilizador}
+                                            {member && (
+                                                <img className="rounded-full h-12 w-12 mr-1" src={`http://localhost:8000${getUserInfo(member.utilizador_id_utilizador).avatar_utilizador}`} alt={getUserInfo(member.utilizador_id_utilizador).nome_utilizador} />
+                                            )}
+                                        </li>
+                                        
                                         ))}
                                     </ul>
                                 </div>
