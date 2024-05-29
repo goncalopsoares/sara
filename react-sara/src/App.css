@@ -105,6 +105,17 @@ input {
     padding-bottom: 0.6rem;
 }
 
+.btn-sara-secondary {
+    color: #1C7A00;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    box-sizing: border-box;
+    border: 0.1rem solid #1C7A00;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+
 .btn-sara-primary:hover {
     background-color: #92D400;
 }
@@ -217,6 +228,7 @@ input {
     margin-top: 5rem;
 }
 
+
 h1 {
     font-size: 2.5rem;
     font-weight: 900;
@@ -247,6 +259,7 @@ h3 {
   .step.active {
     background-color: #b4e0b6;
   }
+
 
   .modal-overlay {
     position: fixed;
@@ -300,3 +313,4 @@ h3 {
     background-color: darkgray;
     color: white;
   }
+
