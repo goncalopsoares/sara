@@ -5,8 +5,9 @@ import { Frown, LogOut, Edit } from 'react-feather';
 import React, { useState, useEffect } from 'react';
 import { LuClipboard } from "react-icons/lu";
 import HomeReqPassada from "../components/Student/HomeReqAtiva.jsx";
+import { useNavigate } from "react-router-dom";
 
-function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
+/* function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, comentariosara }) {
     if (!show) return null;
 
     return (
@@ -26,7 +27,7 @@ function Modal({ show, onClose, equipamentos, contexto, comentarioprofessor, com
             </div>
         </div>
     );
-}
+} */
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -59,9 +60,7 @@ export default function Users() {
 
     const { user } = useStateContext();
 
-    const handleShowMore = (equipamentos, contexto, comentarioprofessor, comentariosara) => {
-        setModalData({ show: true, equipamentos, contexto, comentarioprofessor, comentariosara });
-    };
+   
 
     const handleCloseModal = () => {
         setModalData({ show: false, equipamentos: [], contexto: '', comentarioprofessor: '', comentariosara: '' });
@@ -110,6 +109,21 @@ export default function Users() {
         }
     };
 
+    const navigate = useNavigate();
+
+    const handleShowMore = (id, equipamento, contexto_requisicao, comentario_professor_requisicao, comentario_sara_requisicao) => {
+        navigate(`/requisicao/${id}`, {
+            state: {
+                equipamento,
+                contexto_requisicao,
+                comentario_professor_requisicao,
+                comentario_sara_requisicao,
+            },
+        });
+    };
+
+
+
     return (
         <>
             <div className="row">
@@ -142,7 +156,7 @@ export default function Users() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {requisicao.map(req => {
                         const ultimoEstado = req.estados[req.estados.length - 1];
-                        if ([2, 4, 7].includes(ultimoEstado.id_estado)) {
+                        if ([2, 6, 7].includes(ultimoEstado.id_estado)) {
                             return (
                                 <div key={req.id_requisicao} className={`background-grey-300 p-4 mb-2`} style={{ borderRadius: "1rem" }}>
                                     <div className="d-flex align-items-center mb-4">
@@ -168,7 +182,7 @@ export default function Users() {
                                             </div>
                                         </div>
                                         <button
-                                            onClick={() => handleShowMore(req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
+                                           onClick={() => handleShowMore(req.id_requisicao, req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
                                             className='mt-3 text-white background-green-500 rounded font-semibold'
                                             style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
                                         >

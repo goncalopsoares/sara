@@ -118,7 +118,7 @@ const Home = () => {
                             ) : (
                                 requisicao.map(req => {
                                     const ultimoEstado = req.estados[req.estados.length - 1];
-                                    if ([1, 3, 5, 6].includes(ultimoEstado.id_estado)) {
+                                    if ([1, 3, 4, 5].includes(ultimoEstado.id_estado)) {
                                         return (
                                             <HomeReqAtiva
                                                 key={req.id_requisicao}
