@@ -3,7 +3,7 @@ import axiosClient from '../axiosClient';
 import { useStateContext } from '../contexts/contextprovider';
 import HomeReqAtiva from "../components/Student/HomeReqAtiva";
 import HomeUcsAtiva from "../components/Student/HomeUcsAtiva";
-import HomeReqValidar from '../components/Student/HomeReqValidar';
+import HomeReqValidar from '../components/prof/HomeReqValidar';
 
 const Home = () => {
     const [requisicao, setRequisicao] = useState([]);
@@ -118,7 +118,7 @@ const Home = () => {
                             ) : (
                                 requisicao.map(req => {
                                     const ultimoEstado = req.estados[req.estados.length - 1];
-                                    if ([1, 3, 5, 6].includes(ultimoEstado.id_estado)) {
+                                    if ([1, 3, 4, 5].includes(ultimoEstado.id_estado)) {
                                         return (
                                             <HomeReqAtiva
                                                 key={req.id_requisicao}
