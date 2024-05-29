@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 
 export default function HomeReqAprovar({ porAprovar }) {
 
@@ -44,6 +45,7 @@ export default function HomeReqAprovar({ porAprovar }) {
                 </select>
             </div>
             {filteredData.map(req => (
+                <Link to={`/requisicao/${req.id_requisicao}`} key={req.id_requisicao} style={{ textDecoration: 'none' }}>
                 <div key={req.id_requisicao} className={`background-green-50 p-4 mb-2`} style={{ borderRadius: "1rem" }}>
                     <div className="d-flex align-items-center mb-2">
                         <div style={{ fontSize: "0.8rem", fontWeight: "700" }}>
@@ -86,6 +88,7 @@ export default function HomeReqAprovar({ porAprovar }) {
                         </div>
                     </div>
                 </div>
+                </Link>
             ))}
         </div>
     );

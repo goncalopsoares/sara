@@ -10,6 +10,7 @@ import Requisitar from './views/requisitar.jsx';
 import Equipamentos from './views/equipamentos.jsx';
 import Notificacoes from "./views/Notificacoes";
 import Carrinho from "./views/Carrinho";
+import ReqDetail from './views/sara/ReqDetail.jsx';
 
 
 
@@ -18,7 +19,7 @@ const router = createBrowserRouter(
         {
             path: '/',
             element: <DefaultLayout />,
-            children: [
+            children: [ 
                 {
                     path: '/users',
                     element: <Users />,
@@ -46,6 +47,10 @@ const router = createBrowserRouter(
                 {
                     path: "/carrinho",
                     element: <Carrinho />
+                },
+                {
+                    path: '/requisicao/:id',
+                    element: <ReqDetail />,
                 }
 
 

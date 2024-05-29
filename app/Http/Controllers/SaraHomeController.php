@@ -13,12 +13,14 @@ class SaraHomeController extends Controller
     protected $saraPorValidarPresenter;
     protected $saraPorRecolherDevolverPresenter;
     protected $getEquipamento;
+    protected $getRequisicaoDetalhe;
 
-    public function __construct(SaraHomePresenter $getSaraPorValidar, SaraHomePresenter $getSaraPorRecolherDevolver, SaraHomePresenter $getEquipamento)
+    public function __construct(SaraHomePresenter $getSaraPorValidar, SaraHomePresenter $getSaraPorRecolherDevolver, SaraHomePresenter $getEquipamento, SaraHomePresenter $getRequisicaoDetalhe)
     {
         $this->saraPorValidarPresenter = $getSaraPorValidar;
         $this->saraPorRecolherDevolverPresenter = $getSaraPorRecolherDevolver;
         $this->getEquipamento = $getEquipamento;
+        $this->getRequisicaoDetalhe = $getRequisicaoDetalhe;    
     }
 
 
@@ -87,6 +89,16 @@ class SaraHomeController extends Controller
 
     }
 
+
+    public function getRequisicaoDetalhe($id)
+    {
+        try {
+            $response = $this->getRequisicaoDetalhe->getRequisicaoDetalhe($id);
+            return response()->json($response);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao obter requisições' . $e->getMessage()], 500);
+        }
+    }
 
 
     /**
