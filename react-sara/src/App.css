@@ -105,6 +105,17 @@ input {
     padding-bottom: 0.6rem;
 }
 
+.btn-sara-secondary {
+    color: #1C7A00;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    box-sizing: border-box;
+    border: 0.1rem solid #1C7A00;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+
 .btn-sara-primary:hover {
     background-color: #92D400;
 }
@@ -197,28 +208,6 @@ input {
     margin-top: 5rem;
 }
 
-
-.breadcrumb {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
-  
-  .step {
-    width: 150px;
-    height: 50px;
-    line-height: 50px;
-    border-radius: 100%;
-    text-align: center;
-    background-color: #d3d3d3;
-    color: #090909;
-    font-weight: bold;
-  }
-  
-  .step.active {
-    background-color: #b4e0b6;
-  }
-
   .modal-overlay {
     position: fixed;
     top: 0;
@@ -231,7 +220,7 @@ input {
     justify-content: center;
     z-index: 1000;
   }
-  
+
   .modal-content {
     background: #fff;
     padding: 20px;
@@ -240,7 +229,7 @@ input {
     max-width: 80%;
     position: relative;
   }
-  
+
   .modal-close {
     position: absolute;
     top: 10px;
@@ -259,15 +248,18 @@ input {
     border: none;
     cursor: pointer;
   }
-  
+
   .category-buttons .active,
   .subcategory-buttons .active {
     background-color: gray;
     color: white;
   }
-  
+
   .category-buttons button:hover,
   .subcategory-buttons button:hover {
     background-color: darkgray;
     color: white;
   }
+
+
+
