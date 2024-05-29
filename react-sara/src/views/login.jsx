@@ -40,6 +40,7 @@ export default function Login() {
       setUser(response.data.user);
       setToken(response.data.token);
       setId_utilizador(response.data.id_utilizador);
+    
 
 
     } catch (error) {
