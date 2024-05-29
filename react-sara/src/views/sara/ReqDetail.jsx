@@ -100,10 +100,10 @@ export default function ReqDetail() {
         <>
             <div className='container'>
                 <div className='row'>
-                    <div className='col-7'>
-                        <h1>{detalhesRequisicao.id_requisicao}: {detalhesRequisicao.nome_requisicao}</h1>
+                    <div className='col-12 col-sm-7'>
+                        <h1>{/*detalhesRequisicao.id_requisicao*/}{detalhesRequisicao.nome_requisicao}</h1>
                     </div>
-                    <div className='col-5'>
+                    <div className='col-12 col-sm-5 position-fixed bottom-0' style={{ marginBottom: '6rem' }}>
                         <div className='flex justify-end'>
                             <button onClick={handleAprovarClick} className='btn btn-success mr-5'>Aprovar</button>
                             <button onClick={handleRejeitarClick} className='btn btn-danger'>Rejeitar</button>
