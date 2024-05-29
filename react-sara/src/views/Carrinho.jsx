@@ -10,7 +10,7 @@ const Carrinho = () => {
     const [buttonPath, setButtonPath] = useState("");
     const [showEquipamentosButton, setShowEquipamentosButton] = useState(false);
     const navigate = useNavigate();
-    const { user, cart, setCart } = useStateContext();
+    const { user, cart} = useStateContext();
 
     useEffect(() => {
         const fetchRequisicaoStatus = async () => {
@@ -61,53 +61,67 @@ const Carrinho = () => {
     return (
         <div>
             <h1>Carrinho</h1>
-            {cart.length === 0 &&
-                message !== "Ainda não concluiu o processo de requisição" && (
-                    <div className="d-flex flex-column align-items-center">
-                        {" "}
-                        <div style={{ paddingRight: 10 }}>
-                            <img src={emptyCartImg} alt="Empty Cart" />{" "}
+            <div className="d-flex justify-content-center align-items-center vh-100">
+                <div className="text-center">
+                    {cart.length === 0 &&
+                        message !==
+                            "Ainda não concluiu o processo de requisição" && (
+                            <div className="d-flex flex-column align-items-center mb-3">
+                                <img
+                                    src={emptyCartImg}
+                                    alt="Empty Cart"
+                                    className="mb-4"
+                                />
+                                <h3>O carrinho está vazio.</h3>
+                            </div>
+                        )}
+                    <p>{message}</p>
+                    <div className="container px-4">
+                        <div className="d-flex justify-content-around">
+                            {showEquipamentosButton && (
+                                <div className="d-grid col-6">
+                                    <button
+                                        className="btn btn-sara-secondary"
+                                        onClick={handleEquipamentosClick}
+                                    >
+                                        Equipamentos
+                                    </button>
+                                </div>
+                            )}
+                            <div className="d-grid col-6 mx-2">
+                                <button
+                                    className="btn btn-sara-primary"
+                                    onClick={handleButtonClick}
+                                >
+                                    {buttonText}
+                                </button>
+                            </div>
                         </div>
-                        <h3>O carrinho está vazio.</h3>
                     </div>
-                )}
-            <p className="text-center">{message}</p>{" "}
-            <div className="d-flex justify-content-between">
-                {showEquipamentosButton && (
-                    <button
-                        className="btn btn-sara-secondary flex-grow-1 mr-2"
-                        onClick={handleEquipamentosClick}
-                    >
-                        Equipamentos
-                    </button>
-                )}
-                <button
-                    className="btn btn-sara-primary flex-grow-1"
-                    onClick={handleButtonClick}
-                >
-                    {buttonText}
-                </button>
-            </div>
-            {message === "Ainda não concluiu o processo de requisição" ? (
-                <div>
-                    <h2>O que tens até agora no carrinho:</h2>
-                    {cart.length > 0 ? (
-                        <ul>
-                            {cart.map((item, index) => (
-                                <li key={index}>
-                                    {item.nome_modelo_equipamento} -{" "}
-                                    {item.nome_marca_equipamento}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>
-                            O carrinho está vazio mas deveria estar a aparecer a
-                            data pelo menos e a uc escolhida com o professor.
-                        </p>
-                    )}
+                    {message ===
+                    "Ainda não concluiu o processo de requisição" ? (
+                        <div>
+                            <h2>O que tens até agora no carrinho:</h2>
+                            {cart.length > 0 ? (
+                                <ul>
+                                    {cart.map((item, index) => (
+                                        <li key={index}>
+                                            {item.nome_modelo_equipamento} -{" "}
+                                            {item.nome_marca_equipamento}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>
+                                    O carrinho está vazio mas deveria estar a
+                                    aparecer a data pelo menos e a uc escolhida
+                                    com o professor.
+                                </p>
+                            )}
+                        </div>
+                    ) : null}
                 </div>
-            ) : null}
+            </div>
         </div>
     );
 };
