@@ -65,7 +65,6 @@ class SaraHomeController extends Controller
                 'requisicao_id_requisicao' => 'required|integer',
                 'estado_id_estado' => 'required|integer',
                 'data_estado' => 'required|date_format:Y-m-d H:i:s',
-                'comentario_sara_requisicao' => 'string|max:255',
             ]);
 
             // Criar a estado
@@ -75,13 +74,6 @@ class SaraHomeController extends Controller
                 'data_estado' => $validate['data_estado'],
             ]);
 
-            if(!isset($validate['comentario_sara_requisicao'])){
-            } else {
-            Requisicao::where('id_requisicao', $id)->update([
-                'comentario_sara_requisicao' => $validate['comentario_sara_requisicao'],
-            ]);
-        }
-
             return response()->json(['message' => 'Estado atualizado com sucesso'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro ao atualizar estado' . $e->getMessage()], 500);
@@ -89,6 +81,22 @@ class SaraHomeController extends Controller
 
     }
 
+    public function comentarSara(Request $request, $id)
+    {
+        try {
+            $validate = $request->validate([
+                'comentario_sara_requisicao' => 'string|max:255',
+            ]);
+
+            Requisicao::where('id_requisicao', $id)->update([
+                'comentario_sara_requisicao' => $validate['comentario_sara_requisicao'],
+            ]);
+
+            return response()->json(['message' => 'Comentário atualizado com sucesso'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao atualizar comentário' . $e->getMessage()], 500);
+        }
+    }
 
     public function getRequisicaoDetalhe($id)
     {

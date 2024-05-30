@@ -106,12 +106,17 @@ export default function Equipamentos() {
                     {/* List of Equipamento Cards */}
                     <div style={{ display: "flex", flexWrap: "wrap" }}>
                         {visibleEquipamentos.map((equipamento, index) => {
-                            const imageUrl = `${BASE_URL}${equipamento.imagem_modelo_equipamento}`;
+                            let imageUrl;
+                            if (equipamento.imagem_modelo_equipamento) {
+                                imageUrl = `${BASE_URL}${equipamento.imagem_modelo_equipamento}`;
+                            } else {
+                                imageUrl = `${BASE_URL}/images/equipamento/noImg.png`;
+                            }
                             return (
                                 <div key={index} ref={visibleEquipamentos.length === index + 1 ? lastEquipamentoElementRef : null} className="card mt-4 border-0 position-relative">
                                     <div className="row align-items-center">
                                         <div className="col-4 d-flex justify-content-center">
-                                            <img src={equipamento.imagem_modelo_equipamento || '/src/images/equipamento/noImg.png'} className="img-fluid" />
+                                            <img src={imageUrl} className="img-fluid" />
                                         </div>
                                         <div className="col-8 d-flex flex-column justify-content-between">
                                             <div>
