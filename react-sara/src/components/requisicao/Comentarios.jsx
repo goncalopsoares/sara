@@ -3,6 +3,7 @@ import React from 'react';
 export default function Comentarios({ comentarioProfessorRequisicao, comentarioSaraRequisicao, utilizadores, onSubmitComment, currentUser }) {
 
     const [newComment, setNewComment] = React.useState('');
+    const BASE_URL = 'http://localhost:8000';
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -20,7 +21,7 @@ export default function Comentarios({ comentarioProfessorRequisicao, comentarioS
                         user.role_utilizador === 2 && (
                             <div key={index} className="flex items-center mr-4 mb-4 mt-3">
                                 <div className="flex items-center">
-                                    <img className="rounded-full h-12 w-12 mr-1" src={`http://localhost:8000${user.avatar_utilizador}`} alt={user.nome_utilizador} />
+                                    <img className="rounded-full h-12 w-12 mr-1" src={`${BASE_URL}${user.avatar_utilizador}`} alt={user.nome_utilizador} />
                                 </div>
                                 <div className='mr-5'>
                                     <p className="mb-0">{comentarioProfessorRequisicao}</p>
@@ -36,7 +37,7 @@ export default function Comentarios({ comentarioProfessorRequisicao, comentarioS
                         user.role_utilizador === 1 && index === 0 && (
                             <div key={index} className="flex items-center mr-4 mb-4 mt-3">
                                 <div className="flex items-center">
-                                    <img className="rounded-full h-12 w-12 mr-1" src={`http://localhost:8000${user.avatar_utilizador}`} alt={user.nome_utilizador} />
+                                    <img className="rounded-full h-12 w-12 mr-1" src={`${BASE_URL}${user.avatar_utilizador}`} alt={user.nome_utilizador} />
                                 </div>
                                 <div className='mr-5'>
                                     <p className="mb-0">{comentarioSaraRequisicao}</p>
