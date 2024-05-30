@@ -104,15 +104,16 @@ export default function ReqDetail() {
                     <div className='col-8 col-sm-7'>
                         <h1>Requisicao {detalhesRequisicao.id_requisicao}: {detalhesRequisicao.nome_requisicao}</h1>
                     </div>
-                    <div
-                        className={`col-4 col-sm-5 ${user.tipo_utilizador === 2 || user.tipo_utilizador === 3 ? 'position-fixed bottom-0' : ''}`}
-                        style={user.tipo_utilizador === 2 || user.tipo_utilizador === 3 ? { marginBottom: '6rem' } : {}}
-                    >
-                        <div className='flex justify-end'>
-                            <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
-                            <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
-                        </div>
-                    </div>
+                    {detalhesRequisicao.id_estado === 3 && user.tipo_utilizador === 1 || detalhesRequisicao.id_estado === 1 && user.tipo_utilizador === 2 ? (
+                        <div
+                            className={`col-4 col-sm-5 ${user.tipo_utilizador === 2 || user.tipo_utilizador === 3 ? 'position-fixed bottom-0' : ''}`}
+                            style={user.tipo_utilizador === 2 || user.tipo_utilizador === 3 ? { marginBottom: '6rem' } : {}}
+                        >
+                            <div className='flex justify-end'>
+                                <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
+                                <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
+                            </div>
+                        </div>) : null}
                 </div>
             </div>
             <div className="container">
