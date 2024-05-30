@@ -24,9 +24,22 @@
     background-color: black;
 }
 
+.step.completed .circle {
+    background-color: green; /* Color for completed steps */
+}
+
 .label {
     margin-top: 5px;
     font-size: 12px;
+    color: grey;
+}
+
+.step.active .label {
+    color: black;
+}
+
+.step.completed .label {
+    color: green; /* Color for completed steps */
 }
 
 /* Ensure equal distribution of steps */
@@ -51,6 +64,10 @@
     background-color: black;
 }
 
+.step.completed .circle {
+    background-color: #92D400;
+}
+
 .label {
     font-size: 0.5rem;
     color: #c2c2c2;
@@ -58,6 +75,10 @@
 
 .step.active .label {
     color: black;
+}
+
+.step.completed .label {
+    color: #92D400;
 }
 
 /* Optional: Adding lines between the steps */
@@ -74,4 +95,8 @@
 
 .step.active:not(:last-child)::after {
     background-color: black;
+}
+
+.step.completed:not(:last-child)::after {
+    background-color: #92D400;
 }
