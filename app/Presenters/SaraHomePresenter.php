@@ -89,11 +89,11 @@ class SaraHomePresenter
             ->where(function ($query) use ($data) {
                 $query->where(function ($query) use ($data) {
                     $query->where(DB::raw('DATE(requisicao_has_equipamento.data_inicio_requisicao)'), $data)
-                        ->whereIn('requisicao_has_estado.estado_id_estado', [5, 7]);
+                        ->whereIn('requisicao_has_estado.estado_id_estado', [4, 7]);
                 })
                     ->orWhere(function ($query) use ($data) {
                         $query->where(DB::raw('DATE(requisicao_has_equipamento.data_fim_requisicao)'), $data)
-                            ->whereIn('requisicao_has_estado.estado_id_estado', [6, 7]);
+                            ->whereIn('requisicao_has_estado.estado_id_estado', [5, 7]);
                     });
             })
             ->select(
