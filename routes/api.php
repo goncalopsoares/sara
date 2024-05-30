@@ -29,6 +29,9 @@ Route::get('/requisicao/ultimarequisicaosemestado/{id}', [RequisicaoController::
 
 Route::get('/nomesutilizadores', [UtilizadorController::class,'nomesUtilizadores']);//nomes para o carrinho final
 
+Route::get ('/uc/{id}', [EstudanteHomeController::class, 'getUC']); //ver detalhes da UC
+
+
 // Rotas para professores
 
 Route::get('/professorhome/{id}', [ProfessorHomeController::class, 'requisicoes']);//pagina inicial -> informacoes das requisicoes -> nome, contexto, datas de inicio e fim, equipamentos, comentarios sara e estado, onde o professor é o requisitante

@@ -125,6 +125,16 @@ input {
     color: white !important;
 }
 
+.btn-sara-secondary {
+    color: #1C7A00;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1rem solid #1C7A00;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+
 .login-container {
     display: flex;
     height: 100vh;
