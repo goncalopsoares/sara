@@ -3,11 +3,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './StepStyles.css';
 import ErrorModal from './ErrorModal';
+import { ArrowLeft, ArrowRight } from 'react-feather';
 
-const Step3 = ({ handleDateSubmit }) => {
+const Step3 = ({ goToPreviousStep, handleDateSubmit }) => {
     const [selectedRange, setSelectedRange] = useState([null, null]);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
 
     const setToSpecificTime = (date, hours, minutes) => {
         if (!date) return null;
@@ -24,14 +24,12 @@ const Step3 = ({ handleDateSubmit }) => {
         // Check if start date is a weekend day or before today
         if (start && (start.getDay() === 0 || start.getDay() === 6 || start < today)) {
             setError('Selecione uma data de recolha válida.');
-            setShowModal(true);
             return;
         }
 
         // Check if end date is a weekend day or before today
         if (end && (end.getDay() === 0 || end.getDay() === 6 || end < today)) {
             setError('Selecione uma data de devolução válida.');
-            setShowModal(true);
             return;
         }
 
@@ -41,34 +39,28 @@ const Step3 = ({ handleDateSubmit }) => {
         if (end && end > maxEndDate) {
             end = maxEndDate;
             setError('Intervalo máximo de 5 dias.');
-            setShowModal(true);
         } else {
             setError(null);
-            setShowModal(false);
         }
 
         setSelectedRange([start, end]);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         if (!selectedRange[0] || !selectedRange[1]) {
             setError('Selecione as datas de início e fim.');
-            setShowModal(true);
             return;
         }
 
         // Check if start date is a weekend day or before today
         if (selectedRange[0].getDay() === 0 || selectedRange[0].getDay() === 6 || selectedRange[0] < new Date()) {
             setError('Selecione uma data de recolha válida.');
-            setShowModal(true);
             return;
         }
 
         // Check if end date is a weekend day or before today
         if (selectedRange[1].getDay() === 0 || selectedRange[1].getDay() === 6 || selectedRange[1] < new Date()) {
             setError('Selecione uma data de devolução válida.');
-            setShowModal(true);
             return;
         }
 
@@ -85,10 +77,6 @@ const Step3 = ({ handleDateSubmit }) => {
             return 'react-datepicker-weekend';
         }
         return null;
-    };
-
-    const closeModal = () => {
-        setShowModal(false);
     };
 
     return (
@@ -132,7 +120,7 @@ const Step3 = ({ handleDateSubmit }) => {
                 </div>
             </div>
             <div>
-                <div className="date-picker-container">
+                <div className="date-picker-container" style={{ marginTop: "0rem" }}>
                     <DatePicker
                         selected={selectedRange[0]}
                         onChange={handleChange}
@@ -161,13 +149,28 @@ const Step3 = ({ handleDateSubmit }) => {
                         minDate={new Date()} // Disable all previous dates
                     />
                 </div>
-                {showModal && <ErrorModal message={error} onClose={closeModal} />}
-                <button
-                    onClick={handleSubmit}
-                    className="bg-green-200 p-2 mt-2 text-black fw-bolder rounded-2"
-                >
-                    Confirmar Datas
-                </button>
+                {error && (
+                    <div style={{ color: 'red', fontSize: '0.8rem', marginTop: '0.5rem' }}>
+                        {error}
+                    </div>
+                )}
+                <div className="d-flex justify-content-between">
+                    <button
+                        className='btn btn-sara-secondary'
+                        onClick={goToPreviousStep}
+                    >
+                        <ArrowLeft className='inline-block align-middle me-3' />
+                        <span className="text-uppercase" style={{ fontSize: "0.8rem" }}>Voltar</span>
+                    </button>
+                    <button
+                        onClick={handleSubmit}
+                        className='btn btn-sara-primary'
+                        disabled={!selectedRange[0] || !selectedRange[1]}
+                    >
+                        <span className="text-uppercase" style={{ fontSize: "0.8rem" }}>Continuar</span>
+                        <ArrowRight className='inline-block align-middle ms-3' />
+                    </button>
+                </div>
             </div>
         </>
     );

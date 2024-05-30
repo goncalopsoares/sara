@@ -280,6 +280,7 @@ const Requisitar = () => {
             {currentStep === 3 && (
                 <Step3
                     handleDateSubmit={handleDateSubmit}
+                    goToPreviousStep={goToPreviousStep}
                 />
             )}
 
