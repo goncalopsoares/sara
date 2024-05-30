@@ -100,3 +100,100 @@
 .step.completed:not(:last-child)::after {
     background-color: #92D400;
 }
+
+/* Step3.css */
+
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected {
+    background-color: #68AF00 !important;
+    color: white !important;
+    border-radius: 0.3rem;
+}
+
+.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range{
+    background-color: #68AF00 !important;
+    color: white !important;
+    border-radius: 0.3rem;
+}
+
+.react-datepicker__header {
+    text-align: center;
+    background-color: white;
+    border-bottom: none;
+    border-top-left-radius: 0.3rem;
+    padding: 8px 0;
+    position: relative;
+}
+
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    color:#68AF00 !important;
+}
+
+.react-datepicker__navigation--next {
+    color:#68AF00 !important;
+}
+
+.react-datepicker {
+    font-family: Poppins;
+    border:none;
+}
+
+
+
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+    top: 8px;
+}
+
+.date-picker-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto; /* Adjust margin as needed */
+    width: 100%;
+    max-width: 400px; /* Adjust max-width as needed */
+}
+
+.react-datepicker-weekend {
+    color: red !important;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure this is above your other content */
+}
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    text-align: center;
+    z-index: 1100; /* Ensure this is above the overlay */
+}
+
+.modal button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #68AF00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal button:hover {
+    background-color: #5e9c00;
+}
+
+.text-red-500 {
+    color: #e53e3e;
+}
+

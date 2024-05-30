@@ -218,6 +218,10 @@ const Requisitar = () => {
         setCurrentStep(currentStep + 1);
     };
 
+    const goToPreviousStep = () => {
+        setCurrentStep(currentStep - 1);
+    };
+
     const goToStep5 = () => {
         setCurrentStep(5);
     };
@@ -269,6 +273,7 @@ const Requisitar = () => {
                     formData={formData}
                     handleInputChange={handleInputChange}
                     handleSubmit={handleSubmitStep2}
+                    goToPreviousStep={goToPreviousStep}
                 />
             )}
 

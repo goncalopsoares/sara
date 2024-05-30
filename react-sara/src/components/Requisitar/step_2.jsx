@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { X } from 'react-feather';
+import { X, ArrowLeft, ArrowRight } from 'react-feather';
 
-const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, handleRemoveGroupMember, formData, handleInputChange, handleSubmit }) => {
-
+const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, handleRemoveGroupMember, formData, handleInputChange, handleSubmit, goToPreviousStep }) => {
     const [nomeRequisicaoCount, setNomeRequisicaoCount] = useState(formData.nome_requisicao.length);
     const [contextoRequisicaoCount, setContextoRequisicaoCount] = useState(formData.contexto_requisicao.length);
     const BASE_URL = "http://localhost:8000";
@@ -16,6 +15,9 @@ const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, h
         handleInputChange(event);
         setContextoRequisicaoCount(event.target.value.length);
     };
+
+    // Check if both nome_requisicao and contexto_requisicao have values
+    const isContinueDisabled = !formData.nome_requisicao || !formData.contexto_requisicao;
 
     return (
         <>
@@ -81,7 +83,7 @@ const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, h
                             </select>
                             <ul className="group-list ps-0">
                                 {selectedGroupMembers.map(u => {
-                                    const imageUrl = `${BASE_URL}${u.avatar_utilizador}`; // Adjusting to use avatar URL
+                                    const imageUrl = `${BASE_URL}${u.avatar_utilizador}`;
 
                                     return (
                                         <li key={u.id_utilizador} className="group-list-item"
@@ -115,7 +117,23 @@ const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, h
                                 })}
                             </ul>
                         </div>
-                        <button type="submit" className="bg-green-200 p-2 mt-2 text-black fw-bolder rounded-2">Criar Requisição</button>
+                        <div className="d-flex justify-content-between">
+                            <button
+                                className='btn btn-sara-secondary'
+                                onClick={goToPreviousStep}
+                            >
+                                <ArrowLeft className='inline-block align-middle me-3' />
+                                <span className="text-uppercase" style={{ fontSize: "0.8rem" }}>Voltar</span>
+                            </button>
+                            <button
+                                type="submit"
+                                className='btn btn-sara-primary'
+                                disabled={isContinueDisabled} // Disable the button if nome_requisicao or contexto_requisicao is empty
+                            >
+                                <span className="text-uppercase" style={{ fontSize: "0.8rem" }}>Continuar</span>
+                                <ArrowRight className='inline-block align-middle ms-3' />
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
