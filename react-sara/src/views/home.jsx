@@ -61,23 +61,22 @@ const Home = () => {
        
                  }else if(user.tipo_utilizador === 2){
 
-                     axiosClient.get(`/professorhome/${user.id_utilizador}`)
-                .then(response => {
-                    console.log('Requisicao:', response.data);
+                    axiosClient.get(`/professorhome/${user.id_utilizador}`)
                     
-                    const resultProfessor = response.data.ProfessorHome;
-                    console.log('professor', resultProfessor);
-                    if(resultProfessor.length>0){
-                    setRequisicaoProfessor(resultProfessor);
-                }else{setRequisicaoProfessor([])}
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error('Erro ao obter dados:', error);
-                    setError(error);
-                    setLoading(false);
-                });
-
+                    .then(response => {
+                        console.log('Requisicao:', response.data);
+                        const resultProfessor = response.data.ProfessorHome;
+                        setRequisicaoProfessor(resultProfessor);
+                        console.log('professor',resultProfessor);
+                        console.log('professor',requisicaoProfessor);
+                        
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.error('Erro ao obter dados:', error);
+                        setError(error);
+                        setLoading(false);
+                    });
             axiosClient.get(`/professorhome/porvalidar/${user.id_utilizador}`)
                 .then(response => {
                     console.log('validar', response.data);
@@ -107,7 +106,8 @@ const Home = () => {
             }
     }, [user.id_utilizador, user.tipo_utilizador]);
 
-      
+
+   
 
     return (
         <>
@@ -142,26 +142,33 @@ const Home = () => {
                                     })
                                 )
                             ) }
-                            {user.tipo_utilizador === 2 && (
-                                requisicaoProfessor?.length ===0 ? (
-                                    <p>Não tem requisições ativas.</p>
-                                ) : (
-                                    requisicaoProfessor.map(req => {
-                                        const ultimoEstado = req.estados[req.estados.length - 1];
-                                        if ([2, 3, 4].includes(ultimoEstado.id_estado)) {
-                                            return (
-                                                <HomeReqAtiva
-                                                    key={req.id_requisicao}
-                                                    requisicao={requisicaoProfessor}
-                                                    handleShowMore={handleShowMore}
-                                                    req={req}
-                                                />
-                                            );
-                                        }
-                                        return null;
-                                    })
-                                )
-                            )}
+                           {user.tipo_utilizador === 2 && (
+                                requisicaoProfessor && (
+                                    requisicaoProfessor.length === 0 ? (
+                                        <p>Não tem requisições ativas.</p>
+                                    ) : (
+                                        requisicaoProfessor.map(req => {
+                                            if (!req.estados || req.estados.length === 0) {
+                                                // Caso não haja estados, não podemos acessar req.estados[req.estados.length - 1]
+                                                return null;
+                                            }
+                                            const ultimoEstado = req.estados[req.estados.length - 1];
+                                            if (ultimoEstado && [2, 3, 4].includes(ultimoEstado.id_estado)) {
+                                                return (
+                                                    <HomeReqAtiva
+                                                        key={req.id_requisicao}
+                                                        requisicao={req} // Aqui deve ser 'req', não 'requisicaoProfessor'
+                                                        handleShowMore={handleShowMore}
+                                                        req={req}
+                                                    />
+                                                );
+                                            }
+                                            return null;
+                                        })
+        )
+    )
+)}
+
                             
                         </div>
                     )}
@@ -197,24 +204,39 @@ const Home = () => {
                     </div>
                 )}
 
-                <div>
-                    <div className="mobile-subtitle mb-4 mt-4">As minhas UCs</div>
-                    {loading2 ? (
-                        <p>Loading...</p>
-                    ) : (
-                        <div className="row">
-                            {ucs_aluno.length === 0 ? (
-                                <p>Não tem Uc´s associadas.</p>
-                            ) : (
-                                ucs_aluno.map(uc => (
-                                    <div className="col-6" key={uc.id}>
-                                        <HomeUcsAtiva uc={uc} />
-                                    </div>
-                                ))
-                            )}
+<div>
+    <div className="mobile-subtitle mb-4 mt-4">As minhas UCs</div>
+    {loading2 ? (
+        <p>Loading...</p>
+    ) : (
+        <div className="row">
+            {user.tipo_utilizador === 3 ? (
+                ucs_aluno.length === 0 ? (
+                    <p>Não tem UCs associadas.</p>
+                ) : (
+                    ucs_aluno.map(uc => (
+                        <div className="col-6" key={uc.id}>
+                            <HomeUcsAtiva uc={uc} />
                         </div>
-                    )}
-                </div>
+                    ))
+                )
+            ) : null}
+
+            {user.tipo_utilizador === 2 ? (
+                ucs_professor.length === 0 ? (
+                    <p>Não tem UCs associadas.</p>
+                ) : (
+                    ucs_professor.map(uc => (
+                        <div className="col-6" key={uc.id}>
+                            <HomeUcsAtiva uc={uc} />
+                        </div>
+                    ))
+                )
+            ) : null}
+        </div>
+    )}
+</div>
+
             </div>
         </>
     );
