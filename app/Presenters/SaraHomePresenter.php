@@ -23,7 +23,7 @@ class SaraHomePresenter
                 $join->on('requisicao_has_estado.requisicao_id_requisicao', '=', 'latest.requisicao_id_requisicao')
                     ->on('requisicao_has_estado.data_estado', '=', 'latest.latest_date');
             })
-            ->where('requisicao_has_estado.estado_id_estado', 3)
+            ->where('requisicao_has_estado.estado_id_estado', 2)
             ->select(
                 'requisicao.id_requisicao',
                 'requisicao.nome_requisicao',
@@ -89,11 +89,11 @@ class SaraHomePresenter
             ->where(function ($query) use ($data) {
                 $query->where(function ($query) use ($data) {
                     $query->where(DB::raw('DATE(requisicao_has_equipamento.data_inicio_requisicao)'), $data)
-                        ->whereIn('requisicao_has_estado.estado_id_estado', [4, 7]);
+                        ->whereIn('requisicao_has_estado.estado_id_estado', [3, 5]);
                 })
                     ->orWhere(function ($query) use ($data) {
                         $query->where(DB::raw('DATE(requisicao_has_equipamento.data_fim_requisicao)'), $data)
-                            ->whereIn('requisicao_has_estado.estado_id_estado', [5, 7]);
+                            ->whereIn('requisicao_has_estado.estado_id_estado', [4, 5]);
                     });
             })
             ->select(

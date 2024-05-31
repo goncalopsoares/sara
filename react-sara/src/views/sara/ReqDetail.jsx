@@ -94,7 +94,7 @@ export default function ReqDetail() {
 
     const handleClick = (event) => {
         const buttonId = event.target.id;
-        const estadoId = buttonId === 'button1' ? 4 : 6;
+        const estadoId = buttonId === 'button1' ? 3 : 6;
 
         const data = {
             requisicao_id_requisicao: id,
@@ -139,13 +139,13 @@ export default function ReqDetail() {
                         className={`col-4 col-sm-5 ${user.tipo_utilizador === 2 && detalhesRequisicao.id_estado === 1 ? 'position-fixed bottom-0' : ''}`}
                         style={user.tipo_utilizador === 2 && detalhesRequisicao.id_estado === 1 ? { marginBottom: '6rem' } : {}}
                     >
-                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 3 && (
+                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 && (
                             <div className='flex justify-end'>
                                 <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
                                 <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
                             </div>)}
 
-                            {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 4 && (
+                            {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
                                <div>
                                <button onClick={toggleCode} className="btn btn-success mr-5">
                                    {showCode ? 'Esconder Código' : 'Ver Código levantamento'}
@@ -158,7 +158,7 @@ export default function ReqDetail() {
                            </div>
                             )
                             }
-                             {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 5 && (
+                             {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 4 && (
                                 <div>
                                 <button onClick={toggleCode} className="btn btn-success mr-5">
                                     {showCode ? 'Esconder Código' : 'Ver Código devolução'}
