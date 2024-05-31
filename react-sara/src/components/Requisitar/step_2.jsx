@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { X, ArrowLeft, ArrowRight } from 'react-feather';
+import { useStateContext } from '../../contexts/contextprovider';
 
 const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, handleRemoveGroupMember, formData, handleInputChange, handleSubmit, goToPreviousStep }) => {
     const [nomeRequisicaoCount, setNomeRequisicaoCount] = useState(formData.nome_requisicao.length);
     const [contextoRequisicaoCount, setContextoRequisicaoCount] = useState(formData.contexto_requisicao.length);
     const BASE_URL = "http://localhost:8000";
+    const {user}= useStateContext();
 
     const handleNomeRequisicaoChange = (event) => {
         handleInputChange(event);
@@ -71,6 +73,9 @@ const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, h
                                 placeholder="Escreve uma breve descrição do projeto. Ex: Gravações no Parque da Macaca durante a noite"
                             />
                         </div>
+                        {/* andre alteracao */}
+                        {user.tipo_utilizador===3 && (
+                            <div>
                         <div style={{ fontSize: "0.8rem", marginBottom: "0.5rem", marginTop: "1rem" }}>Elementos do grupo</div>
                         <div className="select-container">
                             <select onChange={handleUtilizadoresChange} className="select-dropdown rounded w-100" style={{ fontSize: "0.8rem", backgroundColor: "#FAFAFA", color: "#818181", marginBottom: "0.5rem", }}>
@@ -117,6 +122,8 @@ const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, h
                                 })}
                             </ul>
                         </div>
+                        </div>
+                        )}
                         <div className="d-flex justify-content-between">
                             <button
                                 className='btn btn-sara-secondary'

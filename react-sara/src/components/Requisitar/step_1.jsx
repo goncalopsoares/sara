@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'react-feather';
 import "../../App.css";
+import { useStateContext } from '../../contexts/contextprovider';
 
 const Step1 = ({ ucs, selectedProfessor, professores, handleUcSelect: parentHandleUcSelect, handleProfessorSelect, goToNextStep }) => {
     const BASE_URL = "http://localhost:8000";
     const [selectedUcId, setSelectedUcId] = useState(null);
     const [selectedProfessorId, setSelectedProfessorId] = useState(null);
     const [isContinueDisabled, setIsContinueDisabled] = useState(true);
+    const {user}= useStateContext();
 
     const handleUcSelect = (uc) => {
         const newSelectedUcId = selectedUcId === uc.id_uc_contexto ? null : uc.id_uc_contexto;
         setSelectedUcId(newSelectedUcId);
         if (parentHandleUcSelect) {
             parentHandleUcSelect(uc);
+            //andre alteracao
+            if(user.tipo_utilizador===2){
+                setIsContinueDisabled(false);
+            }
         }
         if (newSelectedUcId === null) {
             setSelectedProfessorId(null); // Reset professor selection if UC is deselected
             setIsContinueDisabled(true); // Disable continue button if UC is deselected
+        
         }
     };
 
@@ -68,10 +75,12 @@ const Step1 = ({ ucs, selectedProfessor, professores, handleUcSelect: parentHand
                                         </div>
                                     </div>
                                 </div>
-                                {isSelected && (
+                                {/* andre alteracao */}
+                                {isSelected && user.tipo_utilizador===3  &&(
                                     <div style={{ marginTop: "0.5rem", marginBottom: "3rem" }}>
                                         <div style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }} className="fw-bold">Escolhe um professor</div>
                                         <div>
+                                       
                                             {professores.map(professor => {
                                                 const imageUrl = `${BASE_URL}${professor.avatar_utilizador}`;
 
@@ -101,9 +110,11 @@ const Step1 = ({ ucs, selectedProfessor, professores, handleUcSelect: parentHand
                                                     </div>
                                                 );
                                             })}
+                                
                                         </div>
                                     </div>
                                 )}
+                                
                             </React.Fragment>
                         );
                     })}

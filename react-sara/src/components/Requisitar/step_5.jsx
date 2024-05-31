@@ -129,7 +129,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
         const hours = String(d.getHours()).padStart(2, '0');
         const minutes = String(d.getMinutes()).padStart(2, '0');
         const seconds = String(d.getSeconds()).padStart(2, '0');
-        return `${day}/${month}/${year}`;
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}⁠`;
     };
 
     const submitRequest = () => {
@@ -145,8 +145,11 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
             })),
         };
 
+       
+
         axiosClient.post(`/requisicao/${requestId}`, requestBody)
             .then(response => {
+
                 console.log("Requisição finalizada com sucesso:", response.data);
                 setCart([]);
                 navigate('/home', /* { state: { successMessage: 'Registo criado com sucesso!' } } */);
@@ -154,13 +157,21 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
             .catch(error => {
                 console.error("Erro ao finalizar requisição:", error);
             });
+
+            console.log("request", requestBody); // Debug output
     };
+
+    console.log(formatDate(startDate), formatDate(endDate) , "datas")
+
 
     const professor = formData.requisicao_has_utilizadores.find(utilizador => utilizador.role_utilizador === 2);
     const groupMembers = formData.requisicao_has_utilizadores.filter(utilizador => utilizador.role_utilizador === 4);
 
     console.log("formData:", formData); // Debug output
     console.log("Professor:", professor); // Debug output
+    console.log("requestId:", requestId); 
+   
+    // Debug output
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
