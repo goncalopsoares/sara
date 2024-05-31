@@ -218,6 +218,10 @@ const Requisitar = () => {
         setCurrentStep(currentStep + 1);
     };
 
+    const goToPreviousStep = () => {
+        setCurrentStep(currentStep - 1);
+    };
+
     const goToStep5 = () => {
         setCurrentStep(5);
     };
@@ -238,12 +242,6 @@ const Requisitar = () => {
                     <>
                         <div className="text-center mobile-subtitle ">{stepNames[currentStep - 1]}</div>
                         <StepIndicator currentStep={currentStep} />
-                        {selectedUc && selectedProfessor && (
-                            <FaArrowAltCircleRight className='text-end' size={60} onClick={goToNextStep} />
-                        )}
-                        {cart.length > 0 && (
-                            <FaArrowAltCircleRight className='text-end' size={40} onClick={goToNextStep} />
-                        )}
                     </>
                 )}
             </div>
@@ -269,12 +267,14 @@ const Requisitar = () => {
                     formData={formData}
                     handleInputChange={handleInputChange}
                     handleSubmit={handleSubmitStep2}
+                    goToPreviousStep={goToPreviousStep}
                 />
             )}
 
             {currentStep === 3 && (
                 <Step3
                     handleDateSubmit={handleDateSubmit}
+                    goToPreviousStep={goToPreviousStep}
                 />
             )}
 

@@ -110,6 +110,9 @@ input {
     color:#1C7A00;
 }
 
+.txt-blue-900 {
+    color: #0000C8;
+}
 
 .btn-sara-primary {
     color: white;
@@ -256,6 +259,18 @@ input {
     font-weight: 600;
 }
 
+
+.btn-sara-quaternary {
+    background-color: #3c3c3c;
+    color: #f0f0f0;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-weight: 600;
+}
 
 
 

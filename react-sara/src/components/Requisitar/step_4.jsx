@@ -1,26 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axiosClient from '../../axiosClient';
 import '../../App.css';
 import { useStateContext } from '../../contexts/contextprovider';
+import { ShoppingCart, Info,X } from 'react-feather';
+
 
 const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
-  const [equipamentos, setEquipamentos] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedEquipamento, setSelectedEquipamento] = useState(null);
-  const [cartModalIsOpen, setCartModalIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedSubCategory, setSelectedSubCategory] = useState('All');
-  const { cart, setCart } = useStateContext();
+    const [equipamentos, setEquipamentos] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedEquipamento, setSelectedEquipamento] = useState(null);
+    const [cartModalIsOpen, setCartModalIsOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [selectedSubCategory, setSelectedSubCategory] = useState('All');
+    const { cart, setCart } = useStateContext();
 
-  useEffect(() => {
-    axiosClient.get(`/requisicao/uc/${selectedUc.id_uc_contexto}`)
-      .then(response => {
-        setEquipamentos(response.data);
-      })
-      .catch(error => {
-        console.error("Erro ao obter equipamentos:", error);
-      });
-  }, [selectedUc.id_uc_contexto]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [filteredEquipamentos, setFilteredEquipamentos] = useState([]);
+    const [visibleEquipamentos, setVisibleEquipamentos] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const observer = useRef();
+
+    const BASE_URL = "http://localhost:8000";
+    const ITEMS_PER_PAGE = 10;
+
+    useEffect(() => {
+        axiosClient.get(`/requisicao/uc/${selectedUc.id_uc_contexto}`)
+            .then(response => {
+                setEquipamentos(response.data);
+                setLoading(false); // Add this line
+            })
+            .catch(error => {
+                console.error("Erro ao obter equipamentos:", error);
+                setError(error); // Add this line
+                setLoading(false); // Add this line
+            });
+    }, [selectedUc.id_uc_contexto]);
 
   const isAvailable = (requisicoes) => {
     const start = new Date(startDate);
@@ -81,58 +96,140 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
     equipamento.equipamentos.map(e => e.nome_sub_categoria).filter(Boolean)
   ))];
 
-  const filteredEquipamentos = equipamentos.filter(equipamento => {
-    const categoriesMatch = selectedCategory === 'All' || equipamento.equipamentos.some(e => e.nome_categoria === selectedCategory);
-    const subCategoriesMatch = selectedSubCategory === 'All' || equipamento.equipamentos.some(e => e.nome_sub_categoria === selectedSubCategory);
-    return categoriesMatch && subCategoriesMatch;
-  });
+    const filterEquipamentos = useCallback(() => {
+        const filtered = equipamentos.filter(equipamento => {
+            const categoriesMatch = selectedCategory === 'All' || equipamento.equipamentos.some(e => e.nome_categoria === selectedCategory);
+            const subCategoriesMatch = selectedSubCategory === 'All' || equipamento.equipamentos.some(e => e.nome_sub_categoria === selectedSubCategory);
+            return categoriesMatch && subCategoriesMatch;
+        });
 
-  return (
-    <div>
-      <h2>Equipamento disponivel</h2>
-      <div className="category-buttons">
-        <h4>Categorias</h4>
-        {uniqueCategories.map(category => (
-          <button
-            key={category}
-            onClick={() => handleCategoryChange(category)}
-            className={selectedCategory === category ? 'active' : ''}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-      <div className="subcategory-buttons">
-        <h4>Subcategorias</h4>
-        {uniqueSubCategories.map(subCategory => (
-          <button
-            key={subCategory}
-            onClick={() => handleSubCategoryChange(subCategory)}
-            className={selectedSubCategory === subCategory ? 'active' : ''}
-          >
-            {subCategory}
-          </button>
-        ))}
-      </div>
-      <div className="equipments-grid">
-        {filteredEquipamentos.map(equipamento => (
-          <div key={equipamento.id_modelo_equipamento} className="equipment-card">
-            <img src={equipamento.imagem_modelo_equipamento || 'default_image.jpg'} alt={equipamento.nome_modelo_equipamento} />
-            <h3>{equipamento.nome_marca_equipamento} {equipamento.nome_modelo_equipamento}</h3>
-            <p>{equipamento.equipamentos[0]?.observacoes_equipamento}</p>
-            <button onClick={() => openModal(equipamento)}>Ver mais</button>
-            {isAvailable(equipamento.equipamentos[0]?.requisicoes) ? (
-              <button className='text-green-200 indent-4 fw-bolder' onClick={() => handleAddEquipmentToCart(equipamento)}>Adicionar ao carrinho</button>
-            ) : (
-              <p className='text-red-600'>Não disponivel</p>
-            )}
-          </div>
-        ))}
-      </div>
+        setFilteredEquipamentos(filtered);
+        setVisibleEquipamentos(filtered.slice(0, ITEMS_PER_PAGE));
+        setHasMore(filtered.length > ITEMS_PER_PAGE);
+    }, [equipamentos, selectedCategory, selectedSubCategory, ITEMS_PER_PAGE]);
 
-      
+    useEffect(() => {
+        filterEquipamentos();
+    }, [filterEquipamentos]);
 
-      {modalIsOpen && (
+    const loadMore = useCallback(() => {
+        setVisibleEquipamentos(prevVisibleEquipamentos => {
+            const newVisibleEquipamentos = [
+                ...prevVisibleEquipamentos,
+                ...filteredEquipamentos.slice(prevVisibleEquipamentos.length, prevVisibleEquipamentos.length + ITEMS_PER_PAGE)
+            ];
+
+            if (newVisibleEquipamentos.length >= filteredEquipamentos.length) {
+                setHasMore(false);
+            }
+
+            return newVisibleEquipamentos;
+        });
+    }, [filteredEquipamentos, ITEMS_PER_PAGE]);
+
+    const lastEquipamentoElementRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                loadMore();
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore, loadMore]);
+
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>Error loading data</p>;
+    }
+
+
+
+    return (
+        <div>
+            <div style={{ marginBottom: "1rem" }}>
+                <div className="mobile-title">Equipamentos</div>
+            </div>
+            <div>
+                <div style={{ display: "flex", overflowX: "auto", whiteSpace: "nowrap" }}>
+                    {uniqueCategories.map((category, index) => (
+                        <button
+                            key={index}
+                            className={`mt-2 mr-2 ${selectedCategory === category ? "btn-sara-terciary-selected" : "btn-sara-terciary"}`}
+                            onClick={() => handleCategoryChange(category)}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {visibleEquipamentos.map((equipamento, index) => {
+                    let imageUrl = equipamento.imagem_modelo_equipamento
+                        ? `${BASE_URL}${equipamento.imagem_modelo_equipamento}`
+                        : `${BASE_URL}/images/equipamento/noImg.png`;
+
+                    // Combine the brand and model name
+                    let brandAndModel = `${equipamento.nome_marca_equipamento} ${equipamento.nome_modelo_equipamento}`;
+
+                    // Truncate if the combined string exceeds 12 characters
+                    let displayBrandAndModel =
+                        brandAndModel.length > 12
+                            ? `${brandAndModel.slice(0, 12)}...`
+                            : brandAndModel;
+
+                    return (
+                        <div key={equipamento.id_modelo_equipamento} ref={visibleEquipamentos.length === index + 1 ? lastEquipamentoElementRef : null} className="card mt-4 border-0 position-relative">
+                            <div className="row align-items-center">
+                                <div className="col-4 d-flex justify-content-center">
+                                    <img
+                                        src={imageUrl}
+                                        alt={equipamento.nome_modelo_equipamento}
+                                        className="img-fluid"
+                                    />
+                                </div>
+                                <div className="col-8 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div className="font-bold">
+                                            {displayBrandAndModel}
+                                        </div>
+                                        <div className="txt-grey-700 mb-2" style={{ fontSize: "0.8rem" }}>
+                                            {equipamento.equipamentos[0]?.nome_categoria}
+                                        </div>
+                                    </div>
+                                    <div className="mt-2">
+                                        <button
+                                            className={`btn-sara-terciary d-flex align-items-center ${
+                                                isAvailable(equipamento.equipamentos[0]?.requisicoes) ? "text-green-200 fw-bolder" : "text-red-600"
+                                            }`}
+                                            onClick={() => {
+                                                if (isAvailable(equipamento.equipamentos[0]?.requisicoes)) {
+                                                    handleAddEquipmentToCart(equipamento);
+                                                }
+                                            }}
+                                            disabled={!isAvailable(equipamento.equipamentos[0]?.requisicoes)}
+                                        >
+                                            <ShoppingCart size={16} className="me-3" /> Adicionar ao carrinho
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {isAvailable(equipamento.equipamentos[0]?.requisicoes) && (
+                                <div className="position-absolute" style={{ top: '10px', right: '10px' }}>
+                                    <Info size={20} /> {/* Adjust size as needed */}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+
+        {modalIsOpen && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}>X</button>
@@ -149,23 +246,32 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
         </div>
       )}
 
-      {cartModalIsOpen && (
-        <div className="modal-overlay" onClick={closeCartModal}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeCartModal}>X</button>
-            <h3>Carrinho</h3>
-            <ul>
-              {cart.map((item, index) => (
-                <li key={index}>
-                  {item.nome_modelo_equipamento} - {item.nome_marca_equipamento}
-                  <button className='text-red-600 font-bold indent-3' onClick={() => handleRemoveFromCart(item)}>  Remover do carrinho</button>
-                </li>
-              ))}
-            </ul>
-            <button onClick={goToStep5}>Avançar para o resumo</button>
-          </div>
-        </div>
-      )}
+            {cartModalIsOpen && (
+                <div className="modal-overlay" onClick={closeCartModal}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <div className="font-bold mb-4">Adicionado ao carrinho com sucesso!</div>
+                        <div className="mb-4">
+                            {cart.map((item, index) => {
+                                console.log(cart);
+                                console.log(item);
+                                let imageUrl = item.imagem_modelo_equipamento
+                                    ? `${BASE_URL}${item.imagem_modelo_equipamento}`
+                                    : `${BASE_URL}/images/equipamento/noImg.png`;
+                                return (
+                                    <div key={index} className="d-flex align-items-center mb-3">
+                                        <div className="col-2 mr-2"><img src={imageUrl} className="img-fluid" /></div>
+                                        <div className="col-6">{item.nome_marca_equipamento} {item.nome_modelo_equipamento}</div>
+                                        <X onClick={() => handleRemoveFromCart(item)} className="text-red-600 ml-auto" />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <button onClick={goToStep5} className="btn-sara-quaternary mb-2">Checkout</button>
+                        <button onClick={closeCartModal} className="btn-sara-terciary">Continuar a Requisitar</button>
+                    </div>
+                </div>
+            )}
+
     </div>
   );
 };

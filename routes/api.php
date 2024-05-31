@@ -21,16 +21,17 @@ Route::get('/requisicao/uc/{id_uc}', [RequisicaoController::class, 'getEquipamen
 Route::get('requisicao/resumo/{id_requisicao}', [RequisicaoController::class, 'getResumoRequisicao']); //requisicao -> quarto passo -> resumo da requisicao (nome, contexto, uc, utilizadores) conjugar com o array de informação anterior no frontend
 Route::post('/requisicao/{id_requisicao}', [RequisicaoController::class, 'storeFinal']); //requisicao -> quinto passo -> guardar a requisicao na base de dados com equipamentos e datas de inicio e fim, e alteracao de estado
 
-Route::get('/requisicao/ultimarequisicao/{id}', [RequisicaoController::class,'ultimaRequisicao']); //ver a ultima requisicao criada
+Route::get('/requisicao/ultimarequisicao/{id}', [RequisicaoController::class,'ultimaRequisicao']); //ver a ultima requisicao criada sem estado para o carrinho
 
 Route::post('requisicao/avaliar/{id}', [RequisicaoController::class, 'avaliarRequisicao']); //avaliar requisicao e comentario
 
 Route::get('/requisicao/ultimarequisicaosemestado/{id}', [RequisicaoController::class,'ultimaRequisicaoSemEstado']); //ver a ultima requisicao criada sem estado para o carrinho
 
 Route::get('/nomesutilizadores', [UtilizadorController::class,'nomesUtilizadores']);//nomes para o carrinho final
-
 Route::get ('/uc/{id}', [EstudanteHomeController::class, 'getUC']); //ver detalhes da UC
+Route::delete('/requisicao/{id}', [RequisicaoController::class, 'destroy']); //apagar requisicao
 
+Route::get('/requisicao/pin/{id}', [RequisicaoController::class, 'getPin']); //passar o id da requisicao: se o estado for 4 devolve pin de recolha, se for 5 mostra de devolucao.
 
 // Rotas para professores
 

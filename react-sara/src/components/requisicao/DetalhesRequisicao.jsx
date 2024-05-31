@@ -1,6 +1,6 @@
-export default function DetalhesRequisicao({detalhesRequisicao}) {
-    
-console.log(detalhesRequisicao);
+export default function DetalhesRequisicao({ detalhesRequisicao }) {
+
+    console.log(detalhesRequisicao);
 
     const formatDate = (date) => {
         const options = {
@@ -18,6 +18,9 @@ console.log(detalhesRequisicao);
 
         return `${dateTime.trim()}, ${weekday}`;
     };
+
+    const sortedUsers = [...detalhesRequisicao.utilizador].sort((a, b) => a.role_utilizador - b.role_utilizador);
+
 
     return (
         <>
@@ -38,18 +41,19 @@ console.log(detalhesRequisicao);
             <div className='row my-4'>
                 <h3 class='mobile-subtitle'>Elementos do Grupo</h3>
                 <div className="flex flex-wrap mt-3">
-                    {detalhesRequisicao.utilizador.map((user, index) => (
+                    {sortedUsers.map((user, index) => (
                         (user.role_utilizador === 3 || user.role_utilizador === 4) && (
                             <div key={index} className="flex items-center mr-4 mb-4">
-                                <div className="flex items-center">
-                                    {user.role_utilizador === 3 && <p className="text-green-900 font-semibold mr-1">Responsável</p>}
-                                    <img className="rounded-full h-12 w-12 mr-1" src={`http://localhost:8000${user.avatar_utilizador}`} alt={user.nome_utilizador} />
+                                <div className="flex flex-col items-center mr-1">
+                                    {user.role_utilizador === 3 && <p className="text-white mb-1 background-green-500 rounded-full p-1" style={{fontSize: '0.75rem'}}>Responsável</p>}
+                                    <img className="rounded-full h-12 w-12" src={`http://localhost:8000${user.avatar_utilizador}`} alt={user.nome_utilizador} />
                                 </div>
-                                <div className='mr-5'>
+                                <div className="ml-3">
                                     <p className="font-semibold mb-0">{user.nome_utilizador}</p>
                                     <p className="text-green-900 mb-0">{user.email_utilizador}</p>
                                 </div>
-                            </div>)
+                            </div>
+                        )
                     ))}
                 </div>
             </div>

@@ -32,6 +32,7 @@ export default function SaraHome() {
             .then((response) => {
                 setPorDevolverRecolher(response.data);
                 console.log('Requisições por devolver/recolher:', response.data);
+                console.log('Data:', formattedDate);
                 setLoadingRecolher(false);
             })
             .catch((error) => {
@@ -53,9 +54,23 @@ export default function SaraHome() {
 
     return (
         <>
-            {loadingAprovar ? <div>Loading...</div> : <HomeReqAprovar porAprovar={porAprovar} />}
-            <Calendar onDateSelect={handleDateSelect} />
-            {loadingRecolher ? <div>Loading...</div> : <HomeReqDevolverRecolher porDevolverRecolher={porDevolverRecolher} />}
+            <div className='container-fluid mx-0'>
+                <div className='row'>
+                    <div className='col-4'>
+                        <h1>Por Aprovar</h1>
+                        {loadingAprovar ? <div>Loading...</div> : <HomeReqAprovar porAprovar={porAprovar} />}
+                    </div>
+                    <div className='col-8'>
+                        <div className='row mb-4'>
+                            <h1 className='ms-2'>Calendário</h1>
+                            <div className='row mt-3'>
+                                <Calendar onDateSelect={handleDateSelect} />
+                            </div>
+                        </div>
+                        {loadingRecolher ? <div>Loading...</div> : <HomeReqDevolverRecolher porDevolverRecolher={porDevolverRecolher} date={date} />}
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

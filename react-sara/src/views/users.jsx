@@ -127,8 +127,10 @@ export default function Users() {
     return (
         <>
             <div className="row">
-                <div className="col-4"><img className="rounded-circle" src="https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"/> </div>
-                <div className="col-8">
+            <div className="col-4">
+                <img className="rounded-circle" src={`http://localhost:8000${user.avatar_utilizador}`} alt="Avatar do Usuário" />
+            </div>
+                            <div className="col-8">
                     <div className="row font-bold" style={{fontSize:"1.2rem"}}>
                         {user.nome_utilizador}
                     </div>
@@ -156,7 +158,7 @@ export default function Users() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {requisicao.map(req => {
                         const ultimoEstado = req.estados[req.estados.length - 1];
-                        if ([2, 6, 7].includes(ultimoEstado.id_estado)) {
+                        if ([5, 6, 7].includes(ultimoEstado.id_estado)) {
                             return (
                                 <div key={req.id_requisicao} className={`background-grey-300 p-4 mb-2`} style={{ borderRadius: "1rem" }}>
                                     <div className="d-flex align-items-center mb-4">
