@@ -6,7 +6,7 @@ import EstadosMap from '../../components/requisicao/EstadosMap';
 import DetalhesRequisicao from '../../components/requisicao/DetalhesRequisicao';
 import Comentarios from '../../components/requisicao/Comentarios';
 import Equipamentos from '../../components/requisicao/Equipamentos';
-import { CheckCircle, XCircle, RefreshCcw } from 'react-feather';
+import { CheckCircle, XCircle, RefreshCcw, ArrowLeft } from 'react-feather';
 
 export default function ReqDetail() {
     const { id } = useParams();
@@ -178,7 +178,6 @@ export default function ReqDetail() {
                                 <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
                                 <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
                             </div>)}
-
                             {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
                                <div>
                                <button onClick={toggleCode} className="btn btn-success mr-5">
