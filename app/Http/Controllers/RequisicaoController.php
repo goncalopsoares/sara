@@ -251,10 +251,10 @@ class RequisicaoController extends Controller
         ->first();
 
     if ($ultimoEstado) {
-        // Verifica se o estado é 4 ou 5
-        if ($ultimoEstado->id_estado == 4) {
+        // Verifica se o estado é 3 ou 4
+        if ($ultimoEstado->id_estado == 3) {
             return $requisicao->utilizador->first()->pivot->pin_recolha;
-        } elseif ($ultimoEstado->id_estado == 5) {
+        } elseif ($ultimoEstado->id_estado == 4) {
             return $requisicao->utilizador->first()->pivot->pin_devolucao;
         }
     }
