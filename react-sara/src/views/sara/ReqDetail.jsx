@@ -6,6 +6,7 @@ import EstadosMap from '../../components/requisicao/EstadosMap';
 import DetalhesRequisicao from '../../components/requisicao/DetalhesRequisicao';
 import Comentarios from '../../components/requisicao/Comentarios';
 import Equipamentos from '../../components/requisicao/Equipamentos';
+import { CheckCircle, XCircle, RefreshCcw } from 'react-feather';
 
 export default function ReqDetail() {
 
