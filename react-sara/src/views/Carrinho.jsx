@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
 import emptyCartImg from "../images/icons/emptyCart.svg"; // Import the image
+import { RiDeleteBin7Line } from "react-icons/ri";
 
 const Carrinho = () => {
     const [message, setMessage] = useState("");
@@ -13,7 +14,7 @@ const Carrinho = () => {
     const { user, cart, setCart } = useStateContext();
     const [cartData, setCartData] = useState({});
     const [utilizadores, setUtilizadores] = useState([]);
-    const [nomeUc, setNomeUc] = useState('');
+    const [Uc, setUc] = useState({});
 
     useEffect(() => {
         const fetchRequisicaoStatus = async () => {
@@ -31,6 +32,7 @@ const Carrinho = () => {
                     setShowEquipamentosButton(false);
 
                     setCartData({
+                        id_requisicao: response.data.id_requisicao,
                         nome_requisicao: response.data.nome_requisicao,
                         contexto_requisicao: response.data.contexto_requisicao,
                         tipo_requisicao: 'Equipamento', // Supondo que este valor seja fixo
@@ -53,7 +55,12 @@ const Carrinho = () => {
                     // Fetch UC name
                     axiosClient.get(`/uc/${response.data.uc_contexto_id_uc_contexto}`)
                         .then(response => {
-                            setNomeUc(response.data.nome_uc_contexto);
+                            setUc(
+                                {nome:response.data.nome_uc_contexto,
+                                sigla:response.data.sigla_uc_contexto,
+                                icone:response.data.icone_uc_contexto
+                                }
+                                );
                         })
                         .catch(error => {
                             console.error("Erro ao obter nome da UC:", error);
@@ -95,11 +102,26 @@ const Carrinho = () => {
         return user || { nome_utilizador: 'Nome não encontrado' };
     };
 
+    const handleDeleteRequisition = async (id) => {
+
+        try {
+            const response = await axiosClient.delete(`/requisicao/${id}`);
+
+            console.log('Requisição eliminada com sucesso:', response.data);
+
+        } catch (error) {
+            console.error('Erro ao eliminar a requisição:', error);
+        }
+       
+    }
+
     const professor = cartData.requisicao_has_utilizadores?.find(utilizador => utilizador.role_utilizador === 2);
     const groupMembers = cartData.requisicao_has_utilizadores?.filter(utilizador => utilizador.role_utilizador === 4);
 
+    console.log(cart);
+    console.log(cartData.id_requisicao);
     return (
-        <div>
+        <div style={{ marginBottom: "4rem" }}> 
             <h1>Carrinho</h1>
             {cart.length === 0 && message !== "Ainda não concluiu o processo de requisição" && (
                 <div className="d-flex flex-column align-items-center">
@@ -127,53 +149,125 @@ const Carrinho = () => {
                 </button>
             </div>
             {message === "Ainda não concluiu o processo de requisição" ? (
-                <div>
-                    <h2>O que tens até agora no carrinho:</h2>
-                    {cart.length > 0 ? (
-                        <ul>
-                            {cart.map((item, index) => (
-                                <li key={index}>
-                                    {item.nome_modelo_equipamento} - {item.nome_marca_equipamento}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <div>
-                            <h5>O teu processo de requisição:</h5>
-                            <p>Nome da Requisição: {cartData.nome_requisicao}</p>
-                            <p>Contexto da Requisição: {cartData.contexto_requisicao}</p>
-                            <p>Tipo de Requisição: {cartData.tipo_requisicao}</p>
-                            <p>UC: {nomeUc}</p>
-                            {professor && (
-                                <div>
-                                    <h5>Professor</h5>
-                                    <p>Nome: {getUserInfo(professor.utilizador_id_utilizador).nome_utilizador}</p>
-                                    <p> {getUserInfo(professor.utilizador_id_utilizador).email_utilizador}</p>
-                                    <img className="rounded-full h-12 w-12 mr-1" src={`http://localhost:8000${getUserInfo(professor.utilizador_id_utilizador).avatar_utilizador}`} alt={getUserInfo(professor.utilizador_id_utilizador).nome_utilizador} />
-                                </div>
-                            )}
-                            {groupMembers.length > 0 && (
-                                <div>
-                                    <h5>Membros do Grupo</h5>
-                                    <ul>
-                                        {groupMembers.map((member, index) => (
-                                            <li className="p-2" key={index}>
-                                            Nome: {member && getUserInfo(member.utilizador_id_utilizador).nome_utilizador}<br />
-                                            Email: {member && getUserInfo(member.utilizador_id_utilizador).email_utilizador}<br />
-                                            Número Mecanográfico: {member && getUserInfo(member.utilizador_id_utilizador).numero_mecanografico_utilizador}
-                                            {member && (
-                                                <img className="rounded-full h-12 w-12 mr-1" src={`http://localhost:8000${getUserInfo(member.utilizador_id_utilizador).avatar_utilizador}`} alt={getUserInfo(member.utilizador_id_utilizador).nome_utilizador} />
-                                            )}
+    <div>
+        
+        {(cart.length > 0 || (cartData && Object.keys(cartData).length > 0)) && (
+            <div className="mb-5" >
+                
+
+                {cartData && Object.keys(cartData).length > 0 && (
+                    <div>
+                        <h3 className="mt-3 font-thin">Resumo da requisição: {cartData.id_requisicao}</h3>
+                        <p>Nome da Requisição </p>
+                        <p style={{ borderRadius: "1rem", border:"1px, solid, grey", padding:"0.7rem" }}>{cartData.nome_requisicao}</p>
+                        <p>Contexto da Requisição: </p>
+                        <p style={{ borderRadius: "1rem", border:"1px, solid, grey", padding:"0.7rem" }}>{cartData.contexto_requisicao}</p>
+                        
+                        
+                        {groupMembers.length > 0 && (
+                            <div>
+                                <p>Elementos do Grupo</p>
+                                <ul className="p-0">
+                                            {groupMembers.map((member, index) => (
+                                        <li key={index} style={{ listStyle: 'none' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0.4rem', fontSize:"0.8rem" }}>
+                                                {member && (
+                                                    <img
+                                                        className="rounded-full h-7 w-7 mr-2"
+                                                        src={`http://localhost:8000${getUserInfo(member.utilizador_id_utilizador).avatar_utilizador}`}
+                                                        alt={getUserInfo(member.utilizador_id_utilizador).nome_utilizador}
+                                                    />
+                                                )}
+                                                <div>
+                                                    {member && getUserInfo(member.utilizador_id_utilizador).nome_utilizador} ({member && getUserInfo(member.utilizador_id_utilizador).email_utilizador})
+                                                </div>
+                                            </div>
                                         </li>
-                                        
-                                        ))}
-                                    </ul>
+                                    ))}
+                             </ul>
+                            </div>
+                        )}
+                        {professor && (
+
+                            <div>
+                                <p>UC's e professores associados</p>
+                                <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0', fontSize: '0.8rem' }}>
+                                <img src={`http://localhost:8000${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span>{Uc.nome}</span>
+                                    <span>{Uc.sigla}</span>
                                 </div>
-                            )}
-                        </div>
-                    )}
-                </div>
-            ) : null}
+                            </p>
+
+
+                                <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0.4rem', fontSize:"0.8rem" }}>
+                                        <img
+                                            className="rounded-full h-7 w-7 mr-2"
+                                            src={`http://localhost:8000${getUserInfo(professor.utilizador_id_utilizador).avatar_utilizador}`}
+                                            alt={getUserInfo(professor.utilizador_id_utilizador).nome_utilizador}
+                                        />
+                                        {getUserInfo(professor.utilizador_id_utilizador).nome_utilizador} ({getUserInfo(professor.utilizador_id_utilizador).email_utilizador})
+                                    </p>
+
+                               
+                                
+                            </div>
+                        )}
+                    </div>
+                )}
+                <ul className="p-0">
+                Equipamentos Selecionados:
+                    {cart.map((item, index) => (
+                           
+                        <li key={index}>
+                            <p style={{ display: 'flex', alignItems: 'center', padding: '0.4rem', fontSize:"1rem" }}><img 
+                            className=" h-24 w-30 mr-2 p-3"
+                            style={{ backgroundColor: '#e0e0e0',  borderRadius: '0.6rem' }} 
+                            src={`http://localhost:8000${item.imagem_modelo_equipamento}`}
+                            />
+                             <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span className="fw-bold">{item.nome_marca_equipamento} </span>
+                                    <span>{item.nome_modelo_equipamento} </span>
+                                </div>
+                            </p>
+                            
+                        </li>
+                       
+                    ))}
+                </ul>
+                <button
+                                
+                                style={{
+                                    color: 'red',
+                                    border: '2px solid red',
+                                    borderRadius: '0.5rem',
+                                    padding: '0.4rem', // Reduced uniform padding
+                                    backgroundColor: 'white',
+                                    position: 'fixed',
+                                    right: '2rem',
+                                    bottom: '6rem',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+                                }}
+                                onClick={() => handleDeleteRequisition(cartData.id_requisicao)} 
+                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ffcccc'} // Light red hover effect
+                                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'} // Revert background color on mouse leave
+                            >
+            <p style={{ display: 'flex', alignItems: 'center', margin: 0, fontSize: '1rem' }}>
+                 Eliminar 
+                <span style={{ marginLeft: '0.5rem' }}> {/* Separate text from icon */}
+                     <RiDeleteBin7Line size={30} className="p-0" />
+                </span>
+               </p>
+
+
+</button>
+
+            </div>
+        )}
+    </div>
+) : null}
+
         </div>
     );
 };

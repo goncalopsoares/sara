@@ -31,6 +31,7 @@ Route::get('/nomesutilizadores', [UtilizadorController::class,'nomesUtilizadores
 
 Route::get ('/uc/{id}', [EstudanteHomeController::class, 'getUC']); //ver detalhes da UC
 
+Route::delete('/requisicao/{id}', [RequisicaoController::class, 'destroy']); //apagar requisicao
 
 // Rotas para professores
 
