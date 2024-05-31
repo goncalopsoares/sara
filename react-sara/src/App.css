@@ -301,3 +301,15 @@ h3 {
     color: white;
   }
 
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 576px) {
+    .mt-sm-3 {
+        margin-top: 1rem !important;
+    }
+}
+
