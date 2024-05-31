@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Requisicao;
+use App\Models\Utilizador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\RequisicaoHasEstado;
@@ -238,14 +239,29 @@ class RequisicaoController extends Controller
 
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+   
+    public function getPin($id_requisicao)
+{
+    // Buscar a requisição pelo ID
+    $requisicao = Requisicao::findOrFail($id_requisicao);
+
+    // Verificar o último estado da requisição
+    $ultimoEstado = $requisicao->estado()
+        ->orderBy('requisicao_has_estado.data_estado', 'desc')
+        ->first();
+
+    if ($ultimoEstado) {
+        // Verifica se o estado é 4 ou 5
+        if ($ultimoEstado->id_estado == 4) {
+            return $requisicao->utilizador->first()->pivot->pin_recolha;
+        } elseif ($ultimoEstado->id_estado == 5) {
+            return $requisicao->utilizador->first()->pivot->pin_devolucao;
+        }
     }
 
+    // Caso não encontre um estado 4 ou 5, retorna null ou um valor padrão
+    return null;
+}
     /**
      * Show the form for editing the specified resource.
      */
@@ -267,6 +283,19 @@ class RequisicaoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $requisicao = Requisicao::find($id);
+
+        if ($requisicao) {
+       
+            //eliminar linhas dependentes
+            RequisicaoHasUtilizador::where('requisicao_id_requisicao', $id)->delete();
+
+            
+            $requisicao->delete();
+
+            return response()->json(['message' => 'Requisição eliminada com sucesso.'], 200);
+        } else {
+            return response()->json(['message' => 'Requisição não encontrada.'], 404);
+        }
     }
 }
