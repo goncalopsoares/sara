@@ -12,6 +12,8 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
     const [userId, setUserId] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const BASE_URL = "http://localhost:8000";
+    const { user } = useStateContext();
+    const [requestBody, setRequestBody] = useState({});
 
     useEffect(() => {
         // Retrieve id_utilizador from local storage
@@ -133,7 +135,11 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
     };
 
     const submitRequest = () => {
-        const requestBody = {
+
+
+
+        if(user.tipo_utilizador === 3) {
+        setRequestBody({
             requisicao_id_requisicao: requestId,
             estado_id_estado: 1,
             data_estado: formatDate(new Date()),
@@ -143,6 +149,19 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
                 data_inicio_requisicao: formatDate(startDate),
                 data_fim_requisicao: formatDate(endDate),
             })),
+        })
+    }else if(user.tipo_utilizador === 2){
+            setRequestBody ({
+                requisicao_id_requisicao: requestId,
+                estado_id_estado: 2,
+                data_estado: formatDate(new Date()),
+                requisicao_has_equipamentos: cart.map(equipment => ({
+                    requisicao_id_requisicao: requestId,
+                    equipamento_id_equipamento: equipment.equipamento_id_equipamento,
+                    data_inicio_requisicao: formatDate(startDate),
+                    data_fim_requisicao: formatDate(endDate),
+                })),
+            })
         };
 
 
@@ -188,7 +207,13 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
                     <div className="txt-grey-900">{formatDate(startDate)}</div>
                     <div className="mt-3 fw-bold">Data de Devolução</div>
                     <div className="txt-grey-900">{formatDate(endDate)}</div>
-                    <div className="mt-3 fw-bold">Elementos do Grupo</div>
+                    {user.tipo_utilizador === 2 && (
+                        <div className="mt-3 fw-bold">Professor</div>
+                    )}
+                    {user.tipo_utilizador === 3 && (
+                        <div className="mt-3 fw-bold">Elementos do Grupo</div>
+                    )}
+                    
                     {currentUser && (
                         <div>
                             {renderUser(currentUser, "currentUser")}
