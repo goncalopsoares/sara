@@ -129,7 +129,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
         const hours = String(d.getHours()).padStart(2, '0');
         const minutes = String(d.getMinutes()).padStart(2, '0');
         const seconds = String(d.getSeconds()).padStart(2, '0');
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}⁠`;
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
     const submitRequest = () => {
@@ -145,7 +145,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
             })),
         };
 
-       
+
 
         axiosClient.post(`/requisicao/${requestId}`, requestBody)
             .then(response => {
@@ -169,8 +169,8 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
 
     console.log("formData:", formData); // Debug output
     console.log("Professor:", professor); // Debug output
-    console.log("requestId:", requestId); 
-   
+    console.log("requestId:", requestId);
+
     // Debug output
 
     return (
