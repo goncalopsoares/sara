@@ -67,7 +67,7 @@ const Carrinho = () => {
                         });
                 } else if (
                     response.data.message ===
-                        "Nenhuma requisição encontrada para este utilizador." ||
+                    "Nenhuma requisição encontrada para este utilizador."||
                     response.data.message ===
                         "A última requisição encontrada já possui um estado associado."
                 ) {
