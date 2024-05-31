@@ -191,6 +191,28 @@ const Carrinho = () => {
                              </ul>
                             </div>
                         )}
+
+                        {user.tipo_utilizador===2 &&
+                        (
+
+                            <div>
+                                <p>UC</p>
+                                <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0', fontSize: '0.8rem' }}>
+                                <img src={`http://localhost:8000${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <span>{Uc.nome}</span>
+                                    <span>{Uc.sigla}</span>
+                                </div>
+                            </p>
+
+                             </div>
+
+
+
+                        )
+                        
+                        }
+
                         {professor && (
 
                             <div>

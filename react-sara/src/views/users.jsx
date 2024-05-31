@@ -60,7 +60,7 @@ export default function Users() {
 
     const { user } = useStateContext();
 
-   
+
 
     const handleCloseModal = () => {
         setModalData({ show: false, equipamentos: [], contexto: '', comentarioprofessor: '', comentariosara: '' });
@@ -94,7 +94,7 @@ export default function Users() {
                             setLoading(false);
                         });
                 }
-            
+
     }, [user.id_utilizador, user.tipo_utilizador]);
 
     const getCardColor = (estadoId) => {
@@ -128,7 +128,7 @@ export default function Users() {
         <>
             <div className="row">
             <div className="col-4">
-                <img className="rounded-circle" src={`http://localhost:8000${user.avatar_utilizador}`} alt="Avatar do Usuário" />
+                <img style={{width:"4rem",height:"4rem", borderRadius:"50%", objectFit:"cover"}} src={`http://localhost:8000${user.avatar_utilizador}`} alt="Avatar do Usuário" />
             </div>
                             <div className="col-8">
                     <div className="row font-bold" style={{fontSize:"1.2rem"}}>
