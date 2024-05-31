@@ -62,7 +62,7 @@ export default function SaraHome() {
                     </div>
                     <div className='col-8'>
                         <div className='row mb-4'>
-                            <h1>Calendário</h1>
+                            <h1 className='ms-2'>Calendário</h1>
                             <div className='row mt-3'>
                                 <Calendar onDateSelect={handleDateSelect} />
                             </div>

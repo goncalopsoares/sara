@@ -17,7 +17,8 @@ export default function ReqDetail() {
     const [estadoData, setEstadoData] = useState(null);
     const [comentarioSaraData, setComentarioSaraData] = useState("");
     const { user } = useStateContext();
-    const navigate = useNavigate();
+    const [code, setCode] = useState('');
+    const [showCode, setShowCode] = useState(false);
 
     const goBack = () => {
         navigate(-1);
@@ -31,6 +32,8 @@ export default function ReqDetail() {
                 );
                 setDetalhesRequisicao(response.data[0]);
                 setLoading(false);
+
+
             } catch (error) {
                 console.error("Erro ao obter detalhes da requisição:", error);
                 setError(error);
@@ -38,7 +41,30 @@ export default function ReqDetail() {
             }
         };
         fetchData();
+
     }, [estadoData, comentarioSaraData]);
+
+
+    const fetchCode = async () => {
+        try {
+            const codeResponse = await axiosClient.get(`/requisicao/pin/${detalhesRequisicao.id_requisicao}`);
+            setCode(codeResponse.data);
+            console.log
+        } catch (error) {
+            console.error('Erro ao obter código:', error.response ? error.response.data : error.message);
+        }
+    };
+
+
+
+    const toggleCode = () => {
+        // Se o código já estiver carregado, não precisa buscar novamente
+        if (!showCode && code === '') {
+            fetchCode();
+        }
+        setShowCode(!showCode); // Alterna o estado de exibição do código
+    };
+
 
     const aprovarRejeitar = async (id, estadoData) => {
         try {
@@ -86,7 +112,7 @@ export default function ReqDetail() {
 
     const handleClick = (event) => {
         const buttonId = event.target.id;
-        const estadoId = buttonId === "button1" ? 4 : 6;
+        const estadoId = buttonId === 'button1' ? 3 : 6;
 
         const data = {
             requisicao_id_requisicao: id,
@@ -110,7 +136,11 @@ export default function ReqDetail() {
         comentar(id, data);
     };
 
-    console.log("user", user);
+
+
+    console.log('user', user)
+    console.log('detalhesRequisicao', detalhesRequisicao);
+    console.log('code', code);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -144,25 +174,39 @@ export default function ReqDetail() {
                                 : {}
                         }
                     >
-                        {user.tipo_utilizador === 1 &&
-                            detalhesRequisicao.id_estado === 3 && (
-                                <div className="flex justify-end">
-                                    <button
-                                        id="button1"
-                                        onClick={handleClick}
-                                        className="btn btn-success mr-5"
-                                    >
-                                        Aprovar
-                                    </button>
-                                    <button
-                                        id="button2"
-                                        onClick={handleClick}
-                                        className="btn btn-danger"
-                                    >
-                                        Rejeitar
-                                    </button>
-                                </div>
-                            )}
+                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 && (
+                            <div className='flex justify-end'>
+                                <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
+                                <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
+                            </div>)}
+
+                            {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
+                               <div>
+                               <button onClick={toggleCode} className="btn btn-success mr-5">
+                                   {showCode ? 'Esconder Código' : 'Ver Código levantamento'}
+                               </button>
+                               {showCode && (
+                                   <div className="mt-2">
+                                       <pre>{code}</pre>
+                                   </div>
+                               )}
+                           </div>
+                            )
+                            }
+                             {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 4 && (
+                                <div>
+                                <button onClick={toggleCode} className="btn btn-success mr-5">
+                                    {showCode ? 'Esconder Código' : 'Ver Código devolução'}
+                                </button>
+                                {showCode && (
+                                    <div className="mt-2">
+                                        <pre>{code}</pre>
+                                    </div>
+                                )}
+                            </div>
+                            )
+                            }
+
                     </div>
                 </div>
             </div>
