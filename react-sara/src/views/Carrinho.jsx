@@ -87,7 +87,7 @@ const Carrinho = () => {
         };
 
         fetchRequisicaoStatus();
-    }, [user.id_utilizador]);
+    }, [user.id_utilizador, cart, cartData]);
 
     const handleButtonClick = () => {
         navigate(buttonPath);
@@ -108,6 +108,10 @@ const Carrinho = () => {
             const response = await axiosClient.delete(`/requisicao/${id}`);
 
             console.log('Requisição eliminada com sucesso:', response.data);
+
+            setCartData({});
+            setCart([]);
+           
 
         } catch (error) {
             console.error('Erro ao eliminar a requisição:', error);
@@ -170,7 +174,7 @@ const Carrinho = () => {
                                 <ul className="p-0">
                                             {groupMembers.map((member, index) => (
                                         <li key={index} style={{ listStyle: 'none' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0.4rem', fontSize:"0.8rem" }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0.4rem', fontSize:"0.8rem", marginBottom: "0.3rem" }}>
                                                 {member && (
                                                     <img
                                                         className="rounded-full h-7 w-7 mr-2"
@@ -215,8 +219,9 @@ const Carrinho = () => {
                         )}
                     </div>
                 )}
+                {cart.length>0 && 
                 <ul className="p-0">
-                Equipamentos Selecionados:
+               Equipamentos Selecionados:
                     {cart.map((item, index) => (
                            
                         <li key={index}>
@@ -235,6 +240,7 @@ const Carrinho = () => {
                        
                     ))}
                 </ul>
+}
                 <button
                                 
                                 style={{
@@ -264,6 +270,7 @@ const Carrinho = () => {
 </button>
 
             </div>
+                            
         )}
     </div>
 ) : null}

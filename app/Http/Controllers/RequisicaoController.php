@@ -269,16 +269,16 @@ class RequisicaoController extends Controller
     {
         $requisicao = Requisicao::find($id);
 
-    // Verifique se a requisição foi encontrada
-    if ($requisicao) {
-        // Delete a requisição
-        $requisicao->delete();
+        if ($requisicao) {
+            // Excluir as linhas dependentes primeiro
+            RequisicaoHasUtilizador::where('requisicao_id_requisicao', $id)->delete();
 
-        // Retorne uma resposta de sucesso
-        return response()->json(['message' => 'Requisição eliminada com sucesso.'], 200);
-    } else {
-        // Retorne uma resposta de erro se a requisição não foi encontrada
-        return response()->json(['message' => 'Requisição não encontrada.'], 404);
-    }
+            // Agora, delete a requisição
+            $requisicao->delete();
+
+            return response()->json(['message' => 'Requisição eliminada com sucesso.'], 200);
+        } else {
+            return response()->json(['message' => 'Requisição não encontrada.'], 404);
+        }
     }
 }
