@@ -105,17 +105,18 @@ export default function ReqDetail() {
                         <h1>Requisicao {detalhesRequisicao.id_requisicao}: {detalhesRequisicao.nome_requisicao}</h1>
                     </div>
                     <div
-                        className={`col-4 col-sm-5 ${user.tipo_utilizador === 2 || user.tipo_utilizador === 3 ? 'position-fixed bottom-0' : ''}`}
-                        style={user.tipo_utilizador === 2 || user.tipo_utilizador === 3 ? { marginBottom: '6rem' } : {}}
+                        className={`col-4 col-sm-5 ${user.tipo_utilizador === 2 && detalhesRequisicao.id_estado === 1 ? 'position-fixed bottom-0' : ''}`}
+                        style={user.tipo_utilizador === 2 && detalhesRequisicao.id_estado === 1 ? { marginBottom: '6rem' } : {}}
                     >
-                        <div className='flex justify-end'>
-                            <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
-                            <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
-                        </div>
+                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 3 && (
+                            <div className='flex justify-end'>
+                                <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
+                                <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
+                            </div>)}
                     </div>
                 </div>
             </div>
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-7">
                         <div className="flex justify-center mb-5">
