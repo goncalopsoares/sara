@@ -7,7 +7,8 @@ import DetalhesRequisicao from "../../components/requisicao/DetalhesRequisicao";
 import Comentarios from "../../components/requisicao/Comentarios";
 import Equipamentos from "../../components/requisicao/Equipamentos";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "react-feather";
+import { CheckCircle, XCircle, RefreshCcw, ArrowLeft, MoreVertical } from "react-feather";
+import ModalOutras from "../../components/prof/ModalOutras";
 
 export default function ReqDetail() {
     const { id } = useParams();
@@ -19,6 +20,7 @@ export default function ReqDetail() {
     const { user } = useStateContext();
     const [code, setCode] = useState('');
     const [showCode, setShowCode] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const goBack = () => {
         navigate(-1);
@@ -55,8 +57,6 @@ export default function ReqDetail() {
         }
     };
 
-
-
     const toggleCode = () => {
         // Se o código já estiver carregado, não precisa buscar novamente
         if (!showCode && code === '') {
@@ -65,6 +65,14 @@ export default function ReqDetail() {
         setShowCode(!showCode); // Alterna o estado de exibição do código
     };
 
+    const handleShowModal = () => {
+        setShowModal(true);
+        console.log('showModal:', showModal);
+    };
+
+    const handleHideModal = () => {
+        setShowModal(false);
+    };
 
     const aprovarRejeitar = async (id, estadoData) => {
         try {
@@ -112,7 +120,24 @@ export default function ReqDetail() {
 
     const handleClick = (event) => {
         const buttonId = event.target.id;
-        const estadoId = buttonId === 'button1' ? 3 : 6;
+        let estadoId;
+
+        switch (buttonId) {
+            case 'button1':
+                estadoId = 3;
+                break;
+            case 'button2':
+                estadoId = 6;
+                break;
+            case 'buttonValidarProf':
+                estadoId = 2;
+                break;
+            case 'buttonRejeitarProf':
+                estadoId = 7;
+                break;
+            default:
+                estadoId = null;
+        }
 
         const data = {
             requisicao_id_requisicao: id,
@@ -137,7 +162,6 @@ export default function ReqDetail() {
     };
 
 
-
     console.log('user', user)
     console.log('detalhesRequisicao', detalhesRequisicao);
     console.log('code', code);
@@ -147,110 +171,111 @@ export default function ReqDetail() {
 
     return (
         <>
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
-                    <div className="d-flex align-items-center">
-                        <button onClick={goBack} className="mr-2">
-                            <ArrowLeft />
-                        </button>
-                        <div
-                            className="mobile-title truncate"
-                            title={detalhesRequisicao.nome_requisicao}
-                        >
-                            {detalhesRequisicao.nome_requisicao}
-                        </div>
-                    </div>
-                    <div
-                        className={`col-4 col-sm-5 ${
-                            user.tipo_utilizador === 2 &&
-                            detalhesRequisicao.id_estado === 1
-                                ? "position-fixed bottom-0"
-                                : ""
-                        }`}
-                        style={
-                            user.tipo_utilizador === 2 &&
-                            detalhesRequisicao.id_estado === 1
-                                ? { marginBottom: "6rem" }
-                                : {}
-                        }
-                    >
-                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 && (
-                            <div className='flex justify-end'>
-                                <button id='button1' onClick={handleClick} className='btn btn-success mr-5'>Aprovar</button>
-                                <button id='button2' onClick={handleClick} className='btn btn-danger'>Rejeitar</button>
-                            </div>)}
-
-                            {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
-                               <div>
-                               <button onClick={toggleCode} className="btn btn-success mr-5">
-                                   {showCode ? 'Esconder Código' : 'Ver Código levantamento'}
-                               </button>
-                               {showCode && (
-                                   <div className="mt-2">
-                                       <pre>{code}</pre>
-                                   </div>
-                               )}
-                           </div>
-                            )
-                            }
-                             {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 4 && (
-                                <div>
-                                <button onClick={toggleCode} className="btn btn-success mr-5">
-                                    {showCode ? 'Esconder Código' : 'Ver Código devolução'}
-                                </button>
-                                {showCode && (
-                                    <div className="mt-2">
-                                        <pre>{code}</pre>
-                                    </div>
+                    <div className="d-flex align-items-center justify-content-between w-100">
+                        <div className="d-flex align-items-center">
+                            <button onClick={goBack} className="mr-2">
+                                <ArrowLeft />
+                            </button>
+                            <div
+                                className="mobile-title truncate"
+                                title={detalhesRequisicao.nome_requisicao}
+                            >
+                                {user.tipo_utilizador === 1 && (
+                                    <span>Requisição {detalhesRequisicao.id_requisicao}: </span>
                                 )}
+                                {detalhesRequisicao.nome_requisicao}
                             </div>
-                            )
-                            }
-
+                        </div>
+                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 && (
+                            <div className="d-flex">
+                                <button id="button1" onClick={handleClick} className="btn btn-success me-3 d-flex p-3">
+                                    <CheckCircle className="me-2" /> APROVAR
+                                </button>
+                                <button id="button2" onClick={handleClick} className="btn btn-danger d-flex p-3">
+                                    <XCircle className="me-2" /> REJEITAR
+                                </button>
+                            </div>
+                        )}
                     </div>
+                    {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
+                        <div>
+                            <button onClick={toggleCode} className="btn btn-success mr-5">
+                                {showCode ? 'Esconder Código' : 'Ver Código levantamento'}
+                            </button>
+                            {showCode && (
+                                <div className="mt-2">
+                                    <pre>{code}</pre>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 4 && (
+                        <div>
+                            <button onClick={toggleCode} className="btn btn-success mr-5">
+                                {showCode ? 'Esconder Código' : 'Ver Código devolução'}
+                            </button>
+                            {showCode && (
+                                <div className="mt-2">
+                                    <pre>{code}</pre>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="container-fluid">
-    <div className="row">
-        <div className="col-sm-7">
-            <div className="flex justify-center mb-5 w-100 w-sm-auto">
-                <EstadosMap
-                    detalhesRequisicaoEstado={
-                        detalhesRequisicao.id_estado
-                    }
-                />
+                <div className="row">
+                    <div className="col-sm-7">
+                        <div className="flex justify-center mb-5 w-100 w-sm-auto">
+                            <EstadosMap
+                                detalhesRequisicaoEstado={detalhesRequisicao.id_estado}
+                            />
+                        </div>
+                        <div className="mobile-subtitle mt-sm-3">
+                            Resumo da requisição #{detalhesRequisicao.id_requisicao}
+                        </div>
+                        <div>
+                            <DetalhesRequisicao
+                                detalhesRequisicao={detalhesRequisicao}
+                            />
+                        </div>
+                        <div className="row my-4">
+                            <h3 className="mobile-subtitle">Comentários</h3>
+                            <Comentarios
+                                comentarioProfessorRequisicao={detalhesRequisicao.comentario_professor_requisicao}
+                                comentarioSaraRequisicao={detalhesRequisicao.comentario_sara_requisicao}
+                                utilizadores={detalhesRequisicao.utilizador}
+                                onSubmitComment={handleComment}
+                                currentUser={user}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-5">
+                        <h3>Equipamentos</h3>
+                        <Equipamentos
+                            listaEquipamentos={detalhesRequisicao.equipamento}
+                        />
+                    </div>
+                    {(user.tipo_utilizador === 2 && detalhesRequisicao.id_estado === 1) && (
+                        <div className="row fixed-bottom bg-white justify-center" style={{marginBottom: "5rem"}}>
+                            <div className="col-12 d-flex justify-center gap-6">
+                                <button onClick={handleShowModal} className="d-flex p-3 rounded-lg" style={{ border: "1px solid #1C7A00" }}>
+                                    <MoreVertical /> OUTRAS AÇÕES
+                                </button>
+                                <button id="buttonValidarProf" onClick={handleClick} className="d-flex text-white p-3 rounded-lg" style={{ backgroundColor: "#1C7A00" }}>
+                                    <CheckCircle className="me-2" />VALIDAR
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-            <div className="mobile-subtitle mt-sm-3">
-                Resumo da requisição #{detalhesRequisicao.id_requisicao}
-            </div>
-            <div>
-                <DetalhesRequisicao
-                    detalhesRequisicao={detalhesRequisicao}
-                />
-            </div>
-            <div className="row my-4">
-                <h3 class="mobile-subtitle">Comentários</h3>
-                <Comentarios
-                    comentarioProfessorRequisicao={
-                        detalhesRequisicao.comentario_professor_requisicao
-                    }
-                    comentarioSaraRequisicao={
-                        detalhesRequisicao.comentario_sara_requisicao
-                    }
-                    utilizadores={detalhesRequisicao.utilizador}
-                    onSubmitComment={handleComment}
-                    currentUser={user}
-                />
-            </div>
-        </div>
-        <div className="col-5">
-            <h3>Equipamentos</h3>
-            <Equipamentos
-                listaEquipamentos={detalhesRequisicao.equipamento}
-            />
-        </div>
-    </div>
-</div>
+            {showModal && (
+                <ModalOutras hideModal={handleHideModal} handleClick={handleClick} />
+            )}
         </>
     );
+
 }
