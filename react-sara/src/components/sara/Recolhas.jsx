@@ -15,11 +15,13 @@ export default function Recolhas({ porDevolverRecolher, getDate, BASE_URL, props
         <>
             {porDevolverRecolher.map(req => {
                 const sortedUsers = [...req.utilizador].sort((a, b) => a.role_utilizador - b.role_utilizador);
-                
-                if (req.data_inicio_requisicao === justDate(propsDate) && req.estado_requisicao === 4) {
+                if (
+                    justDate(req.data_inicio_requisicao) === justDate(propsDate) &&
+                    (req.id_estado === 3 || req.id_estado === 4)
+                ) {
                     return (
                         <Link to={`/requisicao/${req.id_requisicao}`} key={req.id_requisicao} style={{ textDecoration: 'none', color: '#000' }}>
-                            <div className="background-grey-300 p-4 mb-2" style={{ borderRadius: "1rem" }}>
+                            <div className={`${req.id_estado === 3 ? 'background-grey-300' : 'background-green-50'} p-4 mb-2`} style={{ borderRadius: '1rem' }}>
                                 {sortedUsers.map((user, index) => (
                                     (user.role_utilizador === 3 && user.tipo_utilizador === 3) ? (
                                         <div
@@ -27,7 +29,7 @@ export default function Recolhas({ porDevolverRecolher, getDate, BASE_URL, props
                                             style={{ fontSize: "0.8rem", fontWeight: "700" }}
                                             className='text-green-900'
                                         >
-                                            Hoje, {getDate(req.data_inicio_requisicao)}
+                                            {(req.id_estado === 3) ? `Hoje, ${getDate(req.data_inicio_requisicao)}` : 'CONCLUÍDA'}
                                         </div>
                                     ) : (user.role_utilizador === 3 && user.tipo_utilizador === 2) ? (
                                         <div
@@ -38,6 +40,7 @@ export default function Recolhas({ porDevolverRecolher, getDate, BASE_URL, props
                                         </div>
                                     ) : null
                                 ))}
+
                                 <div className="d-flex align-items-center mb-2">
                                     <div style={{ fontSize: "1rem", fontWeight: "400" }}>Requisição {req.id_requisicao}</div>
                                     <div className="ps-5" style={{ fontSize: "1rem", fontWeight: "400" }}>{req.nome_uc_contexto}</div>

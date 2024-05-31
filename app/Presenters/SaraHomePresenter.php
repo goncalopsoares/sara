@@ -98,6 +98,7 @@ class SaraHomePresenter
             })
             ->select(
                 'requisicao.id_requisicao',
+                'estado.id_estado',
                 'requisicao.nome_requisicao',
                 'uc_contexto.nome_uc_contexto',
                 'requisicao.avaliacao_requisicao',
