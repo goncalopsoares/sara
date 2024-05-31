@@ -4,6 +4,7 @@ import { useStateContext } from '../contexts/contextprovider';
 import HomeReqAtiva from "../components/Student/HomeReqAtiva";
 import HomeUcsAtiva from "../components/Student/HomeUcsAtiva";
 import HomeReqValidar from '../components/prof/HomeReqValidar';
+import { set } from 'date-fns';
 
 const Home = () => {
     const [requisicao, setRequisicao] = useState([]);
@@ -16,8 +17,10 @@ const Home = () => {
     const [modalData, setModalData] = useState({ show: false, equipamentos: [], contexto: '', comentarioprofessor: '', comentariosara: '' });
     const [ucs_aluno, setUcs_aluno] = useState([]);
     const [requisicaoPendente, setRequisicaoPendente] = useState([]);
+    const [ucs_professor, setUcs_professor] = useState([]);
+    const [requisicaoProfessor, setRequisicaoProfessor] = useState([]);
     
-    const { user } = useStateContext();
+    const { user, cart } = useStateContext();
 
     const handleShowMore = (equipamentos, contexto, comentarioprofessor, comentariosara) => {
         setModalData({ show: true, equipamentos, contexto, comentarioprofessor, comentariosara });
@@ -28,7 +31,8 @@ const Home = () => {
     };
 
     useEffect(() => {
-        if (user.tipo_utilizador===3 && user.id_utilizador) {
+        
+    if(user.tipo_utilizador === 3){
             axiosClient.get(`/estudantehome/${user.id_utilizador}`)
                 .then(response => {
                     console.log('Requisicao:', response.data);
@@ -54,20 +58,22 @@ const Home = () => {
                     setError2(error);
                     setLoading2(false);
                 });
-        }
-    }, [user.id_utilizador, user.tipo_utilizador]);
+       
+                 }else if(user.tipo_utilizador === 2){
 
-    useEffect(() => {
-        if (user.tipo_utilizador === 2 && user.id_utilizador) {
-            axiosClient.get(`/professorhome/${user.id_utilizador}`)
+                     axiosClient.get(`/professorhome/${user.id_utilizador}`)
                 .then(response => {
                     console.log('Requisicao:', response.data);
-                    const result = response.data.ProfessorHome;
-                    setRequisicao(result || []);
+                    
+                    const resultProfessor = response.data.ProfessorHome;
+                    console.log('professor', resultProfessor);
+                    if(resultProfessor.length>0){
+                    setRequisicaoProfessor(resultProfessor);
+                }else{setRequisicaoProfessor([])}
                     setLoading(false);
                 })
                 .catch(error => {
-                    console.error('Erro ao obter equipamentos:', error);
+                    console.error('Erro ao obter dados:', error);
                     setError(error);
                     setLoading(false);
                 });
@@ -81,15 +87,15 @@ const Home = () => {
                 })
                 .catch(error => {
                     console.error('Erro ao obter UCs:', error);
-                    setError(error);
+                    setError3(error);
                     setLoading3(false);
                 });
 
             axiosClient.get(`/professorhome/uc/${user.id_utilizador}`)
                 .then(response => {
-                    console.log('ucs', response.data);
+                    console.log('ucsprofessor', response.data);
                     const result_uc = response.data;
-                    setUcs_aluno(result_uc || []);
+                    setUcs_professor(result_uc || []);
                     setLoading2(false);
                 })
                 .catch(error => {
@@ -97,8 +103,11 @@ const Home = () => {
                     setError2(error);
                     setLoading2(false);
                 });
-        }
+        
+            }
     }, [user.id_utilizador, user.tipo_utilizador]);
+
+      
 
     return (
         <>
@@ -113,24 +122,47 @@ const Home = () => {
                         <p>Loading...</p>
                     ) : (
                         <div>
-                            {requisicao?.length === 0 ? (
-                                <p>Não tem requisições ativas.</p>
-                            ) : (
-                                requisicao.map(req => {
-                                    const ultimoEstado = req.estados[req.estados.length - 1];
-                                    if ([1, 2, 3, 4].includes(ultimoEstado.id_estado)) {
-                                        return (
-                                            <HomeReqAtiva
-                                                key={req.id_requisicao}
-                                                requisicao={requisicao}
-                                                handleShowMore={handleShowMore}
-                                                req={req}
-                                            />
-                                        );
-                                    }
-                                    return null;
-                                })
+                            {user.tipo_utilizador === 3 && (
+                                requisicao.length === 0 ? (
+                                    <p>Não tem requisições ativas.</p>
+                                ) : (
+                                    requisicao.map(req => {
+                                        const ultimoEstado = req.estados[req.estados.length - 1];
+                                        if ([1, 2, 3, 4].includes(ultimoEstado.id_estado)) {
+                                            return (
+                                                <HomeReqAtiva
+                                                    key={req.id_requisicao}
+                                                    requisicao={requisicao}
+                                                    handleShowMore={handleShowMore}
+                                                    req={req}
+                                                />
+                                            );
+                                        }
+                                        return null;
+                                    })
+                                )
+                            ) }
+                            {user.tipo_utilizador === 2 && (
+                                requisicaoProfessor?.length ===0 ? (
+                                    <p>Não tem requisições ativas.</p>
+                                ) : (
+                                    requisicaoProfessor.map(req => {
+                                        const ultimoEstado = req.estados[req.estados.length - 1];
+                                        if ([2, 3, 4].includes(ultimoEstado.id_estado)) {
+                                            return (
+                                                <HomeReqAtiva
+                                                    key={req.id_requisicao}
+                                                    requisicao={requisicaoProfessor}
+                                                    handleShowMore={handleShowMore}
+                                                    req={req}
+                                                />
+                                            );
+                                        }
+                                        return null;
+                                    })
+                                )
                             )}
+                            
                         </div>
                     )}
                 </div>
@@ -172,7 +204,7 @@ const Home = () => {
                     ) : (
                         <div className="row">
                             {ucs_aluno.length === 0 ? (
-                                <p>Não Uc´s associadas.</p>
+                                <p>Não tem Uc´s associadas.</p>
                             ) : (
                                 ucs_aluno.map(uc => (
                                     <div className="col-6" key={uc.id}>

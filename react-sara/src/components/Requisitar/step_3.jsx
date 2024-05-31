@@ -4,10 +4,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './StepStyles.css';
 import ErrorModal from './ErrorModal';
 import { ArrowLeft, ArrowRight } from 'react-feather';
+import { useStateContext } from '../../contexts/contextprovider';
 
 const Step3 = ({ goToPreviousStep, handleDateSubmit }) => {
     const [selectedRange, setSelectedRange] = useState([null, null]);
     const [error, setError] = useState(null);
+    const {user}=useStateContext();
 
     const setToSpecificTime = (date, hours, minutes) => {
         if (!date) return null;
@@ -64,8 +66,9 @@ const Step3 = ({ goToPreviousStep, handleDateSubmit }) => {
             return;
         }
 
-        const startWithTime = setToSpecificTime(selectedRange[0], 14, 0);
-        const endWithTime = setToSpecificTime(selectedRange[1], 12, 0);
+        const startWithTime = user.tipo_utilizador === 2 ? setToSpecificTime(selectedRange[0], 9, 0) : setToSpecificTime(selectedRange[0], 14, 0);
+        const endWithTime = user.tipo_utilizador === 2 ? setToSpecificTime(selectedRange[1], 18, 0) : setToSpecificTime(selectedRange[1], 12, 0);
+
         handleDateSubmit(startWithTime, endWithTime);
     };
 
@@ -81,6 +84,53 @@ const Step3 = ({ goToPreviousStep, handleDateSubmit }) => {
 
     return (
         <>
+        {user.tipo_utilizador ===3 && (
+            <div>
+            <div className="row">
+                <div style={{ fontSize: '0.8rem' }} className="fw-bold col-6">
+                    Recolha
+                </div>
+                <div style={{ fontSize: '0.8rem' }} className="fw-bold col-6">
+                    Devolução
+                </div>
+            </div>
+            
+            <div className="row">
+                <div style={{ fontSize: '0.8rem', marginBottom: '1rem' }} className="col-6">
+                    A partir das 14:00
+                </div>
+                <div style={{ fontSize: '0.8rem', marginBottom: '1rem' }} className="col-6">
+                    Até às 12:00
+                </div>
+            </div>
+           
+
+            <div className="row">
+                <div
+                    style={{
+                        fontSize: '0.8rem',
+                        marginBottom: '1rem',
+                        color: selectedRange[0] ? '#68AF00' : '#818181',
+                    }}
+                    className="col-6"
+                >
+                    {selectedRange[0] ? selectedRange[0].toLocaleDateString() : 'Por definir'}
+                </div>
+                <div
+                    style={{
+                        fontSize: '0.8rem',
+                        marginBottom: '1rem',
+                        color: selectedRange[1] ? '#68AF00' : '#818181',
+                    }}
+                    className="col-6"
+                >
+                    {selectedRange[1] ? selectedRange[1].toLocaleDateString() : 'Por definir'}
+                </div>
+            </div>
+            </div>
+            )}
+{user.tipo_utilizador ===2 && (
+            <div>
             <div className="row">
                 <div style={{ fontSize: '0.8rem' }} className="fw-bold col-6">
                     Recolha
@@ -91,10 +141,10 @@ const Step3 = ({ goToPreviousStep, handleDateSubmit }) => {
             </div>
             <div className="row">
                 <div style={{ fontSize: '0.8rem', marginBottom: '1rem' }} className="col-6">
-                    A partir das 14:00
+                    A partir das 9:00
                 </div>
                 <div style={{ fontSize: '0.8rem', marginBottom: '1rem' }} className="col-6">
-                    Até às 12:00
+                    Até às 18:00
                 </div>
             </div>
             <div className="row">
@@ -119,6 +169,11 @@ const Step3 = ({ goToPreviousStep, handleDateSubmit }) => {
                     {selectedRange[1] ? selectedRange[1].toLocaleDateString() : 'Por definir'}
                 </div>
             </div>
+        </div>
+            )}
+
+
+
             <div>
                 <div className="date-picker-container" style={{ marginTop: "0rem" }}>
                     <DatePicker
