@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axiosClient from '../../axiosClient';
 import '../../App.css';
 import { useStateContext } from '../../contexts/contextprovider';
-import { ShoppingCart, Info } from 'react-feather';
+import { ShoppingCart, Info,X } from 'react-feather';
 
 
 const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
@@ -246,23 +246,32 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
         </div>
       )}
 
-      {cartModalIsOpen && (
-        <div className="modal-overlay" onClick={closeCartModal}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeCartModal}>X</button>
-            <h3>Carrinho</h3>
-            <ul>
-              {cart.map((item, index) => (
-                <li key={index}>
-                  {item.nome_modelo_equipamento} - {item.nome_marca_equipamento}
-                  <button className='text-red-600 font-bold indent-3' onClick={() => handleRemoveFromCart(item)}>  Remover do carrinho</button>
-                </li>
-              ))}
-            </ul>
-            <button onClick={goToStep5}>Avançar para o resumo</button>
-          </div>
-        </div>
-      )}
+            {cartModalIsOpen && (
+                <div className="modal-overlay" onClick={closeCartModal}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <div className="font-bold mb-4">Adicionado ao carrinho com sucesso!</div>
+                        <div className="mb-4">
+                            {cart.map((item, index) => {
+                                console.log(cart);
+                                console.log(item);
+                                let imageUrl = item.imagem_modelo_equipamento
+                                    ? `${BASE_URL}${item.imagem_modelo_equipamento}`
+                                    : `${BASE_URL}/images/equipamento/noImg.png`;
+                                return (
+                                    <div key={index} className="d-flex align-items-center mb-3">
+                                        <div className="col-2 mr-2"><img src={imageUrl} className="img-fluid" /></div>
+                                        <div className="col-6">{item.nome_marca_equipamento} {item.nome_modelo_equipamento}</div>
+                                        <X onClick={() => handleRemoveFromCart(item)} className="text-red-600 ml-auto" />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <button onClick={goToStep5} className="btn-sara-quaternary mb-2">Checkout</button>
+                        <button onClick={closeCartModal} className="btn-sara-terciary">Continuar a Requisitar</button>
+                    </div>
+                </div>
+            )}
+
     </div>
   );
 };
