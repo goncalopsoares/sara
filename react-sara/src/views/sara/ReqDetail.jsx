@@ -22,6 +22,8 @@ export default function ReqDetail() {
     const [showCode, setShowCode] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
+    const navigate = useNavigate();
+    
     const goBack = () => {
         navigate(-1);
     };
