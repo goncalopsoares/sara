@@ -8,7 +8,9 @@ export default function EstadosMap({ detalhesRequisicaoEstado }) {
     useEffect(() => {
         const newColors = colors.map((color, i) => {
             if (detalhesRequisicaoEstado === 6) {
-                return i < 3 ? "#92D400" : "red";
+                return i < 2 ? "#92D400" : i === 2 ? "red" : "#F0F0F0";
+            } else if (detalhesRequisicaoEstado === 7) {
+                return i < 1 ? "#92D400" : i === 1 ? "red" : "#F0F0F0";
             }
             return detalhesRequisicaoEstado > i && detalhesRequisicaoEstado < 6 ? "#92D400" : "#F0F0F0";
         });
