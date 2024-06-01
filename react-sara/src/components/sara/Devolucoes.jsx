@@ -29,7 +29,7 @@ export default function Devolucoes({ porDevolverRecolher, getDate, BASE_URL, pro
                                             style={{ fontSize: "0.8rem", fontWeight: "700" }}
                                             className='text-green-900'
                                         >
-                                            {(req.id_estado === 4) ? `Hoje, ${getDate(req.data_inicio_requisicao)}` : 'CONCLUÍDA'}
+                                            {(req.id_estado === 4) ? `Hoje, ${getDate(req.data_fim_requisicao)}` : 'CONCLUÍDA'}
                                         </div>
                                     ) : (user.role_utilizador === 3 && user.tipo_utilizador === 2) ? (
                                         <div

@@ -8,7 +8,12 @@ import Comentarios from "../../components/requisicao/Comentarios";
 import Equipamentos from "../../components/requisicao/Equipamentos";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, RefreshCcw, ArrowLeft, MoreVertical } from "react-feather";
-import ModalOutras from "../../components/prof/ModalOutras";
+import ModalOutrasProf from "../../components/prof/ModalOutrasProf";
+import ModalAprovarSara from "../../components/sara/ModalAprovarSara";
+import ModalRejeitarSara from "../../components/sara/ModalRejeitarSara";
+import ModalRecolhaSara from "../../components/sara/ModalRecolhaSara";
+import ModalDevolucaoSara from "../../components/sara/ModalDevolucaoSara";
+
 
 export default function ReqDetail() {
     const { id } = useParams();
@@ -20,7 +25,11 @@ export default function ReqDetail() {
     const { user } = useStateContext();
     const [code, setCode] = useState('');
     const [showCode, setShowCode] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showModalOutrasProf, setShowModalOutrasProf] = useState(false);
+    const [showModalAprovarSara, setShowModalAprovarSara] = useState(false);
+    const [showModalRejeitarSara, setShowModalRejeitarSara] = useState(false);
+    const [showModalRecolhaSara, setShowModalRecolhaSara] = useState(false);
+    const [showModalDevolucaoSara, setShowModalDevolucaoSara] = useState(false);
 
     const navigate = useNavigate();
     
@@ -67,13 +76,42 @@ export default function ReqDetail() {
         setShowCode(!showCode); // Alterna o estado de exibição do código
     };
 
-    const handleShowModal = () => {
-        setShowModal(true);
-        console.log('showModal:', showModal);
+    const handleShowModal = (event) => {
+        let buttonId = event.target.id;
+        switch (buttonId) {
+            case 'buttonOutrasProf':
+                setShowModalOutrasProf(true);
+                break;
+            case 'buttonAprovarSara':
+                setShowModalAprovarSara(true);
+                break;
+            case 'buttonRejeitarSara':
+                setShowModalRejeitarSara(true);
+                break;
+            case 'buttonConfirmarRecolha':
+                setShowModalRecolhaSara(true);
+                break;
+            case 'buttonConfirmarDevolucao':
+                setShowModalDevolucaoSara(true);
+                break;
+        }
     };
 
-    const handleHideModal = () => {
-        setShowModal(false);
+    const handleHideModal = (event) => {
+        let buttonId = event.target.id;
+        switch (buttonId) {
+            case 'buttonCancelarProf':
+                setShowModalOutrasProf(false);
+                break;
+
+            case 'buttonCancelarSara':
+                setShowModalAprovarSara(false);
+                setShowModalRejeitarSara(false);
+                setShowModalRecolhaSara(false);
+                setShowModalDevolucaoSara(false);
+                break;
+
+        }
     };
 
     const aprovarRejeitar = async (id, estadoData) => {
@@ -125,17 +163,28 @@ export default function ReqDetail() {
         let estadoId;
 
         switch (buttonId) {
-            case 'button1':
+            case 'buttonAprovarRequisicao':
+                setShowModalAprovarSara(false);
                 estadoId = 3;
                 break;
-            case 'button2':
+            case 'buttonRejeitarRequisicao':
                 estadoId = 6;
+                setShowModalRejeitarSara(false);
                 break;
             case 'buttonValidarProf':
                 estadoId = 2;
                 break;
             case 'buttonRejeitarProf':
                 estadoId = 7;
+                setShowModalOutrasProf(false);
+                break;
+            case 'buttonAprovarRecolha':
+                estadoId = 4;
+                setShowModalRecolhaSara(false);
+                break;
+            case 'buttonAprovarDevolucao':
+                estadoId = 5;
+                setShowModalDevolucaoSara(false);
                 break;
             default:
                 estadoId = null;
@@ -163,10 +212,12 @@ export default function ReqDetail() {
         comentar(id, data);
     };
 
-
     console.log('user', user)
     console.log('detalhesRequisicao', detalhesRequisicao);
     console.log('code', code);
+    if (detalhesRequisicao) {
+        console.log(detalhesRequisicao.utilizador[0].pin_recolha);
+    }
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -190,16 +241,43 @@ export default function ReqDetail() {
                                 {detalhesRequisicao.nome_requisicao}
                             </div>
                         </div>
-                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 && (
+                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 ? (
                             <div className="d-flex">
-                                <button id="button1" onClick={handleClick} className="btn btn-success me-3 d-flex p-3">
+                                <button
+                                    id="buttonAprovarSara"
+                                    onClick={handleShowModal}
+                                    className="btn me-3 d-flex p-3 text-white"
+                                    style={{ backgroundColor: "#68AF00" }}>
                                     <CheckCircle className="me-2" /> APROVAR
                                 </button>
-                                <button id="button2" onClick={handleClick} className="btn btn-danger d-flex p-3">
+                                <button
+                                    id="buttonRejeitarSara"
+                                    onClick={handleShowModal}
+                                    className="btn d-flex p-3 text-white"
+                                    style={{ backgroundColor: "#B30020" }}>
                                     <XCircle className="me-2" /> REJEITAR
                                 </button>
                             </div>
-                        )}
+                        ) : user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 3 ? (
+                            <div>
+                                <button
+                                    id="buttonConfirmarRecolha"
+                                    onClick={handleShowModal}
+                                    className="btn btn-success me-3 d-flex p-3">
+                                    <RefreshCcw className="me-2" /> CONFIRMAR RECOLHA
+                                </button>
+                            </div>
+                        ) : user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 4 ? (
+                            <div>
+                                <button
+                                    id="buttonConfirmarDevolucao"
+                                    onClick={handleShowModal}
+                                    className="btn btn-success me-3 d-flex p-3">
+                                    <RefreshCcw className="me-2" /> CONFIRMAR DEVOLUÇÃO
+                                </button>
+                            </div>
+                        ) : null
+                        }
                     </div>
                     {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
                         <div>
@@ -261,21 +339,33 @@ export default function ReqDetail() {
                         />
                     </div>
                     {(user.tipo_utilizador === 2 && detalhesRequisicao.id_estado === 1) && (
-                        <div className="row fixed-bottom bg-white justify-center" style={{marginBottom: "5rem"}}>
+                        <div className="row fixed-bottom bg-white justify-center" style={{ marginBottom: "5rem" }}>
                             <div className="col-12 d-flex justify-center gap-6">
-                                <button onClick={handleShowModal} className="d-flex p-3 rounded-lg" style={{ border: "1px solid #1C7A00" }}>
+                                <button id="buttonOutrasProf" onClick={handleShowModal} className="d-flex p-3 rounded-lg" style={{ border: "1px solid #1C7A00" }}>
                                     <MoreVertical /> OUTRAS AÇÕES
                                 </button>
                                 <button id="buttonValidarProf" onClick={handleClick} className="d-flex text-white p-3 rounded-lg" style={{ backgroundColor: "#1C7A00" }}>
-                                    <CheckCircle className="me-2" />VALIDAR
+                                    <CheckCircle className="me-2" /> VALIDAR
                                 </button>
                             </div>
                         </div>
                     )}
                 </div>
             </div>
-            {showModal && (
-                <ModalOutras hideModal={handleHideModal} handleClick={handleClick} />
+            {showModalOutrasProf && (
+                <ModalOutrasProf hideModal={handleHideModal} handleClick={handleClick} />
+            )}
+            {showModalAprovarSara && (
+                <ModalAprovarSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} />
+            )}
+            {showModalRejeitarSara && (
+                <ModalRejeitarSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} />
+            )}
+            {showModalRecolhaSara && (
+                <ModalRecolhaSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} pinRecolha={detalhesRequisicao.utilizador[0].pin_recolha} />
+            )}
+            {showModalDevolucaoSara && (
+                <ModalDevolucaoSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} pinDevolucao={detalhesRequisicao.utilizador[0].pin_devolucao} />
             )}
         </>
     );

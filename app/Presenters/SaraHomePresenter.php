@@ -80,12 +80,18 @@ class SaraHomePresenter
 
     public function getSaraPorRecolherDevolver($data)
     {
+        $subQuery = RequisicaoHasEstado::select('requisicao_id_requisicao', DB::raw('MAX(data_estado) as latest_date'))
+            ->groupBy('requisicao_id_requisicao');
         $query = Requisicao::leftJoin('requisicao_has_utilizador', 'requisicao.id_requisicao', '=', 'requisicao_has_utilizador.requisicao_id_requisicao')
             ->leftJoin('utilizador', 'requisicao_has_utilizador.utilizador_id_utilizador', '=', 'utilizador.id_utilizador')
             ->leftJoin('requisicao_has_estado', 'requisicao.id_requisicao', '=', 'requisicao_has_estado.requisicao_id_requisicao')
             ->leftJoin('estado', 'requisicao_has_estado.estado_id_estado', '=', 'estado.id_estado')
             ->leftJoin('requisicao_has_equipamento', 'requisicao.id_requisicao', '=', 'requisicao_has_equipamento.requisicao_id_requisicao')
             ->leftJoin('uc_contexto', 'requisicao.uc_contexto_id_uc_contexto', '=', 'uc_contexto.id_uc_contexto')
+            ->joinSub($subQuery, 'latest', function ($join) {
+                $join->on('requisicao_has_estado.requisicao_id_requisicao', '=', 'latest.requisicao_id_requisicao')
+                    ->on('requisicao_has_estado.data_estado', '=', 'latest.latest_date');
+            })
             ->where(function ($query) use ($data) {
                 $query->where(function ($query) use ($data) {
                     $query->where(DB::raw('DATE(requisicao_has_equipamento.data_inicio_requisicao)'), $data)
