@@ -35,6 +35,8 @@ export default function ModalDevolucaoSara({ hideModal, handleClick, idRequisica
         }
     };
 
+    console.log('pindev', pinDevolucao)
+
     return (
         <div className="modal-overlay" style={{ zIndex: "2000" }}>
             <div className="modal-content d-flex flex-column" onClick={e => e.stopPropagation()}>
