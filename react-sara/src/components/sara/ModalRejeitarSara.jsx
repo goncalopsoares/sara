@@ -16,9 +16,9 @@ export default function ModalRejeitarSara({ hideModal, handleClick, idRequisicao
         <div className="modal-overlay" style={{ zIndex: "2000" }}>
             <div className="modal-content d-flex flex-column" onClick={e => e.stopPropagation()}>
                 <p className="font-bold">Requisição {idRequisicao}: {nomeRequisicao}</p>
-                <p className="mb-0">Tem a certeza que pretende rejeitar esta requisição?</p>
+                <p className="mb-0">Tens a certeza que pretendes rejeitar esta requisição?</p>
                 <p className="mb-5">Esta ação é definitiva e não poderá ser revogada.</p>
-                <p className="font-bold">Confirme esta ação escrevendo: "Eu confirmo"</p>
+                <p className="font-bold">Confirma esta ação escrevendo: "Eu confirmo"</p>
                 <input type="text" id="confirmacaoRejeicao" className="w-100 rounded-lg" />
                 <div className="d-flex flex-row justify-content-between gap-12 mt-5">
                     <button

@@ -11,6 +11,8 @@ import { CheckCircle, XCircle, RefreshCcw, ArrowLeft, MoreVertical } from "react
 import ModalOutrasProf from "../../components/prof/ModalOutrasProf";
 import ModalAprovarSara from "../../components/sara/ModalAprovarSara";
 import ModalRejeitarSara from "../../components/sara/ModalRejeitarSara";
+import ModalRecolhaSara from "../../components/sara/ModalRecolhaSara";
+
 
 export default function ReqDetail() {
     const { id } = useParams();
@@ -25,6 +27,8 @@ export default function ReqDetail() {
     const [showModalOutrasProf, setShowModalOutrasProf] = useState(false);
     const [showModalAprovarSara, setShowModalAprovarSara] = useState(false);
     const [showModalRejeitarSara, setShowModalRejeitarSara] = useState(false);
+    const [showModalRecolhaSara, setShowModalRecolhaSara] = useState(false);
+    const [showModalDevolucaoSara, setShowModalDevolucaoSara] = useState(false);
 
     const goBack = () => {
         navigate(-1);
@@ -75,13 +79,17 @@ export default function ReqDetail() {
             case 'buttonOutrasProf':
                 setShowModalOutrasProf(true);
                 break;
-
             case 'buttonAprovarSara':
                 setShowModalAprovarSara(true);
                 break;
-
             case 'buttonRejeitarSara':
                 setShowModalRejeitarSara(true);
+                break;
+            case 'buttonConfirmarRecolha':
+                setShowModalRecolhaSara(true);
+                break;
+            case 'buttonConfirmarDevolucao':
+                setShowModalDevolucaoSara(true);
                 break;
         }
     };
@@ -96,6 +104,8 @@ export default function ReqDetail() {
             case 'buttonCancelarSara':
                 setShowModalAprovarSara(false);
                 setShowModalRejeitarSara(false);
+                setShowModalRecolhaSara(false);
+                setShowModalDevolucaoSara(false);
                 break;
 
         }
@@ -165,8 +175,12 @@ export default function ReqDetail() {
                 estadoId = 7;
                 setShowModalOutrasProf(false);
                 break;
-            case 'buttonConfirmarRecolha':
+            case 'buttonAprovarRecolha':
                 estadoId = 4;
+                setShowModalRecolhaSara(false);
+                break;
+            case 'buttonAprovarDevolucao':
+                estadoId = 5;
                 break;
             default:
                 estadoId = null;
@@ -197,6 +211,9 @@ export default function ReqDetail() {
     console.log('user', user)
     console.log('detalhesRequisicao', detalhesRequisicao);
     console.log('code', code);
+    if (detalhesRequisicao) {
+        console.log(detalhesRequisicao.utilizador[0].pin_recolha);
+    }
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -241,12 +258,22 @@ export default function ReqDetail() {
                             <div>
                                 <button
                                     id="buttonConfirmarRecolha"
-                                    onClick={handleClick}
+                                    onClick={handleShowModal}
                                     className="btn btn-success me-3 d-flex p-3">
                                     <RefreshCcw className="me-2" /> CONFIRMAR RECOLHA
                                 </button>
                             </div>
-                        ) : null}
+                        ) : user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 4 ? (
+                            <div>
+                                <button
+                                    id="buttonConfirmarDevolucao"
+                                    onClick={handleShowModal}
+                                    className="btn btn-success me-3 d-flex p-3">
+                                    <RefreshCcw className="me-2" /> CONFIRMAR DEVOLUÇÃO
+                                </button>
+                            </div>
+                        ) : null
+                        }
                     </div>
                     {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
                         <div>
@@ -329,6 +356,12 @@ export default function ReqDetail() {
             )}
             {showModalRejeitarSara && (
                 <ModalRejeitarSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} />
+            )}
+            {showModalRecolhaSara && (
+                <ModalRecolhaSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} pinRecolha={detalhesRequisicao.utilizador[0].pin_recolha} />
+            )}
+            {showModalDevolucaoSara && (
+                <showModalRecolhaSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} pinDevolucao={detalhesRequisicao.utilizador[0].pin_devolucao} />
             )}
         </>
     );
