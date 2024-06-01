@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, RefreshCcw, ArrowLeft, MoreVertical } from "react-feather";
 import ModalOutrasProf from "../../components/prof/ModalOutrasProf";
 import ModalAprovarSara from "../../components/sara/ModalAprovarSara";
+import ModalRejeitarSara from "../../components/sara/ModalRejeitarSara";
 
 export default function ReqDetail() {
     const { id } = useParams();
@@ -23,6 +24,7 @@ export default function ReqDetail() {
     const [showCode, setShowCode] = useState(false);
     const [showModalOutrasProf, setShowModalOutrasProf] = useState(false);
     const [showModalAprovarSara, setShowModalAprovarSara] = useState(false);
+    const [showModalRejeitarSara, setShowModalRejeitarSara] = useState(false);
 
     const goBack = () => {
         navigate(-1);
@@ -84,7 +86,6 @@ export default function ReqDetail() {
         }
     };
 
-
     const handleHideModal = (event) => {
         let buttonId = event.target.id;
         switch (buttonId) {
@@ -92,8 +93,9 @@ export default function ReqDetail() {
                 setShowModalOutrasProf(false);
                 break;
 
-            case 'buttonCancelarSara1':
+            case 'buttonCancelarSara':
                 setShowModalAprovarSara(false);
+                setShowModalRejeitarSara(false);
                 break;
 
         }
@@ -154,7 +156,7 @@ export default function ReqDetail() {
                 break;
             case 'buttonRejeitarRequisicao':
                 estadoId = 6;
-                setShowModalAprovarSara(false);
+                setShowModalRejeitarSara(false);
                 break;
             case 'buttonValidarProf':
                 estadoId = 2;
@@ -192,7 +194,6 @@ export default function ReqDetail() {
         comentar(id, data);
     };
 
-
     console.log('user', user)
     console.log('detalhesRequisicao', detalhesRequisicao);
     console.log('code', code);
@@ -224,13 +225,15 @@ export default function ReqDetail() {
                                 <button
                                     id="buttonAprovarSara"
                                     onClick={handleShowModal}
-                                    className="btn btn-success me-3 d-flex p-3">
+                                    className="btn me-3 d-flex p-3 text-white"
+                                    style={{ backgroundColor: "#68AF00" }}>
                                     <CheckCircle className="me-2" /> APROVAR
                                 </button>
                                 <button
                                     id="buttonRejeitarSara"
                                     onClick={handleShowModal}
-                                    className="btn btn-danger d-flex p-3">
+                                    className="btn d-flex p-3 text-white"
+                                    style={{ backgroundColor: "#B30020" }}>
                                     <XCircle className="me-2" /> REJEITAR
                                 </button>
                             </div>
@@ -311,7 +314,7 @@ export default function ReqDetail() {
                                     <MoreVertical /> OUTRAS AÇÕES
                                 </button>
                                 <button id="buttonValidarProf" onClick={handleClick} className="d-flex text-white p-3 rounded-lg" style={{ backgroundColor: "#1C7A00" }}>
-                                    <CheckCircle className="me-2" />VALIDAR
+                                    <CheckCircle className="me-2" /> VALIDAR
                                 </button>
                             </div>
                         </div>
@@ -323,6 +326,9 @@ export default function ReqDetail() {
             )}
             {showModalAprovarSara && (
                 <ModalAprovarSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} />
+            )}
+            {showModalRejeitarSara && (
+                <ModalRejeitarSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} />
             )}
         </>
     );

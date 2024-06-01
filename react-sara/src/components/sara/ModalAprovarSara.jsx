@@ -17,7 +17,7 @@ export default function ModalAprovarSara({ hideModal, handleClick, idRequisicao,
                         <CheckCircle className="me-2" />APROVAR
                     </button>
                     <button 
-                        id="buttonCancelarSara1" 
+                        id="buttonCancelarSara" 
                         onClick={hideModal} 
                         className="d-flex p-3 rounded-lg w-50 my-2 text-white justify-center" 
                         style={{ backgroundColor: "#B30020" }}>
