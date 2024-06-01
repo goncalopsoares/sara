@@ -8,7 +8,8 @@ import Comentarios from "../../components/requisicao/Comentarios";
 import Equipamentos from "../../components/requisicao/Equipamentos";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, RefreshCcw, ArrowLeft, MoreVertical } from "react-feather";
-import ModalOutras from "../../components/prof/ModalOutras";
+import ModalOutrasProf from "../../components/prof/ModalOutrasProf";
+import ModalAprovarSara from "../../components/sara/ModalAprovarSara";
 
 export default function ReqDetail() {
     const { id } = useParams();
@@ -20,7 +21,8 @@ export default function ReqDetail() {
     const { user } = useStateContext();
     const [code, setCode] = useState('');
     const [showCode, setShowCode] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showModalOutrasProf, setShowModalOutrasProf] = useState(false);
+    const [showModalAprovarSara, setShowModalAprovarSara] = useState(false);
 
     const goBack = () => {
         navigate(-1);
@@ -65,13 +67,36 @@ export default function ReqDetail() {
         setShowCode(!showCode); // Alterna o estado de exibição do código
     };
 
-    const handleShowModal = () => {
-        setShowModal(true);
-        console.log('showModal:', showModal);
+    const handleShowModal = (event) => {
+        let buttonId = event.target.id;
+        switch (buttonId) {
+            case 'buttonOutrasProf':
+                setShowModalOutrasProf(true);
+                break;
+
+            case 'buttonAprovarSara':
+                setShowModalAprovarSara(true);
+                break;
+
+            case 'buttonRejeitarSara':
+                setShowModalRejeitarSara(true);
+                break;
+        }
     };
 
-    const handleHideModal = () => {
-        setShowModal(false);
+
+    const handleHideModal = (event) => {
+        let buttonId = event.target.id;
+        switch (buttonId) {
+            case 'buttonCancelarProf':
+                setShowModalOutrasProf(false);
+                break;
+
+            case 'buttonCancelarSara1':
+                setShowModalAprovarSara(false);
+                break;
+
+        }
     };
 
     const aprovarRejeitar = async (id, estadoData) => {
@@ -123,17 +148,23 @@ export default function ReqDetail() {
         let estadoId;
 
         switch (buttonId) {
-            case 'button1':
+            case 'buttonAprovarRequisicao':
+                setShowModalAprovarSara(false);
                 estadoId = 3;
                 break;
-            case 'button2':
+            case 'buttonRejeitarRequisicao':
                 estadoId = 6;
+                setShowModalAprovarSara(false);
                 break;
             case 'buttonValidarProf':
                 estadoId = 2;
                 break;
             case 'buttonRejeitarProf':
                 estadoId = 7;
+                setShowModalOutrasProf(false);
+                break;
+            case 'buttonConfirmarRecolha':
+                estadoId = 4;
                 break;
             default:
                 estadoId = null;
@@ -188,16 +219,31 @@ export default function ReqDetail() {
                                 {detalhesRequisicao.nome_requisicao}
                             </div>
                         </div>
-                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 && (
+                        {user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 2 ? (
                             <div className="d-flex">
-                                <button id="button1" onClick={handleClick} className="btn btn-success me-3 d-flex p-3">
+                                <button
+                                    id="buttonAprovarSara"
+                                    onClick={handleShowModal}
+                                    className="btn btn-success me-3 d-flex p-3">
                                     <CheckCircle className="me-2" /> APROVAR
                                 </button>
-                                <button id="button2" onClick={handleClick} className="btn btn-danger d-flex p-3">
+                                <button
+                                    id="buttonRejeitarSara"
+                                    onClick={handleShowModal}
+                                    className="btn btn-danger d-flex p-3">
                                     <XCircle className="me-2" /> REJEITAR
                                 </button>
                             </div>
-                        )}
+                        ) : user.tipo_utilizador === 1 && detalhesRequisicao.id_estado === 3 ? (
+                            <div>
+                                <button
+                                    id="buttonConfirmarRecolha"
+                                    onClick={handleClick}
+                                    className="btn btn-success me-3 d-flex p-3">
+                                    <RefreshCcw className="me-2" /> CONFIRMAR RECOLHA
+                                </button>
+                            </div>
+                        ) : null}
                     </div>
                     {user.tipo_utilizador === 3 && detalhesRequisicao.id_estado === 3 && (
                         <div>
@@ -259,9 +305,9 @@ export default function ReqDetail() {
                         />
                     </div>
                     {(user.tipo_utilizador === 2 && detalhesRequisicao.id_estado === 1) && (
-                        <div className="row fixed-bottom bg-white justify-center" style={{marginBottom: "5rem"}}>
+                        <div className="row fixed-bottom bg-white justify-center" style={{ marginBottom: "5rem" }}>
                             <div className="col-12 d-flex justify-center gap-6">
-                                <button onClick={handleShowModal} className="d-flex p-3 rounded-lg" style={{ border: "1px solid #1C7A00" }}>
+                                <button id="buttonOutrasProf" onClick={handleShowModal} className="d-flex p-3 rounded-lg" style={{ border: "1px solid #1C7A00" }}>
                                     <MoreVertical /> OUTRAS AÇÕES
                                 </button>
                                 <button id="buttonValidarProf" onClick={handleClick} className="d-flex text-white p-3 rounded-lg" style={{ backgroundColor: "#1C7A00" }}>
@@ -272,8 +318,11 @@ export default function ReqDetail() {
                     )}
                 </div>
             </div>
-            {showModal && (
-                <ModalOutras hideModal={handleHideModal} handleClick={handleClick} />
+            {showModalOutrasProf && (
+                <ModalOutrasProf hideModal={handleHideModal} handleClick={handleClick} />
+            )}
+            {showModalAprovarSara && (
+                <ModalAprovarSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} />
             )}
         </>
     );
