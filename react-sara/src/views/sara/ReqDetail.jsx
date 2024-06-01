@@ -12,6 +12,7 @@ import ModalOutrasProf from "../../components/prof/ModalOutrasProf";
 import ModalAprovarSara from "../../components/sara/ModalAprovarSara";
 import ModalRejeitarSara from "../../components/sara/ModalRejeitarSara";
 import ModalRecolhaSara from "../../components/sara/ModalRecolhaSara";
+import ModalDevolucaoSara from "../../components/sara/ModalDevolucaoSara";
 
 
 export default function ReqDetail() {
@@ -181,6 +182,7 @@ export default function ReqDetail() {
                 break;
             case 'buttonAprovarDevolucao':
                 estadoId = 5;
+                setShowModalDevolucaoSara(false);
                 break;
             default:
                 estadoId = null;
@@ -361,7 +363,7 @@ export default function ReqDetail() {
                 <ModalRecolhaSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} pinRecolha={detalhesRequisicao.utilizador[0].pin_recolha} />
             )}
             {showModalDevolucaoSara && (
-                <showModalRecolhaSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} pinDevolucao={detalhesRequisicao.utilizador[0].pin_devolucao} />
+                <ModalDevolucaoSara hideModal={handleHideModal} handleClick={handleClick} idRequisicao={detalhesRequisicao.id_requisicao} nomeRequisicao={detalhesRequisicao.nome_requisicao} pinDevolucao={detalhesRequisicao.utilizador[0].pin_devolucao} />
             )}
         </>
     );

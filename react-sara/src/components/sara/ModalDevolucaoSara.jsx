@@ -1,7 +1,7 @@
 import React, {useState, useRef} from "react";
 import { CheckCircle, XCircle } from "react-feather";
 
-export default function ModalRecolhaSara({ hideModal, handleClick, idRequisicao, nomeRequisicao, pinRecolha }) {
+export default function ModalDevolucaoSara({ hideModal, handleClick, idRequisicao, nomeRequisicao, pinDevolucao }) {
 
     const [code, setCode] = useState(["", "", "", ""]);
     const inputRefs = useRef([]);
@@ -27,8 +27,8 @@ export default function ModalRecolhaSara({ hideModal, handleClick, idRequisicao,
     };
 
     const handleConfirmation = (e) => {
-        const confirmarRecolha = code.join("");
-        if (confirmarRecolha === pinRecolha) {
+        const confirmarDevolucao = code.join("");
+        if (confirmarDevolucao === pinDevolucao) {
             handleClick(e);
         } else {
             alert("Código introduzido inválido.");
@@ -38,7 +38,7 @@ export default function ModalRecolhaSara({ hideModal, handleClick, idRequisicao,
     return (
         <div className="modal-overlay" style={{ zIndex: "2000" }}>
             <div className="modal-content d-flex flex-column" onClick={e => e.stopPropagation()}>
-                <p className="font-bold">Recolha da requisição {idRequisicao}: {nomeRequisicao}</p>
+                <p className="font-bold">Devolução da requisição {idRequisicao}: {nomeRequisicao}</p>
                 <p className="mb-0">Por favor, insere o código que os alunos te fornecem</p>
                 <div className="d-flex justify-center">
                     {code.map((char, index) => (
@@ -57,7 +57,7 @@ export default function ModalRecolhaSara({ hideModal, handleClick, idRequisicao,
                 </div>
                 <div className="d-flex flex-row justify-content-between gap-3 mt-5">
                     <button
-                        id="buttonAprovarRecolha"
+                        id="buttonAprovarDevolucao"
                         onClick={handleConfirmation}
                         className="d-flex p-3 rounded-lg w-50 my-2 text-white justify-center"
                         style={{ backgroundColor: "#68AF00" }}>
