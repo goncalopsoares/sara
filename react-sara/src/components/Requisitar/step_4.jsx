@@ -203,6 +203,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
                                         </div>
                                     </div>
                                     <div className="mt-2">
+                                        {isAvailable(equipamento.equipamentos[0]?.requisicoes) && (
                                         <button
                                             className={`btn-sara-terciary d-flex align-items-center ${
                                                 isAvailable(equipamento.equipamentos[0]?.requisicoes) ? "text-green-200 fw-bolder" : "text-red-600"
@@ -216,14 +217,16 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
                                         >
                                             <ShoppingCart size={16} className="me-3" /> Adicionar ao carrinho
                                         </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
-                            {isAvailable(equipamento.equipamentos[0]?.requisicoes) && (
+                            
                                 <div className="position-absolute" style={{ top: '10px', right: '10px' }}>
-                                    <Info size={20} /> {/* Adjust size as needed */}
+                                   
+                                    <Info  onClick={() => openModal(equipamento)} size={20} /> {/* Adjust size as needed */}
                                 </div>
-                            )}
+                            
                         </div>
                     );
                 })}
@@ -232,14 +235,18 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
         {modalIsOpen && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeModal}>X</button>
+            <button className="modal-close pe-1 fs-4 font-sans " onClick={closeModal}>x</button>
             {selectedEquipamento && (
               <div>
-                <h2>Marca: {selectedEquipamento.nome_marca_equipamento}</h2>
-                <h2>Modelo: {selectedEquipamento.nome_modelo_equipamento}</h2>
-                <p>{selectedEquipamento.descricao_modelo_equipamento}</p>
-                <p>{selectedEquipamento.aplicablidade_modelo_equipamento}</p>
-                <p>{selectedEquipamento.cuidados_modelo_equipamento}</p>
+                <h5>Marca:<span className="fs-6 font-thin">  {selectedEquipamento.nome_marca_equipamento} </span></h5>
+                <h5>Modelo:<span className="fs-6 font-thin"> {selectedEquipamento.nome_modelo_equipamento} </span></h5>
+                {selectedEquipamento.descricao_modelo_equipamento
+                  && <h5>Descrição:<span className="fs-6 font-thin">  {selectedEquipamento.descricao_modelo_equipamento} </span></h5>}
+                  {selectedEquipamento.aplicablidade_modelo_equipamento 
+                  && <h5>Aplicabilidade: <span className="fs-6 font-thin"> {selectedEquipamento.aplicablidade_modelo_equipamento} </span></h5>}
+                    {selectedEquipamento.cuidados_modelo_equipamento
+                     && <h5>Cuidados: <span className="fs-6 font-thin"> {selectedEquipamento.cuidados_modelo_equipamento} </span></h5>}
+               
               </div>
             )}
           </div>
