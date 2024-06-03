@@ -75,6 +75,10 @@ input {
     color: #3c3c3c;
 }
 
+.txt-blue-700 {
+    color: #4300D4;
+}
+
 .background-grey-100 {
     background-color: #fafafa;
 }
@@ -313,3 +317,8 @@ h3 {
     }
 }
 
+@media (max-width: 575px) {
+    .custom-spacing {
+        margin-bottom: 20px;
+    }
+}

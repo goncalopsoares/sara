@@ -253,11 +253,12 @@ export default function ReqDetail() {
                                                 :{" "}
                                             </span>
                                         )}
-                                        {detalhesRequisicao.nome_requisicao
-                                            .length > 10
+                                        {window.innerWidth < 576 &&
+                                        detalhesRequisicao.nome_requisicao
+                                            .length > 16
                                             ? `${detalhesRequisicao.nome_requisicao.substring(
                                                   0,
-                                                  10
+                                                  16
                                               )}...`
                                             : detalhesRequisicao.nome_requisicao}
                                     </div>
@@ -359,7 +360,7 @@ export default function ReqDetail() {
                             />
                         </div>
 
-                        <div className="mobile-subtitle mt-sm-3">
+                        <div className="mobile-subtitle fw-bolder mt-sm-3">
                             Resumo da requisição #
                             {detalhesRequisicao.id_requisicao}
                         </div>
@@ -368,7 +369,7 @@ export default function ReqDetail() {
                                 detalhesRequisicao={detalhesRequisicao}
                             />
                         </div>
-                        <div className="row my-4">
+                        <div className="row mb-4">
                             <h3 className="mobile-subtitle">Comentários</h3>
                             <Comentarios
                                 comentarioProfessorRequisicao={
@@ -383,7 +384,7 @@ export default function ReqDetail() {
                             />
                         </div>
                     </div>
-                    <div className="col-5">
+                    <div className="col-12 col-sm-5">
                         <h3>Equipamentos</h3>
                         <Equipamentos
                             listaEquipamentos={detalhesRequisicao.equipamento}
