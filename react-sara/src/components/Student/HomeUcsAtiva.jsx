@@ -9,7 +9,11 @@ export default function HomeUcsAtiva(props){
         <>
             <div key={uc.id_uc_contexto} className={`background-grey-300 mb-4`} style={{borderRadius: "1rem", overflow: "hidden"}}>
                 <div style={{height: "5rem"}}>
-                    <img src="https://images.pexels.com/photos/164907/pexels-photo-164907.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Top Image" style={{width: "100%", height: "100%", objectFit: "cover"}} />
+                    {uc.icone_uc_contexto !== "link" ?(
+                    <img src={`http://localhost:8000${uc.icone_uc_contexto}`} alt="Top Image" style={{width: "100%", height: "100%", objectFit: "cover"}} />):(
+                        <img src="https://images.pexels.com/photos/164907/pexels-photo-164907.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Top Image" style={{width: "100%", height: "100%", objectFit: "cover"}} />
+                    )
+                }
                 </div>
                 <div style={{padding: "0.5rem"}}>
                     <div style={{fontSize: "0.8rem", fontWeight: "700", paddingTop:"1rem"}}>{uc.sigla_uc_contexto}</div>

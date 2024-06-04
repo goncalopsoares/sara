@@ -46,6 +46,9 @@ const Step1 = ({ ucs, selectedProfessor, professores, handleUcSelect: parentHand
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                 <div style={{ flex: 1, overflowY: 'auto' }}>
                     {ucs.map(uc => {
+                        if (!uc.icone_uc_contexto) {
+                            return ;
+                        }
                         const imageUrl = `${BASE_URL}${uc.icone_uc_contexto}`;
                         const isSelected = selectedUcId === uc.id_uc_contexto;
                         const truncatedNomeUc = uc.nome_uc_contexto.length > 27 ? `${uc.nome_uc_contexto.substring(0, 27)}...` : uc.nome_uc_contexto;
