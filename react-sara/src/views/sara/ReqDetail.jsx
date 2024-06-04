@@ -19,6 +19,7 @@ import ModalAprovarSara from "../../components/sara/ModalAprovarSara";
 import ModalRejeitarSara from "../../components/sara/ModalRejeitarSara";
 import ModalRecolhaSara from "../../components/sara/ModalRecolhaSara";
 import ModalDevolucaoSara from "../../components/sara/ModalDevolucaoSara";
+import { set } from "date-fns";
 
 export default function ReqDetail() {
     const { id } = useParams();
@@ -26,11 +27,12 @@ export default function ReqDetail() {
     const [error, setError] = useState(null);
     const [detalhesRequisicao, setDetalhesRequisicao] = useState(null);
     const [estadoData, setEstadoData] = useState(null);
-    const [comentarioSaraData, setComentarioSaraData] = useState("");
+    const [comentarioData, setComentarioData] = useState("");
     const { user } = useStateContext();
     const [code, setCode] = useState("");
     const [showCode, setShowCode] = useState(false);
     const [showModalOutrasProf, setShowModalOutrasProf] = useState(false);
+    const [comentarProfessor, setComentarProfessor] = useState(false);
     const [showModalAprovarSara, setShowModalAprovarSara] = useState(false);
     const [showModalRejeitarSara, setShowModalRejeitarSara] = useState(false);
     const [showModalRecolhaSara, setShowModalRecolhaSara] = useState(false);
@@ -57,7 +59,7 @@ export default function ReqDetail() {
             }
         };
         fetchData();
-    }, [estadoData, comentarioSaraData]);
+    }, [estadoData, comentarioData]);
 
     const fetchCode = async () => {
         try {
@@ -109,13 +111,16 @@ export default function ReqDetail() {
             case "buttonCancelarProf":
                 setShowModalOutrasProf(false);
                 break;
-
+            case "buttonComentarProf":
+                setShowModalOutrasProf(false);
+                break;
             case "buttonCancelarSara":
                 setShowModalAprovarSara(false);
                 setShowModalRejeitarSara(false);
                 setShowModalRecolhaSara(false);
                 setShowModalDevolucaoSara(false);
                 break;
+
         }
     };
 
@@ -127,7 +132,7 @@ export default function ReqDetail() {
             );
             console.log("Estado atualizado com sucesso:", response.data);
             setEstadoData(null);
-            setComentarioSaraData("");
+            setComentarioData("");
         } catch (error) {
             console.error(
                 "Erro ao atualizar estado:",
@@ -136,14 +141,14 @@ export default function ReqDetail() {
         }
     };
 
-    const comentar = async (id, comentarioSaraData) => {
+    const comentar = async (id, comentarioData) => {
         try {
             const response = await axiosClient.post(
                 `/sara/comentar/${id}`,
-                comentarioSaraData
+                comentarioData
             );
             console.log("Comentário atualizado com sucesso:", response.data);
-            setComentarioSaraData("");
+            setComentarioData("");
         } catch (error) {
             console.error(
                 "Erro ao atualizar comentário:",
@@ -208,13 +213,27 @@ export default function ReqDetail() {
     };
 
     const handleComment = (newComment) => {
-        const data = {
+        let data = {
             id_requisicao: id,
-            comentario_sara_requisicao: newComment,
         };
 
-        setComentarioSaraData(data);
+        if (user.tipo_utilizador === 1) {
+            data.comentario_sara_requisicao = newComment;
+            setComentarioData(data);
+            console.log("comentou sara:", data);
+        } else if (user.tipo_utilizador === 2) {
+            data.comentario_professor_requisicao = newComment;
+            setComentarioData(data);
+            setComentarProfessor(false);
+            console.log("comentou prof:", data);
+        }
         comentar(id, data);
+    };
+
+
+    const handleComentarioProfessor = (event) => {
+        setComentarProfessor(true);
+        handleHideModal(event);
     };
 
     console.log("user", user);
@@ -254,19 +273,19 @@ export default function ReqDetail() {
                                             </span>
                                         )}
                                         {window.innerWidth < 576 &&
-                                        detalhesRequisicao.nome_requisicao
-                                            .length > 16
+                                            detalhesRequisicao.nome_requisicao
+                                                .length > 16
                                             ? `${detalhesRequisicao.nome_requisicao.substring(
-                                                  0,
-                                                  16
-                                              )}...`
+                                                0,
+                                                16
+                                            )}...`
                                             : detalhesRequisicao.nome_requisicao}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         {user.tipo_utilizador === 1 &&
-                        detalhesRequisicao.id_estado === 2 ? (
+                            detalhesRequisicao.id_estado === 2 ? (
                             <div className="d-flex">
                                 <button
                                     id="buttonAprovarSara"
@@ -286,7 +305,7 @@ export default function ReqDetail() {
                                 </button>
                             </div>
                         ) : user.tipo_utilizador === 1 &&
-                          detalhesRequisicao.id_estado === 3 ? (
+                            detalhesRequisicao.id_estado === 3 ? (
                             <div>
                                 <button
                                     id="buttonConfirmarRecolha"
@@ -298,7 +317,7 @@ export default function ReqDetail() {
                                 </button>
                             </div>
                         ) : user.tipo_utilizador === 1 &&
-                          detalhesRequisicao.id_estado === 4 ? (
+                            detalhesRequisicao.id_estado === 4 ? (
                             <div>
                                 <button
                                     id="buttonConfirmarDevolucao"
@@ -375,6 +394,9 @@ export default function ReqDetail() {
                                 comentarioProfessorRequisicao={
                                     detalhesRequisicao.comentario_professor_requisicao
                                 }
+                                comentarProfessor={
+                                    comentarProfessor
+                                }
                                 comentarioSaraRequisicao={
                                     detalhesRequisicao.comentario_sara_requisicao
                                 }
@@ -422,6 +444,7 @@ export default function ReqDetail() {
                 <ModalOutrasProf
                     hideModal={handleHideModal}
                     handleClick={handleClick}
+                    handleComentarProfessor={handleComentarioProfessor}
                 />
             )}
             {showModalAprovarSara && (
