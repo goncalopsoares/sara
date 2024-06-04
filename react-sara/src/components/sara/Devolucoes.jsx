@@ -32,13 +32,13 @@ export default function Devolucoes({ porDevolverRecolher, getDate, BASE_URL, pro
                                             {(req.id_estado === 4) ? `Hoje, ${getDate(req.data_fim_requisicao)}` : 'CONCLUÍDA'}
                                         </div>
                                     ) : (user.role_utilizador === 3 && user.tipo_utilizador === 2) ? (
-                                        <div
+                                        <><div className='row d-flex justify-between'> <div
                                             key={index}
                                             style={{ fontSize: "0.8rem", fontWeight: "700" }}
-                                            className='text-blue-900'
+                                            className='text-blue-900 col-6'
                                         >
-                                        </div>
-                                    ) : null
+                                            {(req.id_estado === 3) ? `Hoje, ${getDate(req.data_inicio_requisicao)}` : 'CONCLUÍDA'}
+                                            </div><div className='col-6 text-blue-900 d-flex justify-content-end' style={{ fontSize: "0.8rem", fontWeight: "700" }}>Professor</div></div></>) : null
                                 ))}
                                 <div className="d-flex align-items-center mb-2">
                                     <div style={{ fontSize: "1rem", fontWeight: "400" }}>Requisição {req.id_requisicao}</div>
@@ -52,7 +52,7 @@ export default function Devolucoes({ porDevolverRecolher, getDate, BASE_URL, pro
                                                     <img className="rounded-full" src={`${BASE_URL}${user.avatar_utilizador}`} style={{ height: "3rem", width: "3rem", marginRight: "0.5rem" }} alt={`Avatar de ${user.nome_utilizador}`} />
                                                     <div className='me-4'>
                                                         <div className='font-semibold' style={{ fontSize: "0.8rem" }}>{user.nome_utilizador}</div>
-                                                        <div className='text-green-900' style={{ fontSize: "0.8rem", fontWeight: "400" }}>{user.email_utilizador}</div>
+                                                        {user.tipo_utilizador === 2 && user.role_utilizador === 3 ? <div className='text-blue-900' style={{ fontSize: "0.8rem", fontWeight: "400" }}>{user.email_utilizador}</div> : <div className='text-green-900' style={{ fontSize: "0.8rem", fontWeight: "400" }}>{user.email_utilizador}</div>}
                                                     </div>
                                                 </div>
                                             ) : user.role_utilizador === 4 ? (
