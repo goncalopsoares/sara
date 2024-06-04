@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Comentarios({ comentarioProfessorRequisicao, comentarioSaraRequisicao, utilizadores, onSubmitComment, currentUser }) {
+export default function Comentarios({ comentarioProfessorRequisicao, comentarioSaraRequisicao, utilizadores, onSubmitComment, currentUser, comentarProfessor }) {
 
     const [newComment, setNewComment] = React.useState('');
     const BASE_URL = 'http://localhost:8000';
@@ -46,7 +46,7 @@ export default function Comentarios({ comentarioProfessorRequisicao, comentarioS
                         )
                     ))}
                 </div>
-            ) : currentUser.tipo_utilizador === 1 ? (
+            ) : currentUser.tipo_utilizador === 1 || comentarProfessor === true ? (
                 <>
                     <div className='row'>
                         <p>Sem comentários</p>
@@ -56,7 +56,7 @@ export default function Comentarios({ comentarioProfessorRequisicao, comentarioS
                                 <textarea
                                     className='form-textarea mt-1 block w-full'
                                     rows='3'
-                                    placeholder='Escreva o seu comentário...'
+                                    placeholder='Escreve um comentário...'
                                     value={newComment}
                                     onChange={(e) => setNewComment(e.target.value)}
                                 />

@@ -1,13 +1,13 @@
 import React from "react";
 import { Edit, Trash2 } from "react-feather";
 
-export default function ModalOutrasProf ({ hideModal, handleClick}) {
+export default function ModalOutrasProf ({ hideModal, handleClick, handleComentarProfessor}) {
 
     return (
         <div className="modal-overlay" style={{ zIndex: "2000" }}>
             <div className="modal-content d-flex flex-column justify-content-center align-items-center text-center" onClick={e => e.stopPropagation()}>
                 <p className="font-bold">Pretende comentar ou rejeitar esta requisição?</p>
-                <button className="d-flex p-3 rounded-lg w-50 my-2 text-white justify-center" style={{ backgroundColor: "#68AF00" }}>
+                <button id="buttonComentarProf" className="d-flex p-3 rounded-lg w-50 my-2 text-white justify-center" onClick={handleComentarProfessor} style={{ backgroundColor: "#68AF00" }}>
                     <Edit className="me-2" />COMENTAR
                 </button>
                 <button id="buttonRejeitarProf" onClick={handleClick} className="d-flex p-3 rounded-lg w-50 my-2 text-white justify-center" style={{ backgroundColor: "#B30020" }}>
