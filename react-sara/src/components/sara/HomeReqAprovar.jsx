@@ -66,10 +66,10 @@ export default function HomeReqAprovar({ porAprovar }) {
                                             ) : (
                                                 <span>Hoje</span>
                                             )}
-                                        </div> : (user.role_utilizador === 3 && user.tipo_utilizador === 2) ? <div
+                                        </div> : (user.role_utilizador === 3 && user.tipo_utilizador === 2) ? <><div className='row d-flex justify-between'><div
                                             key={index}
                                             style={{ fontSize: "0.8rem", fontWeight: "700" }}
-                                            className='text-blue-900'
+                                            className='col-6 text-blue-900'
                                         >
                                             {calculateDaysPassed(req.data_estado) > 1 ? (
                                                 <span> Há {calculateDaysPassed(req.data_estado)} dias</span>
@@ -78,7 +78,7 @@ export default function HomeReqAprovar({ porAprovar }) {
                                             ) : (
                                                 <span>Hoje</span>
                                             )}
-                                        </div> : null
+                                        </div><div className='col-6 text-blue-900 d-flex justify-content-end' style={{ fontSize: "0.8rem", fontWeight: "700" }}>Professor</div></div></> : null
                                     )
                                 }
                                 <div className="d-flex align-items-center mb-2">
@@ -93,7 +93,7 @@ export default function HomeReqAprovar({ porAprovar }) {
                                                     <img key={index} className="rounded-full" src={`${BASE_URL}${user.avatar_utilizador}`} style={{ height: "3rem", width: "3rem", marginRight: "0.5rem" }} />
                                                     <div className='me-4'>
                                                         <div className='font-semibold' style={{ fontSize: "0.8rem" }}>{user.nome_utilizador}</div>
-                                                        <div className='text-green-900' style={{ fontSize: "0.8rem", fontWeight: "400" }}>{user.email_utilizador}</div>
+                                                        {user.tipo_utilizador === 2 && user.role_utilizador === 3 ? <div className='text-blue-900' style={{ fontSize: "0.8rem", fontWeight: "400" }}>{user.email_utilizador}</div> : <div className='text-green-900' style={{ fontSize: "0.8rem", fontWeight: "400" }}>{user.email_utilizador}</div>}
                                                     </div>
                                                 </div>
                                             ) : user.role_utilizador === 4 ? (<img key={index} className="rounded-full" src={`${BASE_URL}${user.avatar_utilizador}`} style={{ height: "2rem", width: "2rem", marginRight: "0.5rem" }} />) : null))}

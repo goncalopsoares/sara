@@ -20,7 +20,7 @@ class SaraHomeController extends Controller
         $this->saraPorValidarPresenter = $getSaraPorValidar;
         $this->saraPorRecolherDevolverPresenter = $getSaraPorRecolherDevolver;
         $this->getEquipamento = $getEquipamento;
-        $this->getRequisicaoDetalhe = $getRequisicaoDetalhe;    
+        $this->getRequisicaoDetalhe = $getRequisicaoDetalhe;
     }
 
 
@@ -59,7 +59,7 @@ class SaraHomeController extends Controller
 
     public function atualizarEstado(Request $request, $id)
     {
-    
+
         try {
             $validate = $request->validate([
                 'requisicao_id_requisicao' => 'required|integer',
@@ -78,25 +78,34 @@ class SaraHomeController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro ao atualizar estado' . $e->getMessage()], 500);
         }
-
     }
 
     public function comentarSara(Request $request, $id)
     {
         try {
             $validate = $request->validate([
-                'comentario_sara_requisicao' => 'string|max:255',
+                'comentario_sara_requisicao' => 'nullable|string|max:255',
+                'comentario_professor_requisicao' => 'nullable|string|max:255',
             ]);
 
-            Requisicao::where('id_requisicao', $id)->update([
-                'comentario_sara_requisicao' => $validate['comentario_sara_requisicao'],
-            ]);
+            $data = [];
+
+            if (!empty($validate['comentario_sara_requisicao'])) {
+                $data['comentario_sara_requisicao'] = $validate['comentario_sara_requisicao'];
+            }
+
+            if (!empty($validate['comentario_professor_requisicao'])) {
+                $data['comentario_professor_requisicao'] = $validate['comentario_professor_requisicao'];
+            }
+
+            Requisicao::where('id_requisicao', $id)->update($data);
 
             return response()->json(['message' => 'Comentário atualizado com sucesso'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Erro ao atualizar comentário' . $e->getMessage()], 500);
+            return response()->json(['message' => 'Erro ao atualizar comentário: ' . $e->getMessage()], 500);
         }
     }
+
 
     public function getRequisicaoDetalhe($id)
     {
