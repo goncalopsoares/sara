@@ -3,7 +3,7 @@ import React from 'react';
 export default function Comentarios({ comentarioProfessorRequisicao, comentarioSaraRequisicao, utilizadores, onSubmitComment, currentUser, comentarProfessor }) {
 
     const [newComment, setNewComment] = React.useState('');
-    const BASE_URL = 'http://localhost:8000';
+    const BASE_URL = 'http://deca-sara.ua.pt';
 
     const handleSubmit = (event) => {
         event.preventDefault();

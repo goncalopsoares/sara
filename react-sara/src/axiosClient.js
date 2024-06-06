@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: "http://deca-sara.ua.pt/api",
     withCredentials: true,
 });
 
@@ -20,7 +20,7 @@ const axiosClient = axios.create({
         console.log('No cookies found');
     }
     });
- 
+
 axiosClient.interceptors.response.use((response) => {
     return response;
 },
@@ -47,6 +47,6 @@ axiosClient.interceptors.response.use((response) => {
         throw error;
     }
 );
-**/ 
+**/
 
 export default axiosClient;

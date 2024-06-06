@@ -21,7 +21,7 @@ export default function HomeReqDevolverRecolher({ porDevolverRecolher, date }) {
     };
 
 
-    const BASE_URL = 'http://localhost:8000';
+    const BASE_URL = 'http://deca-sara.ua.pt';
 
     return (
         <>

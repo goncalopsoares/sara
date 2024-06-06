@@ -111,12 +111,12 @@ const Carrinho = () => {
 
             setCartData({});
             setCart([]);
-           
+
 
         } catch (error) {
             console.error('Erro ao eliminar a requisição:', error);
         }
-       
+
     }
 
     const professor = cartData.requisicao_has_utilizadores?.find(utilizador => utilizador.role_utilizador === 2);
@@ -125,7 +125,7 @@ const Carrinho = () => {
     console.log(cart);
     console.log(cartData.id_requisicao);
     return (
-        <div style={{ marginBottom: "4rem" }}> 
+        <div style={{ marginBottom: "4rem" }}>
             <h1>Carrinho</h1>
             {cart.length === 0 && message !== "Ainda não concluiu o processo de requisição" && (
                 <div className="d-flex flex-column align-items-center">
@@ -154,10 +154,10 @@ const Carrinho = () => {
             </div>
             {message === "Ainda não concluiu o processo de requisição" ? (
     <div>
-        
+
         {(cart.length > 0 || (cartData && Object.keys(cartData).length > 0)) && (
             <div className="mb-5" >
-                
+
 
                 {cartData && Object.keys(cartData).length > 0 && (
                     <div>
@@ -166,8 +166,8 @@ const Carrinho = () => {
                         <p style={{ borderRadius: "1rem", border:"1px, solid, grey", padding:"0.7rem" }}>{cartData.nome_requisicao}</p>
                         <p>Contexto da Requisição: </p>
                         <p style={{ borderRadius: "1rem", border:"1px, solid, grey", padding:"0.7rem" }}>{cartData.contexto_requisicao}</p>
-                        
-                        
+
+
                         {groupMembers.length > 0 && (
                             <div>
                                 <p>Elementos do Grupo</p>
@@ -178,7 +178,7 @@ const Carrinho = () => {
                                                 {member && (
                                                     <img
                                                         className="rounded-full h-7 w-7 mr-2"
-                                                        src={`http://localhost:8000${getUserInfo(member.utilizador_id_utilizador).avatar_utilizador}`}
+                                                        src={`http://deca-sara.ua.pt${getUserInfo(member.utilizador_id_utilizador).avatar_utilizador}`}
                                                         alt={getUserInfo(member.utilizador_id_utilizador).nome_utilizador}
                                                     />
                                                 )}
@@ -198,7 +198,7 @@ const Carrinho = () => {
                             <div>
                                 <p>UC</p>
                                 <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0', fontSize: '0.8rem' }}>
-                                <img src={`http://localhost:8000${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
+                                <img src={`http://deca-sara.ua.pt${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <span>{Uc.nome}</span>
                                     <span>{Uc.sigla}</span>
@@ -210,7 +210,7 @@ const Carrinho = () => {
 
 
                         )
-                        
+
                         }
 
                         {professor && (
@@ -218,7 +218,7 @@ const Carrinho = () => {
                             <div>
                                 <p>UC's e professores associados</p>
                                 <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0', fontSize: '0.8rem' }}>
-                                <img src={`http://localhost:8000${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
+                                <img src={`http://deca-sara.ua.pt${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <span>{Uc.nome}</span>
                                     <span>{Uc.sigla}</span>
@@ -229,42 +229,42 @@ const Carrinho = () => {
                                 <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0.4rem', fontSize:"0.8rem" }}>
                                         <img
                                             className="rounded-full h-7 w-7 mr-2"
-                                            src={`http://localhost:8000${getUserInfo(professor.utilizador_id_utilizador).avatar_utilizador}`}
+                                            src={`http://deca-sara.ua.pt${getUserInfo(professor.utilizador_id_utilizador).avatar_utilizador}`}
                                             alt={getUserInfo(professor.utilizador_id_utilizador).nome_utilizador}
                                         />
                                         {getUserInfo(professor.utilizador_id_utilizador).nome_utilizador} ({getUserInfo(professor.utilizador_id_utilizador).email_utilizador})
                                     </p>
 
-                               
-                                
+
+
                             </div>
                         )}
                     </div>
                 )}
-                {cart.length>0 && 
+                {cart.length>0 &&
                 <ul className="p-0">
                Equipamentos Selecionados:
                     {cart.map((item, index) => (
-                           
+
                         <li key={index}>
-                            <p style={{ display: 'flex', alignItems: 'center', padding: '0.4rem', fontSize:"1rem" }}><img 
+                            <p style={{ display: 'flex', alignItems: 'center', padding: '0.4rem', fontSize:"1rem" }}><img
                             className=" h-24 w-30 mr-2 p-3"
-                            style={{ backgroundColor: '#e0e0e0',  borderRadius: '0.6rem' }} 
-                            src={`http://localhost:8000${item.imagem_modelo_equipamento}`}
+                            style={{ backgroundColor: '#e0e0e0',  borderRadius: '0.6rem' }}
+                            src={`http://deca-sara.ua.pt${item.imagem_modelo_equipamento}`}
                             />
                              <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <span className="fw-bold">{item.nome_marca_equipamento} </span>
                                     <span>{item.nome_modelo_equipamento} </span>
                                 </div>
                             </p>
-                            
+
                         </li>
-                       
+
                     ))}
                 </ul>
 }
                 <button
-                                
+
                                 style={{
                                     color: 'red',
                                     border: '2px solid red',
@@ -277,12 +277,12 @@ const Carrinho = () => {
                                     cursor: 'pointer',
                                     transition: 'background-color 0.3s ease', // Smooth transition for hover effect
                                 }}
-                                onClick={() => handleDeleteRequisition(cartData.id_requisicao)} 
+                                onClick={() => handleDeleteRequisition(cartData.id_requisicao)}
                                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#ffcccc'} // Light red hover effect
                                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'} // Revert background color on mouse leave
                             >
             <p style={{ display: 'flex', alignItems: 'center', margin: 0, fontSize: '1rem' }}>
-                 Eliminar 
+                 Eliminar
                 <span style={{ marginLeft: '0.5rem' }}> {/* Separate text from icon */}
                      <RiDeleteBin7Line size={30} className="p-0" />
                 </span>
@@ -292,7 +292,7 @@ const Carrinho = () => {
 </button>
 
             </div>
-                            
+
         )}
     </div>
 ) : null}

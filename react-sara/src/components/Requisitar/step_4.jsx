@@ -21,7 +21,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
     const [hasMore, setHasMore] = useState(true);
     const observer = useRef();
 
-    const BASE_URL = "http://localhost:8000";
+    const BASE_URL = "http://deca-sara.ua.pt";
     const ITEMS_PER_PAGE = 10;
 
     useEffect(() => {
@@ -221,12 +221,12 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                                 <div className="position-absolute" style={{ top: '10px', right: '10px' }}>
-                                   
+
                                     <Info  onClick={() => openModal(equipamento)} size={20} /> {/* Adjust size as needed */}
                                 </div>
-                            
+
                         </div>
                     );
                 })}
@@ -242,11 +242,11 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
                 <h5>Modelo:<span className="fs-6 font-thin"> {selectedEquipamento.nome_modelo_equipamento} </span></h5>
                 {selectedEquipamento.descricao_modelo_equipamento
                   && <h5>Descrição:<span className="fs-6 font-thin">  {selectedEquipamento.descricao_modelo_equipamento} </span></h5>}
-                  {selectedEquipamento.aplicablidade_modelo_equipamento 
+                  {selectedEquipamento.aplicablidade_modelo_equipamento
                   && <h5>Aplicabilidade: <span className="fs-6 font-thin"> {selectedEquipamento.aplicablidade_modelo_equipamento} </span></h5>}
                     {selectedEquipamento.cuidados_modelo_equipamento
                      && <h5>Cuidados: <span className="fs-6 font-thin"> {selectedEquipamento.cuidados_modelo_equipamento} </span></h5>}
-               
+
               </div>
             )}
           </div>

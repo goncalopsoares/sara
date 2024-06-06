@@ -7,7 +7,7 @@ export default function HomeReqAprovar({ porAprovar }) {
     const [filteredData, setFilteredData] = useState([...porAprovar]);
     const [users, setUsers] = useState([]);
 
-    const BASE_URL = 'http://localhost:8000';
+    const BASE_URL = 'http://deca-sara.ua.pt';
 
     const formatDate = (date) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
