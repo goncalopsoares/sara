@@ -37,7 +37,12 @@ export default function DefaultLayout() {
     }
 
     if (location.pathname === '/') {
-        return <Navigate to="/home" />;
+        if (user.tipo_utilizador === 2 || user.tipo_utilizador === 3)
+       {     
+        return <Navigate to="/home" />; }
+        else {
+            return <Navigate to="/homesara" />;
+        }
     }
 
     console.log({user});
