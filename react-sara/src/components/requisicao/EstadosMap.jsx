@@ -30,28 +30,48 @@ export default function EstadosMap({ detalhesRequisicaoEstado }) {
             {labels.map((label, i) => (
                 <div
                     key={i}
-                    className='flex flex-col items-center'
+                    className="flex flex-col items-center"
                     style={{
-                        width: 'auto',
-                        height: 'auto',
-                        margin: window.innerWidth > 1024 ? '0 2rem' : window.innerWidth > 576 ? '0 1rem' : '0 0.25rem'
+                        width: "auto",
+                        height: "auto",
+                        margin:
+                            window.innerWidth > 1024
+                                ? "0 2rem"
+                                : window.innerWidth > 576
+                                ? "0 1rem"
+                                : "0 0.25rem",
                     }}
                 >
                     <div
                         style={{
-                            borderRadius: '50%',
-                            width: '2rem',
-                            height: '2rem',
+                            borderRadius: "50%",
+                            width: window.innerWidth > 390 ? "2rem" : "1.25rem",
+                            height:
+                                window.innerWidth > 390 ? "2rem" : "1.25rem",
                             backgroundColor: colors[i],
                         }}
                     />
                     <p
                         style={{
-                            marginTop: '1rem',
-                            fontSize: window.innerWidth > 576 ? '0.8rem' : '0.6rem',
-                            color: '#000',
-                            textAlign: 'center',
-                            width: window.innerWidth > 576 ? '5rem' : '4rem',
+                            marginTop: "1rem",
+                            fontSize:
+                                window.innerWidth > 1024
+                                    ? "1rem"
+                                    : window.innerWidth > 576
+                                    ? "0.8rem"
+                                    : window.innerWidth > 390
+                                    ? "0.7rem"
+                                    : "0.6rem",
+                            color: "#000",
+                            textAlign: "center",
+                            width:
+                                window.innerWidth > 1024
+                                    ? "6rem"
+                                    : window.innerWidth > 576
+                                    ? "5rem"
+                                    : window.innerWidth > 390
+                                    ? "4.5rem"
+                                    : "4rem",
                         }}
                     >
                         {label}
