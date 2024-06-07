@@ -135,11 +135,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
     };
 
     const submitRequest = () => {
-
-
-
-        if(user.tipo_utilizador === 3) {
-        setRequestBody({
+        const requestBody = user.tipo_utilizador === 3 ? {
             requisicao_id_requisicao: requestId,
             estado_id_estado: 1,
             data_estado: formatDate(new Date()),
@@ -149,26 +145,20 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
                 data_inicio_requisicao: formatDate(startDate),
                 data_fim_requisicao: formatDate(endDate),
             })),
-        })
-    }else if(user.tipo_utilizador === 2){
-            setRequestBody ({
+        } : {
+            requisicao_id_requisicao: requestId,
+            estado_id_estado: 2,
+            data_estado: formatDate(new Date()),
+            requisicao_has_equipamentos: cart.map(equipment => ({
                 requisicao_id_requisicao: requestId,
-                estado_id_estado: 2,
-                data_estado: formatDate(new Date()),
-                requisicao_has_equipamentos: cart.map(equipment => ({
-                    requisicao_id_requisicao: requestId,
-                    equipamento_id_equipamento: equipment.equipamento_id_equipamento,
-                    data_inicio_requisicao: formatDate(startDate),
-                    data_fim_requisicao: formatDate(endDate),
-                })),
-            })
+                equipamento_id_equipamento: equipment.equipamento_id_equipamento,
+                data_inicio_requisicao: formatDate(startDate),
+                data_fim_requisicao: formatDate(endDate),
+            })),
         };
-
-
 
         axiosClient.post(`/requisicao/${requestId}`, requestBody)
             .then(response => {
-
                 console.log("Requisição finalizada com sucesso:", response.data);
                 setCart([]);
                 navigate('/home', /* { state: { successMessage: 'Registo criado com sucesso!' } } */);
@@ -177,7 +167,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
                 console.error("Erro ao finalizar requisição:", error);
             });
 
-            console.log("request", requestBody); // Debug output
+        console.log("request", requestBody); // Debug output
     };
 
     console.log(formatDate(startDate), formatDate(endDate) , "datas")
@@ -193,7 +183,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
     // Debug output
 
     return (
-        <div className="container d-flex justify-content-center align-items-center vh-100">
+        <div className="container d-flex justify-content-center align-items-center">
             <div>
                 <div style={{marginBottom: "1rem" }} className="fw-bold">Resumo da Requisição</div>
                 <div style={{fontSize:"0.8rem"}}>
@@ -213,7 +203,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
                     {user.tipo_utilizador === 3 && (
                         <div className="mt-3 fw-bold">Elementos do Grupo</div>
                     )}
-                    
+
                     {currentUser && (
                         <div>
                             {renderUser(currentUser, "currentUser")}
