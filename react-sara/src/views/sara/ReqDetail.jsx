@@ -368,8 +368,8 @@ export default function ReqDetail() {
                         )}
                 </div>
             </div>
-            <div className="container-fluid">
-                <div className="row">
+            <div className="container-fluid mb-5">
+                <div className="row" style={{marginBottom: '5rem'}}>
                     <div className="col-sm-7">
                         <div className="flex justify-center mb-5 w-100 w-sm-auto">
                             <EstadosMap
@@ -406,7 +406,7 @@ export default function ReqDetail() {
                             />
                         </div>
                     </div>
-                    <div className="col-12 col-sm-5">
+                    <div className="col-12 col-sm-5 mb-5">
                         <h3>Equipamentos</h3>
                         <Equipamentos
                             listaEquipamentos={detalhesRequisicao.equipamento}
