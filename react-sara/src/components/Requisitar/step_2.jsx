@@ -5,7 +5,7 @@ import { useStateContext } from '../../contexts/contextprovider';
 const Step2 = ({ utilizadores, selectedGroupMembers, handleUtilizadoresChange, handleRemoveGroupMember, formData, handleInputChange, handleSubmit, goToPreviousStep }) => {
     const [nomeRequisicaoCount, setNomeRequisicaoCount] = useState(formData.nome_requisicao.length);
     const [contextoRequisicaoCount, setContextoRequisicaoCount] = useState(formData.contexto_requisicao.length);
-    const BASE_URL = "http://localhost:8000";
+    const BASE_URL = "http://laravel.local:8080";
     const {user}= useStateContext();
 
     const handleNomeRequisicaoChange = (event) => {

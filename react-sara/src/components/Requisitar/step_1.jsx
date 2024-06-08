@@ -4,7 +4,7 @@ import "../../App.css";
 import { useStateContext } from '../../contexts/contextprovider';
 
 const Step1 = ({ ucs, selectedProfessor, professores, handleUcSelect: parentHandleUcSelect, handleProfessorSelect, goToNextStep }) => {
-    const BASE_URL = "http://localhost:8000";
+    const BASE_URL = "http://laravel.local:8080";
     const [selectedUcId, setSelectedUcId] = useState(null);
     const [selectedProfessorId, setSelectedProfessorId] = useState(null);
     const [isContinueDisabled, setIsContinueDisabled] = useState(true);

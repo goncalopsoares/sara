@@ -11,7 +11,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
     const [utilizadores, setUtilizadores] = useState([]);
     const [userId, setUserId] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
-    const BASE_URL = "http://localhost:8000";
+    const BASE_URL = "http://laravel.local:8080";
     const { user } = useStateContext();
     const [requestBody, setRequestBody] = useState({});
 

@@ -21,7 +21,7 @@ export default function HomeReqDevolverRecolher({ porDevolverRecolher, date }) {
     };
 
 
-    const BASE_URL = 'http://localhost:8000';
+    const BASE_URL = 'http://laravel.local:8080';
 
     return (
         <>

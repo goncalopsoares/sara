@@ -13,7 +13,7 @@ export default function Equipamentos() {
     const observer = useRef();
 
     const ITEMS_PER_PAGE = 10;
-    const BASE_URL = "http://localhost:8000";
+    const BASE_URL = "http://laravel.local:8080";
 
     useEffect(() => {
         axiosClient.get(`/equipamentos`)

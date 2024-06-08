@@ -79,7 +79,7 @@ export default function DetalhesRequisicao({ detalhesRequisicao }) {
                                             )}
                                             <img
                                                 className="rounded-full h-12 w-12"
-                                                src={`http://localhost:8000${user.avatar_utilizador}`}
+                                                src={`http://laravel.local:8080${user.avatar_utilizador}`}
                                                 alt={user.nome_utilizador}
                                             />
                                         </div>
@@ -102,7 +102,7 @@ export default function DetalhesRequisicao({ detalhesRequisicao }) {
                         <div className="flex items-center mt-3">
                             <img
                                 className="rounded-md h-12 w-12 mr-3"
-                                src={`http://localhost:8000${detalhesRequisicao.icone_uc_contexto}`}
+                                src={`http://laravel.local:8080${detalhesRequisicao.icone_uc_contexto}`}
                                 alt={detalhesRequisicao.nome_uc_contexto}
                             />
                             <p className="mb-0">
@@ -124,7 +124,7 @@ export default function DetalhesRequisicao({ detalhesRequisicao }) {
                                         <div className="flex items-center">
                                             <img
                                                 className="rounded-full h-12 w-12 mr-1"
-                                                src={`http://localhost:8000${user.avatar_utilizador}`}
+                                                src={`http://laravel.local:8080${user.avatar_utilizador}`}
                                                 alt={user.nome_utilizador}
                                             />
                                         </div>

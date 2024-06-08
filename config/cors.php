@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:3001', 'http://localhost:8000'],
+    'allowed_origins' => ['http://deca-sara.ua.pt', 'http://deca-sara.ua.pt:80', 'http://laravel.local:8080', 'http://laravel.local'],
 
     'allowed_origins_patterns' => [''],
 

@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: "http://laravel.local:8080/api",
     withCredentials: true,
 });
 

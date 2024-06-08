@@ -9,7 +9,7 @@ const FilterForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await axios.get('http://localhost:8000/api/equipamentos', {
+        const response = await axios.get('http://laravel.local:8080/api/equipamentos', {
             params: {
                 marcaId,
                 categoriaId,
