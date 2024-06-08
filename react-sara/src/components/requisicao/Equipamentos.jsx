@@ -1,6 +1,6 @@
 export default function Equipamentos({ listaEquipamentos, tipo_utilizador }) {
 
-    const BASE_URL = "http://laravel.local:8080";
+    const BASE_URL = "http://deca-sara.ua.pt";
 
     return (
         <>

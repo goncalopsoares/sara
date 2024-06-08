@@ -21,7 +21,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
     const [hasMore, setHasMore] = useState(true);
     const observer = useRef();
 
-    const BASE_URL = "http://laravel.local:8080";
+    const BASE_URL = "http://deca-sara.ua.pt";
     const ITEMS_PER_PAGE = 10;
 
     useEffect(() => {

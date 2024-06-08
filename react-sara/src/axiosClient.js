@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosClient = axios.create({
-    baseURL: "http://laravel.local:8080/api",
+    baseURL: "http://deca-sara.ua.pt/api",
     withCredentials: true,
 });
 
