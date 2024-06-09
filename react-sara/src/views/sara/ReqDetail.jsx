@@ -37,6 +37,9 @@ export default function ReqDetail() {
     const [showModalRejeitarSara, setShowModalRejeitarSara] = useState(false);
     const [showModalRecolhaSara, setShowModalRecolhaSara] = useState(false);
     const [showModalDevolucaoSara, setShowModalDevolucaoSara] = useState(false);
+    const [successMessage, setSuccessMessage] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+    const [subMessage, setSubMessage] = React.useState('');
 
     const navigate = useNavigate();
 
@@ -124,6 +127,10 @@ export default function ReqDetail() {
         }
     };
 
+    const handleCloseMessage = () => {
+        setSuccessMessage(false);
+    };
+
     const aprovarRejeitar = async (id, estadoData) => {
         try {
             const response = await axiosClient.post(
@@ -174,27 +181,45 @@ export default function ReqDetail() {
 
         switch (buttonId) {
             case "buttonAprovarRequisicao":
-                setShowModalAprovarSara(false);
                 estadoId = 3;
+                setShowModalAprovarSara(false);
+                setMessage('Requisição aprovada com sucesso!');
+                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setSuccessMessage(true);
                 break;
             case "buttonRejeitarRequisicao":
                 estadoId = 6;
                 setShowModalRejeitarSara(false);
+                setMessage('Requisição rejeitada com sucesso!');
+                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setSuccessMessage(true);
                 break;
             case "buttonValidarProf":
+                setMessage('Requisição aprovada com sucesso!');
+                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setSuccessMessage(true);
                 estadoId = 2;
                 break;
             case "buttonRejeitarProf":
                 estadoId = 7;
                 setShowModalOutrasProf(false);
+                setMessage('Requisição rejeitada com sucesso!');
+                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setSuccessMessage(true);
                 break;
             case "buttonAprovarRecolha":
                 estadoId = 4;
                 setShowModalRecolhaSara(false);
+                setMessage('Requisição recolhida com sucesso!');
+                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setSuccessMessage(true);
                 break;
             case "buttonAprovarDevolucao":
                 estadoId = 5;
                 setShowModalDevolucaoSara(false);
+                setMessage('Requisição devolvida com sucesso!');
+                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setSuccessMessage(true);
                 break;
             default:
                 estadoId = null;
@@ -248,6 +273,32 @@ export default function ReqDetail() {
 
     return (
         <>
+            {successMessage && (
+                <div className="row fixed justify-center w-100 pe-4"
+                    style={{
+                        top: '5rem',
+                        zIndex: '2000'
+                    }}>
+                    <div className="text-white font-bold p-4 text-center rounded-xl flex items-center justify-between"
+                        style={{
+                            backgroundColor: '#1C7A00',
+                            width: user.tipo_utilizador === 1 ? '100%' : 'max-content',
+                            fontSize: user.tipo_utilizador === 1 ? '1rem' : '0.8rem'
+                        }}
+                    >
+                        <div className="flex items-center">
+                            <p className="mb-0 me-2">{message}</p>
+                            {(user.tipo_utilizador === 1 && (
+                                <p className="font-normal mb-0">{subMessage}</p>
+                            ))}
+                        </div>
+                        <XCircle
+                            onClick={handleCloseMessage}
+                            className="ms-2"
+                        />
+                    </div>
+                </div>
+            )}
             <div className="container-fluid">
                 <div className="row">
                     <div className="d-flex align-items-center justify-content-between w-100">
@@ -369,7 +420,7 @@ export default function ReqDetail() {
                 </div>
             </div>
             <div className="container-fluid mb-5">
-                <div className="row" style={{marginBottom: '5rem'}}>
+                <div className="row" style={{ marginBottom: user.tipo_utilizador === 1 ? '1rem' : '5rem' }}>
                     <div className="col-sm-7">
                         <div className="flex justify-center mb-5 w-100 w-sm-auto">
                             <EstadosMap
