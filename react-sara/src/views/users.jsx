@@ -1,8 +1,9 @@
+//users.jsx//
 import axiosClient from "../axiosClient.js";
 import { redirect } from "react-router-dom";
 import { useStateContext } from "../contexts/contextprovider.jsx";
-import { Frown, LogOut, Edit } from 'react-feather';
-import React, { useState, useEffect } from 'react';
+import { Frown, LogOut, Edit } from "react-feather";
+import React, { useState, useEffect } from "react";
 import { LuClipboard } from "react-icons/lu";
 import HomeReqPassada from "../components/Student/HomeReqAtiva.jsx";
 import { useNavigate } from "react-router-dom";
@@ -31,8 +32,8 @@ import { useNavigate } from "react-router-dom";
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-    return date.toLocaleDateString('pt-PT', options);
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    return date.toLocaleDateString("pt-PT", options);
 };
 
 export default function Users() {
@@ -40,12 +41,13 @@ export default function Users() {
 
     const onLogout = (ev) => {
         ev.preventDefault();
-        axiosClient.post('/logout')
+        axiosClient
+            .post("/logout")
             .then(() => {
                 setUser(null);
                 setToken(null);
                 setId_utilizador(null);
-                redirect('/login');
+                redirect("/login");
             })
             .catch((error) => {
                 console.error("Erro ao fazer logout:", error);
@@ -56,62 +58,79 @@ export default function Users() {
     const [requisicao, setRequisicao] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [modalData, setModalData] = useState({ show: false, equipamentos: [], contexto: '', comentarioprofessor: '', comentariosara: '' });
+    const [modalData, setModalData] = useState({
+        show: false,
+        equipamentos: [],
+        contexto: "",
+        comentarioprofessor: "",
+        comentariosara: "",
+    });
 
     const { user } = useStateContext();
 
-
-
     const handleCloseModal = () => {
-        setModalData({ show: false, equipamentos: [], contexto: '', comentarioprofessor: '', comentariosara: '' });
+        setModalData({
+            show: false,
+            equipamentos: [],
+            contexto: "",
+            comentarioprofessor: "",
+            comentariosara: "",
+        });
     };
 
     useEffect(() => {
         if (user.id_utilizador && user.tipo_utilizador === 3) {
-            axiosClient.get(`/estudantehome/${user.id_utilizador}`)
-                .then(response => {
-                    console.log('Requisicao:', response.data);
+            axiosClient
+                .get(`/estudantehome/${user.id_utilizador}`)
+                .then((response) => {
+                    console.log("Requisicao:", response.data);
                     const result = response.data.EstudanteHome;
                     setRequisicao(result || []);
                     setLoading(false);
                 })
-                .catch(error => {
-                    console.error('Erro ao obter equipamentos:', error);
+                .catch((error) => {
+                    console.error("Erro ao obter equipamentos:", error);
                     setError(error);
                     setLoading(false);
                 });
-             } else if (user.id_utilizador && user.tipo_utilizador === 2) {
-                    axiosClient.get(`/c/${user.id_utilizador}`)
-                        .then(response => {
-                            console.log('Requisicao:', response.data);
-                            const result = response.data.ProfessorHome;
-                            setRequisicao(result || []);
-                            setLoading(false);
-                        })
-                        .catch(error => {
-                            console.error('Erro ao obter equipamentos:', error);
-                            setError(error);
-                            setLoading(false);
-                        });
-                }
-
+        } else if (user.id_utilizador && user.tipo_utilizador === 2) {
+            axiosClient
+                .get(`/c/${user.id_utilizador}`)
+                .then((response) => {
+                    console.log("Requisicao:", response.data);
+                    const result = response.data.ProfessorHome;
+                    setRequisicao(result || []);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error("Erro ao obter equipamentos:", error);
+                    setError(error);
+                    setLoading(false);
+                });
+        }
     }, [user.id_utilizador, user.tipo_utilizador]);
 
     const getCardColor = (estadoId) => {
         switch (estadoId) {
             case 2:
             case 4:
-                return 'bg-red-100';
+                return "bg-red-100";
             case 7:
-                return 'bg-green-100';
+                return "bg-green-100";
             default:
-                return 'bg-white';
+                return "bg-white";
         }
     };
 
     const navigate = useNavigate();
 
-    const handleShowMore = (id, equipamento, contexto_requisicao, comentario_professor_requisicao, comentario_sara_requisicao) => {
+    const handleShowMore = (
+        id,
+        equipamento,
+        contexto_requisicao,
+        comentario_professor_requisicao,
+        comentario_sara_requisicao
+    ) => {
         navigate(`/requisicao/${id}`, {
             state: {
                 equipamento,
@@ -122,16 +141,26 @@ export default function Users() {
         });
     };
 
-
-
     return (
         <>
             <div className="row">
-            <div className="col-4">
-                <img style={{width:"4rem",height:"4rem", borderRadius:"50%", objectFit:"cover"}} src={`http://localhost:8000${user.avatar_utilizador}`} alt="Avatar do Usuário" />
-            </div>
-                            <div className="col-8">
-                    <div className="row font-bold" style={{fontSize:"1.2rem"}}>
+                <div className="col-3 col-md-1">
+                    <img
+                        style={{
+                            width: "4rem",
+                            height: "4rem",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                        }}
+                        src={`http://localhost:8000${user.avatar_utilizador}`}
+                        alt="Avatar do utilizador"
+                    />
+                </div>
+                <div className="col-9">
+                    <div
+                        className="row font-bold"
+                        style={{ fontSize: "1.2rem" }}
+                    >
                         {user.nome_utilizador}
                     </div>
                     <div className="row txt-grey-700">
@@ -139,57 +168,107 @@ export default function Users() {
                     </div>
                 </div>
             </div>
-                <button className="btn-sara-terciary mt-2 mr-2">
-                    <Edit className='inline-block align-middle me-3' size={16} />
-                    Editar Perfil
-                </button>
+            <button className="btn-sara-terciary mt-2 mr-2">
+                <Edit className="inline-block align-middle me-3" size={16} />
+                Editar Perfil
+            </button>
             <button className="btn-sara-terciary mt-4 mb-4" onClick={onLogout}>
-                <LogOut className='inline-block align-middle me-3' size={16}  />
+                <LogOut className="inline-block align-middle me-3" size={16} />
                 Log Out
             </button>
 
             {/* Histórico */}
 
             <div>
-                <div className="mobile-subtitle mb-4">Histórico de Requisições</div>
+                <div className="mobile-subtitle mb-4">
+                    Histórico de Requisições
+                </div>
                 {loading && <p>Loading...</p>}
             </div>
             <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {requisicao.map(req => {
-                        const ultimoEstado = req.estados[req.estados.length - 1];
+                    {requisicao.map((req) => {
+                        const ultimoEstado =
+                            req.estados[req.estados.length - 1];
                         if ([5, 6, 7].includes(ultimoEstado.id_estado)) {
                             return (
-                                <div key={req.id_requisicao} className={`background-grey-300 p-4 mb-2`} style={{ borderRadius: "1rem" }}>
+                                <div
+                                    key={req.id_requisicao}
+                                    className={`background-grey-300 p-4 mb-2`}
+                                    style={{ borderRadius: "1rem" }}
+                                >
                                     <div className="d-flex align-items-center mb-4">
-                                        <img src="https://images.pexels.com/photos/164907/pexels-photo-164907.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" style={{ height: "1.2rem", width: "1.2rem", borderRadius: "0.2rem", marginRight: "0.5rem" }}/>
-                                        <div style={{ fontSize: "1.2rem", fontWeight: "700" }}>{req.nome_requisicao}</div>
+                                        <img
+                                            src="https://images.pexels.com/photos/164907/pexels-photo-164907.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                            style={{
+                                                height: "1.2rem",
+                                                width: "1.2rem",
+                                                borderRadius: "0.2rem",
+                                                marginRight: "0.5rem",
+                                            }}
+                                        />
+                                        <div
+                                            style={{
+                                                fontSize: "1.2rem",
+                                                fontWeight: "700",
+                                            }}
+                                        >
+                                            {req.nome_requisicao}
+                                        </div>
                                     </div>
-                                    <div className="text-uppercase font-bold txt-green-900 mb-4">{ultimoEstado.nome_estado}</div>
+                                    <div className="text-uppercase font-bold txt-green-900 mb-4">
+                                        {ultimoEstado.nome_estado}
+                                    </div>
                                     <div className="row">
                                         <div className="col-6">
-                                            <div className="font-bold" style={{ fontSize: "0.8rem" }}>
+                                            <div
+                                                className="font-bold"
+                                                style={{ fontSize: "0.8rem" }}
+                                            >
                                                 Data de Recolha
                                             </div>
                                             <div style={{ fontSize: "0.8rem" }}>
-                                                {formatDate(req.data_inicio_requisicao)}
+                                                {formatDate(
+                                                    req.data_inicio_requisicao
+                                                )}
                                             </div>
                                         </div>
                                         <div className="col-6">
-                                            <div className="font-bold" style={{ fontSize: "0.8rem" }}>
+                                            <div
+                                                className="font-bold"
+                                                style={{ fontSize: "0.8rem" }}
+                                            >
                                                 Data de Devolução
                                             </div>
                                             <div style={{ fontSize: "0.8rem" }}>
-                                                {formatDate(req.data_fim_requisicao)}
+                                                {formatDate(
+                                                    req.data_fim_requisicao
+                                                )}
                                             </div>
                                         </div>
                                         <button
-                                           onClick={() => handleShowMore(req.id_requisicao, req.equipamento, req.contexto_requisicao, req.comentario_professor_requisicao, req.comentario_sara_requisicao)}
-                                            className='mt-3 text-white background-green-500 rounded font-semibold'
-                                            style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
+                                            onClick={() =>
+                                                handleShowMore(
+                                                    req.id_requisicao,
+                                                    req.equipamento,
+                                                    req.contexto_requisicao,
+                                                    req.comentario_professor_requisicao,
+                                                    req.comentario_sara_requisicao
+                                                )
+                                            }
+                                            className="mt-3 text-white background-green-500 rounded font-semibold"
+                                            style={{
+                                                paddingTop: "1rem",
+                                                paddingBottom: "1rem",
+                                            }}
                                         >
-                                            <LuClipboard className='inline-block align-middle me-3' />
-                                            <span className="text-uppercase" style={{ fontSize: "0.8rem" }}>Ver Requisição</span>
+                                            <LuClipboard className="inline-block align-middle me-3" />
+                                            <span
+                                                className="text-uppercase"
+                                                style={{ fontSize: "0.8rem" }}
+                                            >
+                                                Ver Requisição
+                                            </span>
                                         </button>
                                     </div>
                                 </div>
@@ -199,7 +278,6 @@ export default function Users() {
                     })}
                 </div>
             </div>
-
         </>
     );
 }
@@ -265,4 +343,3 @@ export default function Users() {
                 comentariosara={modalData.comentariosara}
             />
         </div>*/
-
