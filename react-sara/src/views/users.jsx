@@ -128,7 +128,7 @@ export default function Users() {
         <>
             <div className="row">
             <div className="col-4">
-                <img style={{width:"4rem",height:"4rem", borderRadius:"50%", objectFit:"cover"}} src={`http://deca-sara.ua.pt${user.avatar_utilizador}`} alt="Avatar do Usuário" />
+                <img style={{width:"4rem",height:"4rem", borderRadius:"50%", objectFit:"cover"}} src={`http://deca-sara.ua.pt:8080${user.avatar_utilizador}`} alt="Avatar do Usuário" />
             </div>
                             <div className="col-8">
                     <div className="row font-bold" style={{fontSize:"1.2rem"}}>

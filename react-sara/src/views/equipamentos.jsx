@@ -13,7 +13,7 @@ export default function Equipamentos() {
     const observer = useRef();
 
     const ITEMS_PER_PAGE = 10;
-    const BASE_URL = "http://deca-sara.ua.pt";
+    const BASE_URL = "http://deca-sara.ua.pt:8080";
 
     useEffect(() => {
         axiosClient.get(`/equipamentos`)

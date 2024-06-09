@@ -4,8 +4,8 @@
 $db_host = 'deca-sara.ua.pt';
 $db_port = '3306';
 $db_database = 'sara';
-$db_username = 'root';
-$db_password = 'cB.+3mXJdTye#[?b!57G9H';
+$db_username = 'administrator';
+$db_password = 'z.H5sCcO*.%*7_6vk4dg4o';
 
 // Tenta estabelecer uma conexão à base de dados
 try {

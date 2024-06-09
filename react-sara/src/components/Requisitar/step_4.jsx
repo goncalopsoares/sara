@@ -21,7 +21,7 @@ const Step4 = ({ selectedUc, startDate, endDate, goToNextStep, goToStep5 }) => {
     const [hasMore, setHasMore] = useState(true);
     const observer = useRef();
 
-    const BASE_URL = "http://deca-sara.ua.pt";
+    const BASE_URL = "http://deca-sara.ua.pt:8080";
     const ITEMS_PER_PAGE = 10;
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 export default function Equipamentos({ listaEquipamentos, tipo_utilizador }) {
 
-    const BASE_URL = "http://deca-sara.ua.pt";
+    const BASE_URL = "http://deca-sara.ua.pt:8080";
 
     return (
         <>

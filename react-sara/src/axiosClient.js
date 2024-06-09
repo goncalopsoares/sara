@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosClient = axios.create({
-    baseURL: "http://deca-sara.ua.pt/api",
+    baseURL: "http://deca-sara.ua.pt:8080/api",
     withCredentials: true,
 });
 
