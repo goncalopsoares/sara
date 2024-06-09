@@ -418,7 +418,7 @@ export default function ReqDetail() {
                                 className="row fixed-bottom bg-white justify-center"
                                 style={{ marginBottom: "5rem" }}
                             >
-                                <div className="col-12 d-flex justify-center gap-6">
+                                <div className="col-12 d-flex justify-center gap-6 ms-4">
                                     <button
                                         id="buttonOutrasProf"
                                         onClick={handleShowModal}

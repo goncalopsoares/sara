@@ -19,37 +19,39 @@ export default function Comentarios({ comentarioProfessorRequisicao, comentarioS
                 <div className='row'>
                     {utilizadores.map((user, index) => (
                         user.role_utilizador === 2 && (
-                            <div key={index} className="flex items-center mr-4 mb-4 mt-3">
-                                <div className="flex items-center">
-                                    <img className="rounded-full h-12 w-12 mr-1" src={`${BASE_URL}${user.avatar_utilizador}`} alt={user.nome_utilizador} />
+                            <div key={index} className="flex items-center mr-4 mb-4 mt-3 align-items-end">
+                                <div className="flex items-center flex-shrink-0">
+                                    <img className="rounded-full h-12 w-12 mr-3" src={`${BASE_URL}${user.avatar_utilizador}`} alt={user.nome_utilizador} />
                                 </div>
-                                <div className='mr-5'>
-                                    <p className="mb-0">{comentarioProfessorRequisicao}</p>
+                                <div className='mr-5 flex-grow'>
+                                    <p className="mb-0 bg-blue-700 p-2 rounded-xl text-white">{comentarioProfessorRequisicao}</p>
                                 </div>
                             </div>
                         )
                     ))}
                 </div>
             )}
-            {comentarioSaraRequisicao ? (
+            {comentarioSaraRequisicao && (
                 <div className='row'>
                     {utilizadores.map((user, index) => (
                         user.role_utilizador === 1 && index === 0 && (
                             <div key={index} className="flex items-center mr-4 mb-4 mt-3">
-                                <div className="flex items-center">
-                                    <img className="rounded-full h-12 w-12 mr-1" src={`${BASE_URL}${user.avatar_utilizador}`} alt={user.nome_utilizador} />
+                                <div className="flex items-center flex-shrink-0">
+                                    <img className="rounded-full h-12 w-12 mr-3" src={`${BASE_URL}${user.avatar_utilizador}`} alt={user.nome_utilizador} />
                                 </div>
-                                <div className='mr-5'>
-                                    <p className="mb-0">{comentarioSaraRequisicao}</p>
+                                <div className='mr-5 flex-grow'>
+                                <p className="mb-0 bg-slate-950 p-2 rounded-xl text-white">{comentarioSaraRequisicao}</p>
                                 </div>
                             </div>
                         )
                     ))}
                 </div>
-            ) : currentUser.tipo_utilizador === 1 || comentarProfessor === true ? (
+            )}
+            {currentUser.tipo_utilizador === 1 || comentarProfessor === true ? (
                 <>
                     <div className='row'>
-                        <p>Sem comentários</p>
+                        {comentarioProfessorRequisicao === null && comentarioSaraRequisicao === null ? (
+                        <p>Sem comentários</p>) : null}
                         <p className='font-semibold'>Comenta</p>
                         <form onSubmit={handleSubmit}>
                             <div className='row'>
@@ -62,14 +64,15 @@ export default function Comentarios({ comentarioProfessorRequisicao, comentarioS
                                 />
                             </div>
                             <div className='row mt-2'>
-                                <button type='submit' className='bg-blue-500 text-white font-bold py-2 px-4 rounded'>
-                                    Enviar Comentário
+                                <button type='submit' className='bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+                                {comentarioProfessorRequisicao === null && comentarioSaraRequisicao === null ? (
+                        <p className='mb-0'>Enviar Comentário</p>) : <p className='mb-0'>Editar comentário</p>}
                                 </button>
                             </div>
                         </form>
                     </div>
                 </>
-            ) : <p>Sem Comentários</p>}
+            ) : null}
         </div>
     );
 }
