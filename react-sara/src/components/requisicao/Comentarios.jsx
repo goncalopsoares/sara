@@ -44,7 +44,6 @@ export default function Comentarios({ comentarioProfessorRequisicao, comentarioS
                     </div>
                 </div>
             )}
-
             <div>
                 {comentarioProfessorRequisicao && (
                     <div className='row'>
