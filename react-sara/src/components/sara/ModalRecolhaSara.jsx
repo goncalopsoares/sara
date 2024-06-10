@@ -39,7 +39,7 @@ export default function ModalRecolhaSara({ hideModal, handleClick, idRequisicao,
         <div className="modal-overlay" style={{ zIndex: "2000" }}>
             <div className="modal-content d-flex flex-column" onClick={e => e.stopPropagation()}>
                 <p className="font-bold">Recolha da requisição {idRequisicao}: {nomeRequisicao}</p>
-                <p className="mb-0">Por favor, insere o código que os alunos te fornecem</p>
+                <p className="mb-4">Por favor, insere o código que os estudantes fornecem</p>
                 <div className="d-flex justify-center">
                     {code.map((char, index) => (
                         <input
@@ -55,7 +55,7 @@ export default function ModalRecolhaSara({ hideModal, handleClick, idRequisicao,
                         />
                     ))}
                 </div>
-                <div className="d-flex flex-row justify-content-between gap-3 mt-5">
+                <div className="d-flex flex-row justify-content-between gap-3 mt-4">
                     <button
                         id="buttonAprovarRecolha"
                         onClick={handleConfirmation}
