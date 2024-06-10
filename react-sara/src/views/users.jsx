@@ -152,7 +152,7 @@ export default function Users() {
                             borderRadius: "50%",
                             objectFit: "cover",
                         }}
-                        src={`http://localhost:8000${user.avatar_utilizador}`}
+                        src={`http://deca-sara.ua.pt${user.avatar_utilizador}`}
                         alt="Avatar do utilizador"
                     />
                 </div>
