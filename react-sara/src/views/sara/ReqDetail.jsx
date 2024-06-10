@@ -39,8 +39,8 @@ export default function ReqDetail() {
     const [showModalRecolhaSara, setShowModalRecolhaSara] = useState(false);
     const [showModalDevolucaoSara, setShowModalDevolucaoSara] = useState(false);
     const [successMessage, setSuccessMessage] = React.useState(false);
-    const [message, setMessage] = React.useState('');
-    const [subMessage, setSubMessage] = React.useState('');
+    const [message, setMessage] = React.useState("");
+    const [subMessage, setSubMessage] = React.useState("");
 
     const navigate = useNavigate();
 
@@ -124,7 +124,6 @@ export default function ReqDetail() {
                 setShowModalRecolhaSara(false);
                 setShowModalDevolucaoSara(false);
                 break;
-
         }
     };
 
@@ -184,42 +183,54 @@ export default function ReqDetail() {
             case "buttonAprovarRequisicao":
                 estadoId = 3;
                 setShowModalAprovarSara(false);
-                setMessage('Requisição aprovada com sucesso!');
-                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setMessage("Requisição aprovada com sucesso!");
+                setSubMessage(
+                    "Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage."
+                );
                 setSuccessMessage(true);
                 break;
             case "buttonRejeitarRequisicao":
                 estadoId = 6;
                 setShowModalRejeitarSara(false);
-                setMessage('Requisição rejeitada com sucesso!');
-                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setMessage("Requisição rejeitada com sucesso!");
+                setSubMessage(
+                    "Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage."
+                );
                 setSuccessMessage(true);
                 break;
             case "buttonValidarProf":
-                setMessage('Requisição aprovada com sucesso!');
-                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setMessage("Requisição aprovada com sucesso!");
+                setSubMessage(
+                    "Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage."
+                );
                 setSuccessMessage(true);
                 estadoId = 2;
                 break;
             case "buttonRejeitarProf":
                 estadoId = 7;
                 setShowModalOutrasProf(false);
-                setMessage('Requisição rejeitada com sucesso!');
-                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setMessage("Requisição rejeitada com sucesso!");
+                setSubMessage(
+                    "Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage."
+                );
                 setSuccessMessage(true);
                 break;
             case "buttonAprovarRecolha":
                 estadoId = 4;
                 setShowModalRecolhaSara(false);
-                setMessage('Requisição recolhida com sucesso!');
-                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setMessage("Requisição recolhida com sucesso!");
+                setSubMessage(
+                    "Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage."
+                );
                 setSuccessMessage(true);
                 break;
             case "buttonAprovarDevolucao":
                 estadoId = 5;
                 setShowModalDevolucaoSara(false);
-                setMessage('Requisição devolvida com sucesso!');
-                setSubMessage('Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage.');
+                setMessage("Requisição devolvida com sucesso!");
+                setSubMessage(
+                    "Esta requisição pode ser consultada no Histórico na barra de navegação ou no Calendário da Homepage."
+                );
                 setSuccessMessage(true);
                 break;
             default:
@@ -256,7 +267,6 @@ export default function ReqDetail() {
         comentar(id, data);
     };
 
-
     const handleComentarioProfessor = (event) => {
         setComentarProfessor(true);
         handleHideModal(event);
@@ -275,23 +285,30 @@ export default function ReqDetail() {
     return (
         <>
             {successMessage && (
-                <div className="row fixed justify-center w-100 pe-4"
+                <div
+                    className="row fixed justify-center w-100 pe-4"
                     style={{
-                        top: '5rem',
-                        zIndex: '2000'
-                    }}>
-                    <div className="text-white font-bold p-4 text-center rounded-xl flex items-center justify-between"
+                        top: "5rem",
+                        zIndex: "2000",
+                    }}
+                >
+                    <div
+                        className="text-white font-bold p-4 text-center rounded-xl flex items-center justify-between"
                         style={{
-                            backgroundColor: '#1C7A00',
-                            width: user.tipo_utilizador === 1 ? '100%' : 'max-content',
-                            fontSize: user.tipo_utilizador === 1 ? '1rem' : '0.8rem'
+                            backgroundColor: "#1C7A00",
+                            width:
+                                user.tipo_utilizador === 1
+                                    ? "100%"
+                                    : "max-content",
+                            fontSize:
+                                user.tipo_utilizador === 1 ? "1rem" : "0.8rem",
                         }}
                     >
                         <div className="flex items-center">
                             <p className="mb-0 me-2">{message}</p>
-                            {(user.tipo_utilizador === 1 && (
+                            {user.tipo_utilizador === 1 && (
                                 <p className="font-normal mb-0">{subMessage}</p>
-                            ))}
+                            )}
                         </div>
                         <XCircle
                             onClick={handleCloseMessage}
@@ -325,19 +342,19 @@ export default function ReqDetail() {
                                             </span>
                                         )}
                                         {window.innerWidth < 576 &&
-                                            detalhesRequisicao.nome_requisicao
-                                                .length > 16
+                                        detalhesRequisicao.nome_requisicao
+                                            .length > 16
                                             ? `${detalhesRequisicao.nome_requisicao.substring(
-                                                0,
-                                                16
-                                            )}...`
+                                                  0,
+                                                  16
+                                              )}...`
                                             : detalhesRequisicao.nome_requisicao}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         {user.tipo_utilizador === 1 &&
-                            detalhesRequisicao.id_estado === 2 ? (
+                        detalhesRequisicao.id_estado === 2 ? (
                             <div className="d-flex">
                                 <button
                                     id="buttonAprovarSara"
@@ -357,7 +374,7 @@ export default function ReqDetail() {
                                 </button>
                             </div>
                         ) : user.tipo_utilizador === 1 &&
-                            detalhesRequisicao.id_estado === 3 ? (
+                          detalhesRequisicao.id_estado === 3 ? (
                             <div>
                                 <button
                                     id="buttonConfirmarRecolha"
@@ -369,7 +386,7 @@ export default function ReqDetail() {
                                 </button>
                             </div>
                         ) : user.tipo_utilizador === 1 &&
-                            detalhesRequisicao.id_estado === 4 ? (
+                          detalhesRequisicao.id_estado === 4 ? (
                             <div>
                                 <button
                                     id="buttonConfirmarDevolucao"
@@ -387,15 +404,30 @@ export default function ReqDetail() {
                             <div>
                                 <button
                                     onClick={toggleCode}
-                                    className="btn btn-success mr-5"
+                                    className={`btn ${
+                                        showCode
+                                            ? "btn-secondary"
+                                            : "btn-success"
+                                    } mt-3 mr-5 col-12`}
                                 >
                                     {showCode
                                         ? "Esconder Código"
-                                        : "Ver Código levantamento"}
+                                        : "Ver Código de Recolha"}
                                 </button>
                                 {showCode && (
-                                    <div className="mt-2">
-                                        <pre>{code}</pre>
+                                    <div
+                                        style={{
+                                            position: "absolute",
+                                            left: 0,
+                                            width: "100%",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <div className="mt-2 fs-3">
+                                            <pre>{code}</pre>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -405,14 +437,23 @@ export default function ReqDetail() {
                             <div>
                                 <button
                                     onClick={toggleCode}
-                                    className="btn btn-success mr-5"
+                                    className={`btn ${
+                                        showCode
+                                            ? "btn-secondary"
+                                            : "btn-success"
+                                    } mt-3 mr-5 col-12`}
                                 >
                                     {showCode
                                         ? "Esconder Código"
-                                        : "Ver Código devolução"}
+                                        : "Ver Código de Devolução"}
                                 </button>
                                 {showCode && (
-                                    <div className="mt-2">
+                                    <div
+                                        style={{
+                                            position: "absolute",
+                                        }}
+                                        className="mt-3 fs-3"
+                                    >
                                         <pre>{code}</pre>
                                     </div>
                                 )}
@@ -420,8 +461,14 @@ export default function ReqDetail() {
                         )}
                 </div>
             </div>
-            <div className="container-fluid mb-5">
-                <div className="row" style={{ marginBottom: user.tipo_utilizador === 1 ? '1rem' : '5rem' }}>
+            <div className="container-fluid mt-2 mb-5">
+                <div
+                    className="row"
+                    style={{
+                        marginBottom:
+                            user.tipo_utilizador === 1 ? "1rem" : "5rem",
+                    }}
+                >
                     <div className="col-sm-7">
                         <div className="flex justify-center mb-5 w-100 w-sm-auto">
                             <EstadosMap
@@ -446,9 +493,7 @@ export default function ReqDetail() {
                                 comentarioProfessorRequisicao={
                                     detalhesRequisicao.comentario_professor_requisicao
                                 }
-                                comentarProfessor={
-                                    comentarProfessor
-                                }
+                                comentarProfessor={comentarProfessor}
                                 comentarioSaraRequisicao={
                                     detalhesRequisicao.comentario_sara_requisicao
                                 }
@@ -458,7 +503,7 @@ export default function ReqDetail() {
                             />
                         </div>
                     </div>
-                    <div className="col-12 col-sm-5 mb-5">
+                    <div className="col-12 col-sm-5 mt-3 mb-5">
                         <h3>Equipamentos</h3>
                         <Equipamentos
                             listaEquipamentos={detalhesRequisicao.equipamento}
