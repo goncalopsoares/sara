@@ -9,7 +9,7 @@ const FilterForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await axios.get('http://deca-sara.ua.pt:8080/api/equipamentos', {
+        const response = await axios.get('http://deca-sara.ua.pt/api/equipamentos', {
             params: {
                 marcaId,
                 categoriaId,

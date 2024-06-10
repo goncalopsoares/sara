@@ -9,7 +9,7 @@ export default function Equipamentos() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://deca-sara.ua.pt:8080/api/equipamentos')
+    axios.get('http://deca-sara.ua.pt/api/equipamentos')
       .then(response => {
         console.log('Equipamentos:', response.data);
         const result = response.data.equipamentos;

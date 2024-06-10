@@ -11,7 +11,7 @@ const Step5 = ({ requestId, startDate, endDate, formData }) => {
     const [utilizadores, setUtilizadores] = useState([]);
     const [userId, setUserId] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
-    const BASE_URL = "http://deca-sara.ua.pt:8080";
+    const BASE_URL = "http://deca-sara.ua.pt";
     const { user } = useStateContext();
     const [requestBody, setRequestBody] = useState({});
 
