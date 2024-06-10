@@ -178,7 +178,7 @@ const Carrinho = () => {
                                                 {member && (
                                                     <img
                                                         className="rounded-full h-7 w-7 mr-2"
-                                                        src={`http://deca-sara.ua.pt/public${getUserInfo(member.utilizador_id_utilizador).avatar_utilizador}`}
+                                                        src={`http://deca-sara.ua.pt/sara/public${getUserInfo(member.utilizador_id_utilizador).avatar_utilizador}`}
                                                         alt={getUserInfo(member.utilizador_id_utilizador).nome_utilizador}
                                                     />
                                                 )}
@@ -198,7 +198,7 @@ const Carrinho = () => {
                             <div>
                                 <p>UC</p>
                                 <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0', fontSize: '0.8rem' }}>
-                                <img src={`http://deca-sara.ua.pt/public${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
+                                <img src={`http://deca-sara.ua.pt/sara/public${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <span>{Uc.nome}</span>
                                     <span>{Uc.sigla}</span>
@@ -218,7 +218,7 @@ const Carrinho = () => {
                             <div>
                                 <p>UC's e professores associados</p>
                                 <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0', fontSize: '0.8rem' }}>
-                                <img src={`http://deca-sara.ua.pt/public${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
+                                <img src={`http://deca-sara.ua.pt/sara/public${Uc.icone}`} alt={Uc.nome} className="h-16 w-16 p-0" style={{ marginRight: '0.5rem', borderRadius: '1rem 0 0 1rem' }} />
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <span>{Uc.nome}</span>
                                     <span>{Uc.sigla}</span>
@@ -229,7 +229,7 @@ const Carrinho = () => {
                                 <p style={{ display: 'flex', alignItems: 'center', borderRadius: '1rem', border: '1px solid grey', padding: '0.4rem', fontSize:"0.8rem" }}>
                                         <img
                                             className="rounded-full h-7 w-7 mr-2"
-                                            src={`http://deca-sara.ua.pt/public${getUserInfo(professor.utilizador_id_utilizador).avatar_utilizador}`}
+                                            src={`http://deca-sara.ua.pt/sara/public${getUserInfo(professor.utilizador_id_utilizador).avatar_utilizador}`}
                                             alt={getUserInfo(professor.utilizador_id_utilizador).nome_utilizador}
                                         />
                                         {getUserInfo(professor.utilizador_id_utilizador).nome_utilizador} ({getUserInfo(professor.utilizador_id_utilizador).email_utilizador})
@@ -250,7 +250,7 @@ const Carrinho = () => {
                             <p style={{ display: 'flex', alignItems: 'center', padding: '0.4rem', fontSize:"1rem" }}><img 
                             className=" h-24 w-30 mr-2 p-3"
                             style={{ backgroundColor: '#e0e0e0',  borderRadius: '0.6rem' }} 
-                            src={`http://deca-sara.ua.pt/public${item.imagem_modelo_equipamento}`}
+                            src={`http://deca-sara.ua.pt/sara/public${item.imagem_modelo_equipamento}`}
                             />
                              <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     <span className="fw-bold">{item.nome_marca_equipamento} </span>
