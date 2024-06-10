@@ -449,13 +449,19 @@ export default function ReqDetail() {
                                 </button>
                                 {showCode && (
                                     <div
-                                        style={{
-                                            position: "absolute",
-                                        }}
-                                        className="mt-3 fs-3"
-                                    >
+                                    style={{
+                                        position: "absolute",
+                                        left: 0,
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <div className="mt-2 fs-3">
                                         <pre>{code}</pre>
                                     </div>
+                                </div>
                                 )}
                             </div>
                         )}
