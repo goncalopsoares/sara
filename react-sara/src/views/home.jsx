@@ -1,3 +1,4 @@
+//home.jsx//
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axiosClient';
 import { useStateContext } from '../contexts/contextprovider';
@@ -19,7 +20,7 @@ const Home = () => {
     const [requisicaoPendente, setRequisicaoPendente] = useState([]);
     const [ucs_professor, setUcs_professor] = useState([]);
     const [requisicaoProfessor, setRequisicaoProfessor] = useState([]);
-    
+
     const { user, cart } = useStateContext();
 
     const handleShowMore = (equipamentos, contexto, comentarioprofessor, comentariosara) => {
@@ -31,7 +32,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        
+
     if(user.tipo_utilizador === 3){
             axiosClient.get(`/estudantehome/${user.id_utilizador}`)
                 .then(response => {
@@ -58,18 +59,18 @@ const Home = () => {
                     setError2(error);
                     setLoading2(false);
                 });
-       
+
                  }else if(user.tipo_utilizador === 2){
 
                     axiosClient.get(`/professorhome/${user.id_utilizador}`)
-                    
+
                     .then(response => {
                         console.log('Requisicao:', response.data);
                         const resultProfessor = response.data.ProfessorHome;
                         setRequisicaoProfessor(resultProfessor);
                         console.log('professor',resultProfessor);
                         console.log('professor',requisicaoProfessor);
-                        
+
                         setLoading(false);
                     })
                     .catch(error => {
@@ -102,12 +103,12 @@ const Home = () => {
                     setError2(error);
                     setLoading2(false);
                 });
-        
+
             }
     }, [user.id_utilizador, user.tipo_utilizador]);
 
 
-   
+
 
     return (
         <>
@@ -169,7 +170,7 @@ const Home = () => {
     )
 )}
 
-                            
+
                         </div>
                     )}
                 </div>
