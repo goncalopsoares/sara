@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://deca-sara.ua.pt:80', 'http://deca-sara.ua.pt:8080'],
+    'allowed_origins' => ['http://deca-sara.ua.pt:80', 'http://deca-sara.ua.pt'],
 
     'allowed_origins_patterns' => [''],
 
